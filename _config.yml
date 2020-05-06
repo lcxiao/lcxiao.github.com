@@ -99,3 +99,5 @@ theme: minos
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: 'git'
+  repo: git@github.com:lcxiao/lcxiao.github.com.git
+  branch: master
