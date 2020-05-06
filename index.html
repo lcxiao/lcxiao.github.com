@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-<title>Lcxiao&#39;s blog</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
-
-
-
-
-<meta name="description" content="">
-
-
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-    <meta property="og:type" content="website">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="website">
 <meta property="og:title" content="Lcxiao&#39;s blog">
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="Lcxiao&#39;s blog">
@@ -24,390 +28,809 @@
 <meta property="article:author" content="lcxiao">
 <meta name="twitter:card" content="summary">
 
+<link rel="canonical" href="http://yoursite.com/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Lcxiao's blog</title>
+  
 
 
 
 
-<link rel="icon" href="/favicon.png">
 
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-<body>
-    
-<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
-    <div class="container">
-        <div class="navbar-brand">
-            <a class="navbar-item navbar-logo" href="/">
-                
-                <img src="/images/logo.png" alt="" height="28">
-                
-            </a>
-            <div class="navbar-burger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        
-        <div class="navbar-menu navbar-start">
-            
-            <a class="navbar-item "
-               href="/archives">Archives</a>
-            
-            <a class="navbar-item "
-               href="/categories/LifeStyle">Lifestyle</a>
-            
-            <a class="navbar-item "
-               href="/categories/Music">Music</a>
-            
-            <a class="navbar-item "
-               href="/categories/Technology">Technology</a>
-            
-            <a class="navbar-item "
-               href="/about">About</a>
-            
-        </div>
-        
-        <div class="navbar-menu navbar-end">
-            
-            <a class="navbar-item search" title="Suche" href="javascript:;">
-                <i class="fas fa-search"></i>
-            </a>
-            
-            
-            
-            <a class="navbar-item" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
-               
-            
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lcxiao's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
 
-    <section class="section">
-    <div class="container">
+
+
+
+</div>
+    </header>
+
     
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/05/05/hello-world/" itemprop="url">Hello World</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-05-05T13:44:34.961Z" itemprop="datePublished">5月 5 2020</time>
-        </span>
-        
-        
-        <span class="column is-narrow">
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
-            
-            1 分钟 lesen (Über 123 Wörter)
-        </span>
-        
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/testing-photo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/testing-photo/" class="post-title-link" itemprop="url">testing photo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-06 07:06:25 / 修改时间：15:07:35" itemprop="dateCreated datePublished" datetime="2020-05-06T07:06:25+08:00">2020-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="http://www.oclc.org/blog/main/wp-content/uploads/2016/07/wiki-libraries.jpg" alt=""></p>
+
+      
     </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+
     
-        <html><head></head><body><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><p></p><figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></span><br></pre></td></tr></tbody></table></figure><p></p>
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">Git 和 GitHub 使用入门</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-06 07:03:09 / 修改时间：15:03:25" itemprop="dateCreated datePublished" datetime="2020-05-06T07:03:09+08:00">2020-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="使用常见-Git-命令"><a href="#使用常见-Git-命令" class="headerlink" title="使用常见 Git 命令"></a>使用常见 Git 命令</h1><h2 id="推送提交到远程仓库"><a href="#推送提交到远程仓库" class="headerlink" title="推送提交到远程仓库"></a>推送提交到远程仓库</h2><p>使用 <code>git push</code> 将本地分支上的提交推送到远程仓库。<br>git push 命令使用两个参数：</p>
+<ul>
+<li>远程命令，如 <code>origin</code></li>
+<li>分支名称，如 <code>master</code><br>例如：<br><code>git push  &lt;REMOTENAME&gt; &lt;BRANCHNAME&gt;</code><br>例如，您通常运行 git push origin master 来推送本地更改到在线仓库。</li>
+</ul>
+<p><strong>重命名分支</strong><br>要重命名分支，同样使用 git push 命令，但要加上一个或多个参数：新分支的名称。<br> 例如：<br><code>git push  &lt;REMOTENAME&gt; &lt;LOCALBRANCHNAME&gt;:&lt;REMOTEBRANCHNAME&gt;</code><br>这会将 <code>LOCALBRANCHNAME</code> 推送到 <code>REMOTENAME</code>，但其名称将改为 <code>REMOTEBRANCHNAME</code>。<br>如果仓库的本地副本未同步或“落后于”您推送到的上游分支，您会收到一条消息表示：non-fast-forward updates were rejected。 这意味着您必须检索或“提取”上游更改，然后才可推送本地更改。</p>
+<p><strong>推送标记</strong><br>默认情况下，没有其他参数时，git push 会发送所有名称与远程分支相同的匹配分支。<br>要推送单一标记，可以发出与推送分支相同的命令：<br><code>git push  &lt;REMOTENAME&gt; &lt;TAGNAME&gt;</code><br>要推送所有标记，可以输入命令：<br><code>git push  &lt;REMOTENAME&gt; --tags</code></p>
+<p><strong>删除远程分支或标记</strong><br>删除分支的语法初看有点神秘：<br><code>git push  &lt;REMOTENAME&gt; :&lt;BRANCHNAME&gt;</code></p>
+<p><strong>远程和复刻</strong><br>在克隆您拥有的仓库时，向其提供远程 URL，告知 Git 到何处提取和推送更新。 如果要协作处理原始仓库，可添加新的远程 URL（通常称为 upstream）到本地 Git 克隆：<br><code>git remote add upstream  &lt;THEIR_REMOTE_URL&gt;</code></p>
+<h2 id="从远程仓库获取更改"><a href="#从远程仓库获取更改" class="headerlink" title="从远程仓库获取更改"></a>从远程仓库获取更改</h2><p>您可以使用常用 Git 命令访问远程仓库。<br>与远程仓库交互时，这些命令非常有用。 <code>clone</code> 和 <code>fetch</code> 用于从仓库的远程 URL 将远程代码下载到您的本地计算机，<code>merge</code> 用于将其他人的工作与您的工作合并在一起，而 <code>pull</code> 是 <code>fetch</code> 和 <code>merge</code> 的组合。</p>
+<p><strong>克隆仓库</strong><br>要获取其他用户仓库的完整副本，请使用 <code>git clone</code>，如下所示：<br><code>git clone https://github.com/USERNAME/REPOSITORY.git</code><br><code>将仓库克隆到您的计算机</code><br>运行 git clone 时，将发生以下操作：</p>
+<ul>
+<li>创建名为 <code>repo</code> 的文件夹</li>
+<li>将它初始化为 Git 仓库</li>
+<li>创建名为 <code>origin</code> 的远程仓库，指向用于克隆的 URL</li>
+<li>将所有的仓库文件和提交下载到那里</li>
+<li>检出默认分支（通常称为<code>master</code>）<br>对于远程仓库中的每个 foo 分支，在本地仓库中创建相应的远程跟踪分支 <code>refs/remotes/origin/foo</code>。 通常可以将此类远程跟踪分支名称缩写为<code>origin/foo</code>。</li>
+</ul>
+<p><strong>从远程仓库获取更改</strong><br>使用 <code>git fetch</code> 可检索其他人完成的新工作。 从仓库获取将会获取所有新的远程跟踪分支和标记，但不会将这些更改合并到您自己的分支中。<br>如果已经有一个本地仓库包含为所需项目设置的远程 URL，您可以在终端使用 <code>git fetch *remotename*</code> 获取所有新信息：<br><code>git fetch remotename</code><br><code>获取远程仓库的更新</code></p>
+<p><strong>合并更改到本地分支</strong><br>合并可将您的本地更改与其他人所做的更改组合起来。</p>
+<p>通常将远程跟踪分支（即从远程仓库获取的分支）与您的本地分支进行合并：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git merge remotename&#x2F;branchname</span><br><span class="line">将在线更新与您的本地工作进行合并</span><br></pre></td></tr></table></figure>
+
+<p><strong>从远程仓库拉取更改</strong><br><code>git pull</code> 是在同一个命令中完成 <code>git fetch</code> 和 <code>git merge</code> 的便捷方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull remotename branchname</span><br><span class="line">获取在线更新并将其与您的本地工作进行合并</span><br></pre></td></tr></table></figure>
+<h2 id="管理远程仓库"><a href="#管理远程仓库" class="headerlink" title="管理远程仓库"></a>管理远程仓库</h2><p> 添加远程<br><code>git remote add</code> 命令使用两个参数：</p>
+<ul>
+<li>远程命令，如 <code>origin</code></li>
+<li>远程 URL，如 <code>https://github.com/user/repo.git</code></li>
+</ul>
+<p><strong>重命名远程</strong><br><code>git remote rename</code> 命令使用两个参数：</p>
+<ul>
+<li>现有的远程名称，例如 <code>origin</code></li>
+<li>远程的新名称，例如 <code>destination</code></li>
+</ul>
+<p><strong>删除远程</strong><br><code>git remote rm</code> 命令使用一个参数：<br>远程名称，例如 <code>destination</code></p>
+<p><a href="https://help.github.com/cn/github/using-git/splitting-a-subfolder-out-into-a-new-repository" target="_blank" rel="noopener">将子文件夹拆分成新仓库</a></p>
+<h2 id="在-Git-中设置用户名"><a href="#在-Git-中设置用户名" class="headerlink" title="在 Git 中设置用户名"></a>在 Git 中设置用户名</h2><ul>
+<li>全局设置：<br>  <code>git config --global user.name &quot;Mona Lisa&quot;</code></li>
+<li>为一个仓库设置 Git 用户名<br>  <code>git config user.name &quot;Mona Lisa&quot;</code></li>
+<li>在 Git 中设置您的提交电子邮件地址<br>  <code>git config --global user.email &quot;email@example.com&quot;</code></li>
+</ul>
+<p><strong>在 Git 中缓存 GitHub 密码</strong><br>如果使用 HTTPS 克隆 GitHub 仓库</p>
+<ul>
+<li>windows: <code>git config --global credential.helper wincred</code></li>
+<li>linux: <code>git config --global credential.helper cache</code></li>
+<li>更改默认的密码缓存时限: <code>git config --global credential.helper &#39;cache --timeout=3600&#39;</code>(以秒为单位)</li>
+</ul>
+<p><strong>为什么 Git 总是询问我的密码？</strong><br>如果 Git 在您每次尝试与 GitHub 交互时均提示输入用户名和密码，则您可能为仓库使用的是 HTTPS 克隆 URL。</p>
+<h2 id="新增-SSH-密钥到-GitHub-帐户"><a href="#新增-SSH-密钥到-GitHub-帐户" class="headerlink" title="新增 SSH 密钥到 GitHub 帐户"></a>新增 SSH 密钥到 GitHub 帐户</h2><ol>
+<li>将 SSH 密钥复制到剪贴板</li>
+</ol>
+<ul>
+<li><code>ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;</code></li>
+<li><code>Copy</code> your <code>.ssh/id_rsa.pub</code></li>
+</ul>
+<ol start="2">
+<li><p>在任何页面的右上角，单击您的个人资料照片，然后单击 Settings（设置）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/userbar-account-settings.png" width="20%">
+</li>
+<li><p>在用户设置侧边栏中，单击 SSH and GPG keys（SSH 和 GPG 密钥）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/settings-sidebar-ssh-keys.png" width="30%">
+</li>
+<li><p>单击 New SSH key（新 SSH 密钥）或 Add SSH key（添加 SSH 密钥）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-add-ssh-key.png" width="50%">
+</li>
+<li><p>在 “Title”（标题）字段中，为新密钥添加描述性标签。 例如，如果您使用的是个人 Mac，此密钥名称可能是 “Personal MacBook Air”。</p>
+</li>
+<li><p>将密钥粘贴到 “Key”（密钥）字段。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-key-paste.png" width="50%">
+</li>
+<li><p>单击 Add SSH key（添加 SSH 密钥）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-add-key.png" width="10%">
+</li>
+<li><p>如有提示，请确认您的 GitHub Enterprise 密码。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/sudo_mode_popup.png" width="20%">
+
+</li>
+</ol>
+<p><em>参考：</em><a href="https://help.github.com/cn/enterprise/2.20/user/github/authenticating-to-github/connecting-to-github-with-ssh" target="_blank" rel="noopener">使用 SSH 连接到 GitHub</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/Text-to-AscII-Art/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/Text-to-AscII-Art/" class="post-title-link" itemprop="url">Text to AscII Art</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-06 07:02:19 / 修改时间：15:02:39" itemprop="dateCreated datePublished" datetime="2020-05-06T07:02:19+08:00">2020-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Figlet"><a href="#Figlet" class="headerlink" title="Figlet"></a>Figlet</h1><h1 id="Toilet"><a href="#Toilet" class="headerlink" title="Toilet"></a>Toilet</h1><h2 id="figlet"><a href="#figlet" class="headerlink" title="figlet"></a>figlet</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Usage: figlet [ -cklnoprstvxDELNRSWX ] [ -d fontdirectory ]</span><br><span class="line">              [ -f fontfile ] [ -m smushmode ] [ -w outputwidth ]</span><br><span class="line">              [ -C controlfile ] [ -I infocode ] [ message ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="toilet"><a href="#toilet" class="headerlink" title="toilet"></a>toilet</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-f, --font &lt;name&gt;        select the font</span><br><span class="line">  -d, --directory &lt;dir&gt;    specify font directory</span><br><span class="line">  -s, -S, -k, -W, -o       render mode (default, force smushing,</span><br><span class="line">                           kerning, full width, overlap)</span><br><span class="line">  -w, --width &lt;width&gt;      <span class="built_in">set</span> output width</span><br><span class="line">  -t, --termwidth          adapt to terminal<span class="string">'s width</span></span><br><span class="line"><span class="string">  -F, --filter &lt;filters&gt;   apply one or several filters to the text</span></span><br><span class="line"><span class="string">  -F, --filter list        list available filters</span></span><br><span class="line"><span class="string">      --gay                rainbow filter (same as -F gay)</span></span><br><span class="line"><span class="string">      --metal              metal filter (same as -F metal)</span></span><br><span class="line"><span class="string">  -E, --export &lt;format&gt;    select export format</span></span><br><span class="line"><span class="string">  -E, --export list        list available export formats</span></span><br><span class="line"><span class="string">      --irc                output IRC colour codes (same as -E irc)</span></span><br><span class="line"><span class="string">      --html               output an HTML document (same as -E html)</span></span><br><span class="line"><span class="string">  -h, --help               display this help and exit</span></span><br><span class="line"><span class="string">  -I, --infocode &lt;code&gt;    print FIGlet-compatible infocode</span></span><br><span class="line"><span class="string">  -v, --version            output version information and exit</span></span><br><span class="line"><span class="string">Usage: toilet [ -hkostvSW ] [ -d fontdirectory ]</span></span><br><span class="line"><span class="string">              [ -f fontfile ] [ -F filter ] [ -w outputwidth ]</span></span><br><span class="line"><span class="string">              [ -I infocode ] [ -E format ] [ message ]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生成艺术字"><a href="#生成艺术字" class="headerlink" title="生成艺术字"></a>生成艺术字</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@testlab:/usr/share/figlet/fonts<span class="meta"># figlet -f Graffiti.flf jack</span></span><br><span class="line">     __               __    </span><br><span class="line">    |__|____    ____ |  | __</span><br><span class="line">    |  \__  \ _/ ___\|  |/ /</span><br><span class="line">    |  |/ __ \\  \___|    &lt; </span><br><span class="line">/\__|  (____  /\___  &gt;__|_ \</span><br><span class="line">\______|    \/     \/     \/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@testlab:~<span class="meta"># figlet -f /usr/share/figlet/fonts/Graffiti.flf <span class="meta-string">"A man from Mars!"</span> -t</span></span><br><span class="line">   _____                              _____                           _____                      ._.</span><br><span class="line">  /  _  \     _____ _____    ____   _/ ____\______  ____   _____     /     \ _____ _______  _____| |</span><br><span class="line"> /  /_\  \   /     \\__  \  /    \  \   __\\_  __ \/  _ \ /     \   /  \ /  \\__  \\_  __ \/  ___/ |</span><br><span class="line">/    |    \ |  Y Y  \/ __ \|   |  \  |  |   |  | \(  &lt;_&gt; )  Y Y  \ /    Y    \/ __ \|  | \/\___ \ \|</span><br><span class="line">\____|__  / |__|_|  (____  /___|  /  |__|   |__|   \____/|__|_|  / \____|__  (____  /__|  /____  &gt;__</span><br><span class="line">        \/        \/     \/     \/                             \/          \/     \/           \/ \/</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">文件系统的挂载和使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-06 06:59:43 / 修改时间：15:01:15" itemprop="dateCreated datePublished" datetime="2020-05-06T06:59:43+08:00">2020-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="文件系统的使用-挂载和卸载"><a href="#文件系统的使用-挂载和卸载" class="headerlink" title="文件系统的使用 挂载和卸载"></a>文件系统的使用 挂载和卸载</h2><p><code>mount</code> 和 <code>umount</code><br>根文件系统以为的文件系统要想能够被访问,必须通过 “关联” 至根文件系统的某个目录上，此关联即为 “挂载” ；此目录即为 “挂载点” ；<br>mount_point：用于作为另一个文件系统的访问入口；</p>
+<ol>
+<li>事先存在</li>
+<li>应该使用未被或者不会被其他进程使用到的目录；</li>
+<li>挂载点下原有的文件会被隐藏；（最好是使用原来是空的目录）；<h3 id="mount命令："><a href="#mount命令：" class="headerlink" title="mount命令："></a>mount命令：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">mount [-fnrsvw] [-t vfstype] [-o options] device dir</span><br><span class="line">    -r： readonly，只读挂载（比如光盘）；</span><br><span class="line">    -w: read and write 读写挂载；</span><br><span class="line">    -n： 默认情况下，设备挂载或者卸载的操作会同步更新至&#x2F;etc&#x2F;mtab文件中，-n用于禁止此特性；</span><br><span class="line">    -t vfstype：指明要挂载的设备上的文件系统的类型，多数情况下可自动识别，mount会通过blkid来判断要挂载的设备的文件系统类型；</span><br><span class="line">    -L LABEL： 挂载是以卷标的方式指明设备；</span><br><span class="line">    -U UUID DIR: 通过UUID挂载设备；</span><br><span class="line">    -o: 挂载选项；</span><br><span class="line">        sync&#x2F;async: 同步&#x2F;异步操作；（异步是先写入内存，随后写入磁盘，性能好，但安全行肯定没有同步安全）</span><br><span class="line">        atime&#x2F;noatime: 每个文件或目录被访问时是否立即更新其访问时间戳；</span><br><span class="line">        diratime&#x2F;nodiratime: 每个目录被访问时是否立即更新其访问时间戳；</span><br><span class="line">        remount: 重新挂载</span><br><span class="line">        acl: 支持使用acl功能；</span><br><span class="line">        mount -o acl DEVICE DIR</span><br><span class="line">        tune2fs -o acl device</span><br><span class="line">        ro： 只读</span><br><span class="line">        rw： 读写</span><br><span class="line">        dev&#x2F;nodev： 此设备上是否允许创建设备文件；</span><br><span class="line">        exec&#x2F;noexec： 是否允许运行此设备上的文件；</span><br><span class="line">        auto&#x2F;noauto： 是否允许自动运行；</span><br><span class="line">        user&#x2F;nouser： 是否允许普通用户挂载此文件系统；</span><br><span class="line">        suid&#x2F;nosuid： 是否允许程序文件上的suid和sgid特殊权限生效；</span><br><span class="line">        defaults： 使用默认选项：rw，suid，dev，exec，auto，nouser和async。</span><br><span class="line">            请注意，所有默认安装选项的实际设置取决于内核和文件系统类型。</span><br><span class="line">技巧：可以实现将目录绑定至另一个目录上，作为其临时访问入口</span><br><span class="line">mount --bind 源目录 目标目录</span><br></pre></td></tr></table></figure>
+mount -r /dev/cdrom mount_point<h5 id="光盘设备一般为："><a href="#光盘设备一般为：" class="headerlink" title="光盘设备一般为："></a>光盘设备一般为：</h5> /dev/cdrom<br> /dev/dvd<br> /dev/sr0<h5 id="挂载U盘："><a href="#挂载U盘：" class="headerlink" title="挂载U盘："></a>挂载U盘：</h5> 事先识别U盘的设备文件：<h5 id="挂载本地回环设备；"><a href="#挂载本地回环设备；" class="headerlink" title="挂载本地回环设备；"></a>挂载本地回环设备；</h5> mount -o loop /PATH/TO?SOME_LOOP_FILE MOUNT_POINT<br> 例如ISO镜像文件<h4 id="查看当前已挂载的设备"><a href="#查看当前已挂载的设备" class="headerlink" title="查看当前已挂载的设备:"></a>查看当前已挂载的设备:</h4> mount<br> cat /proc/mounts<br> cat /etc/mtab</li>
+</ol>
+<h3 id="查看挂载设备被哪些进程所占用"><a href="#查看挂载设备被哪些进程所占用" class="headerlink" title="查看挂载设备被哪些进程所占用"></a>查看挂载设备被哪些进程所占用</h3><pre><code>fuser -v MOUNT_POINT
+lsof MOUNT_POINT</code></pre><h3 id="终止所有正在访问某挂载点的进程："><a href="#终止所有正在访问某挂载点的进程：" class="headerlink" title="终止所有正在访问某挂载点的进程："></a>终止所有正在访问某挂载点的进程：</h3><pre><code>fuser -km MOUNT_POINT</code></pre><h3 id="umount命令："><a href="#umount命令：" class="headerlink" title="umount命令："></a>umount命令：</h3><pre><code>umount device | dir</code></pre><p>注意：正在被进程访问到的挂载点无法被卸载：</p>
+<h3 id="交换分区"><a href="#交换分区" class="headerlink" title="交换分区"></a>交换分区</h3><pre><code>mkswap
+启用：swapon
+    -a 所有swap文件；(定义在fstab文件中的swap设备)；
+禁用：swapoff
+    swapoff DEVICE</code></pre><h3 id="设定除根文件系统以外的其他文件系统能够开机时自动挂载：-etc-fstab文件"><a href="#设定除根文件系统以外的其他文件系统能够开机时自动挂载：-etc-fstab文件" class="headerlink" title="设定除根文件系统以外的其他文件系统能够开机时自动挂载： /etc/fstab文件"></a>设定除根文件系统以外的其他文件系统能够开机时自动挂载： /etc/fstab文件</h3><table>
+<thead>
+<tr>
+<th>要挂载的设备</th>
+<th>挂载点</th>
+<th>文件系统类型</th>
+<th>挂载选项</th>
+<th>转储频率（备份）</th>
+<th>自检次序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>设备文件</td>
+<td>swap为swap</td>
+<td></td>
+<td>defaults</td>
+<td>0从不</td>
+<td>0不自检</td>
+</tr>
+<tr>
+<td>LABEL</td>
+<td></td>
+<td></td>
+<td>acl</td>
+<td>1每天</td>
+<td>1，首先自检，通常根是1</td>
+</tr>
+<tr>
+<td>UUID</td>
+<td></td>
+<td></td>
+<td>noatime</td>
+<td>2隔天</td>
+<td>2 次级自检</td>
+</tr>
+<tr>
+<td>伪文件系统proc，sysfs，tmpfs</td>
+<td></td>
+<td></td>
+<td>noexec</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>mount -a： 可自动挂载定义在此文件中的所有支持的自动挂载的设备</p>
+<h3 id="两个命令："><a href="#两个命令：" class="headerlink" title="两个命令："></a>两个命令：</h3><pre><code>du：估计文件空间使用率;
+    -h: 以人类可读的格式打印尺寸（例如1K 234M 2G）
+    -s: 对于目录，不包括子目录的大小;
+df：报告文件系统磁盘空间使用情况;
+    -l: 将列表限制为本地文件系统;
+    -h: 以1024的幂为单位的打印尺寸（例如1023M）
+    -i: 列出索引节点信息而不是块使用情况;
+    -a: 包括伪，重复，不可访问的文件系统;</code></pre>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-05 21:44:34" itemprop="dateCreated datePublished" datetime="2020-05-05T21:44:34+08:00">2020-05-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><p></p><figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></tbody></table></figure><p></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><p></p><figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></tbody></table></figure><p></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><p></p><figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></tbody></table></figure><p></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-</body></html>
-    
+
+      
     </div>
-    
-    
-</article>
-
-
-
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2020/05/05/test/" itemprop="url">test</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2020-05-05T08:44:14.000Z" itemprop="datePublished">5月 5 2020</time>
-        </span>
-        
-        <span class="column is-narrow article-category">
-            <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/linux/">linux</a>
-        </span>
-        
-        
-        <span class="column is-narrow">
-            
-            
-            几秒 lesen (Über 5 Wörter)
-        </span>
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <html><head></head><body><p>This is a test file.</p>
-</body></html>
-    
-    </div>
-    
-    
-</article>
-
-
-
 
     
     
-    </div>
-</section>
-    <footer class="footer">
-    <div class="container">
-        <div class="columns content">
-            <div class="column is-narrow has-text-centered">
-                &copy; 2020 lcxiao&nbsp;
-                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
-                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
-            </div>
-            <div class="column is-hidden-mobile"></div>
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-            
-            <div class="column is-narrow">
-                <div class="columns is-mobile is-multiline is-centered">
-                
-                    
-                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
-                    
-                    GitHub
-                    
-                </a>
-                
-                </div>
-            </div>
-            
-            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/test/" class="post-title-link" itemprop="url">test</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-05 16:44:14" itemprop="dateCreated datePublished" datetime="2020-05-05T16:44:14+08:00">2020-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-06 00:45:17" itemprop="dateModified" datetime="2020-05-06T00:45:17+08:00">2020-05-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
         </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>This is a test file.</p>
+
+      
     </div>
-</footer>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-<!-- test if the browser is outdated -->
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // plugin function, place inside DOM ready function
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        })
-    });
-</script>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+
+
+
+          </div>
+          
 
 <script>
-    window.FontAwesomeConfig = {
-        searchPseudoElements: true
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    moment.locale("zh-CN");
-</script>
-
-
-    
-    
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script>
-    MathJax.Hub.Config({
-        "HTML-CSS": {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-    
-    
-    
-    
-<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
-<script>
-    (function ($) {
-        $(document).ready(function () {
-            if (typeof($.fn.lightGallery) === 'function') {
-                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
-            }
-            if (typeof($.fn.justifiedGallery) === 'function') {
-                $('.justified-gallery').justifiedGallery();
-            }
-        });
-    })(jQuery);
-</script>
-
-    
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
-    <style>
-        .hljs {
-            position: relative;
-        }
-
-        .hljs .clipboard-btn {
-            float: right;
-            color: #9a9a9a;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .hljs .clipboard-btn:hover {
-          color: #8a8a8a;
-        }
-
-        .hljs > .clipboard-btn {
-            display: none;
-            position: absolute;
-            right: 4px;
-            top: 4px;
-        }
-
-        .hljs:hover > .clipboard-btn {
-            display: inline;
-        }
-
-        .hljs > figcaption > .clipboard-btn {
-            margin-right: 4px;
-        }
-    </style>
-    <script>
-      $(document).ready(function () {
-        $('figure.hljs').each(function(i, figure) {
-          var codeId = 'code-' + i;
-          var code = figure.querySelector('.code');
-          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
-          code.id = codeId;
-          copyButton.addClass('clipboard-btn');
-          copyButton.attr('data-clipboard-target-id', codeId);
-
-          var figcaption = figure.querySelector('figcaption');
-
-          if (figcaption) {
-            figcaption.append(copyButton[0]);
-          } else {
-            figure.prepend(copyButton[0]);
-          }
-        })
-
-        var clipboard = new ClipboardJS('.clipboard-btn', {
-          target: function(trigger) {
-            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
-          }
-        });
-        clipboard.on('success', function(e) {
-          e.clearSelection();
-        })
-      })
-    </script>
-
-    
-    
-
-    
-
-
-
-<script src="/js/script.js"></script>
-
-
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-mask"></div>
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Suche etwas..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lcxiao</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: 'Posts',
-                PAGES: 'Seiten',
-                CATEGORIES: 'Kategorien',
-                TAGS: 'Tags',
-                UNTITLED: '(Untitled)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
 
-<script src="/js/insight.js"></script>
 
-    
-</body>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lcxiao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

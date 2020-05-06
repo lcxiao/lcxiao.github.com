@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="使用常见 Git 命令推送提交到远程仓库使用 git push 将本地分支上的提交推送到远程仓库。git push 命令使用两个参数：  远程命令，如 origin 分支名称，如 master例如：git push  &lt;REMOTENAME&gt; &lt;BRANCHNAME&gt;例如，您通常运行 git push origin master 来推送本地更改到在线仓库。  重命名分支要重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 和 GitHub 使用入门">
+<meta property="og:url" content="http://yoursite.com/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:description" content="使用常见 Git 命令推送提交到远程仓库使用 git push 将本地分支上的提交推送到远程仓库。git push 命令使用两个参数：  远程命令，如 origin 分支名称，如 master例如：git push  &lt;REMOTENAME&gt; &lt;BRANCHNAME&gt;例如，您通常运行 git push origin master 来推送本地更改到在线仓库。  重命名分支要重">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/userbar-account-settings.png">
+<meta property="og:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/settings-sidebar-ssh-keys.png">
+<meta property="og:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-add-ssh-key.png">
+<meta property="og:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-key-paste.png">
+<meta property="og:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-add-key.png">
+<meta property="og:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/sudo_mode_popup.png">
+<meta property="article:published_time" content="2020-05-05T23:03:09.000Z">
+<meta property="article:modified_time" content="2020-05-06T07:03:25.855Z">
+<meta property="article:author" content="lcxiao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/userbar-account-settings.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Git 和 GitHub 使用入门 | Lcxiao's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lcxiao's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git 和 GitHub 使用入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-06 07:03:09 / 修改时间：15:03:25" itemprop="dateCreated datePublished" datetime="2020-05-06T07:03:09+08:00">2020-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="使用常见-Git-命令"><a href="#使用常见-Git-命令" class="headerlink" title="使用常见 Git 命令"></a>使用常见 Git 命令</h1><h2 id="推送提交到远程仓库"><a href="#推送提交到远程仓库" class="headerlink" title="推送提交到远程仓库"></a>推送提交到远程仓库</h2><p>使用 <code>git push</code> 将本地分支上的提交推送到远程仓库。<br>git push 命令使用两个参数：</p>
+<ul>
+<li>远程命令，如 <code>origin</code></li>
+<li>分支名称，如 <code>master</code><br>例如：<br><code>git push  &lt;REMOTENAME&gt; &lt;BRANCHNAME&gt;</code><br>例如，您通常运行 git push origin master 来推送本地更改到在线仓库。</li>
+</ul>
+<p><strong>重命名分支</strong><br>要重命名分支，同样使用 git push 命令，但要加上一个或多个参数：新分支的名称。<br> 例如：<br><code>git push  &lt;REMOTENAME&gt; &lt;LOCALBRANCHNAME&gt;:&lt;REMOTEBRANCHNAME&gt;</code><br>这会将 <code>LOCALBRANCHNAME</code> 推送到 <code>REMOTENAME</code>，但其名称将改为 <code>REMOTEBRANCHNAME</code>。<br>如果仓库的本地副本未同步或“落后于”您推送到的上游分支，您会收到一条消息表示：non-fast-forward updates were rejected。 这意味着您必须检索或“提取”上游更改，然后才可推送本地更改。</p>
+<p><strong>推送标记</strong><br>默认情况下，没有其他参数时，git push 会发送所有名称与远程分支相同的匹配分支。<br>要推送单一标记，可以发出与推送分支相同的命令：<br><code>git push  &lt;REMOTENAME&gt; &lt;TAGNAME&gt;</code><br>要推送所有标记，可以输入命令：<br><code>git push  &lt;REMOTENAME&gt; --tags</code></p>
+<p><strong>删除远程分支或标记</strong><br>删除分支的语法初看有点神秘：<br><code>git push  &lt;REMOTENAME&gt; :&lt;BRANCHNAME&gt;</code></p>
+<p><strong>远程和复刻</strong><br>在克隆您拥有的仓库时，向其提供远程 URL，告知 Git 到何处提取和推送更新。 如果要协作处理原始仓库，可添加新的远程 URL（通常称为 upstream）到本地 Git 克隆：<br><code>git remote add upstream  &lt;THEIR_REMOTE_URL&gt;</code></p>
+<h2 id="从远程仓库获取更改"><a href="#从远程仓库获取更改" class="headerlink" title="从远程仓库获取更改"></a>从远程仓库获取更改</h2><p>您可以使用常用 Git 命令访问远程仓库。<br>与远程仓库交互时，这些命令非常有用。 <code>clone</code> 和 <code>fetch</code> 用于从仓库的远程 URL 将远程代码下载到您的本地计算机，<code>merge</code> 用于将其他人的工作与您的工作合并在一起，而 <code>pull</code> 是 <code>fetch</code> 和 <code>merge</code> 的组合。</p>
+<p><strong>克隆仓库</strong><br>要获取其他用户仓库的完整副本，请使用 <code>git clone</code>，如下所示：<br><code>git clone https://github.com/USERNAME/REPOSITORY.git</code><br><code>将仓库克隆到您的计算机</code><br>运行 git clone 时，将发生以下操作：</p>
+<ul>
+<li>创建名为 <code>repo</code> 的文件夹</li>
+<li>将它初始化为 Git 仓库</li>
+<li>创建名为 <code>origin</code> 的远程仓库，指向用于克隆的 URL</li>
+<li>将所有的仓库文件和提交下载到那里</li>
+<li>检出默认分支（通常称为<code>master</code>）<br>对于远程仓库中的每个 foo 分支，在本地仓库中创建相应的远程跟踪分支 <code>refs/remotes/origin/foo</code>。 通常可以将此类远程跟踪分支名称缩写为<code>origin/foo</code>。</li>
+</ul>
+<p><strong>从远程仓库获取更改</strong><br>使用 <code>git fetch</code> 可检索其他人完成的新工作。 从仓库获取将会获取所有新的远程跟踪分支和标记，但不会将这些更改合并到您自己的分支中。<br>如果已经有一个本地仓库包含为所需项目设置的远程 URL，您可以在终端使用 <code>git fetch *remotename*</code> 获取所有新信息：<br><code>git fetch remotename</code><br><code>获取远程仓库的更新</code></p>
+<p><strong>合并更改到本地分支</strong><br>合并可将您的本地更改与其他人所做的更改组合起来。</p>
+<p>通常将远程跟踪分支（即从远程仓库获取的分支）与您的本地分支进行合并：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git merge remotename&#x2F;branchname</span><br><span class="line">将在线更新与您的本地工作进行合并</span><br></pre></td></tr></table></figure>
+
+<p><strong>从远程仓库拉取更改</strong><br><code>git pull</code> 是在同一个命令中完成 <code>git fetch</code> 和 <code>git merge</code> 的便捷方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull remotename branchname</span><br><span class="line">获取在线更新并将其与您的本地工作进行合并</span><br></pre></td></tr></table></figure>
+<h2 id="管理远程仓库"><a href="#管理远程仓库" class="headerlink" title="管理远程仓库"></a>管理远程仓库</h2><p> 添加远程<br><code>git remote add</code> 命令使用两个参数：</p>
+<ul>
+<li>远程命令，如 <code>origin</code></li>
+<li>远程 URL，如 <code>https://github.com/user/repo.git</code></li>
+</ul>
+<p><strong>重命名远程</strong><br><code>git remote rename</code> 命令使用两个参数：</p>
+<ul>
+<li>现有的远程名称，例如 <code>origin</code></li>
+<li>远程的新名称，例如 <code>destination</code></li>
+</ul>
+<p><strong>删除远程</strong><br><code>git remote rm</code> 命令使用一个参数：<br>远程名称，例如 <code>destination</code></p>
+<p><a href="https://help.github.com/cn/github/using-git/splitting-a-subfolder-out-into-a-new-repository" target="_blank" rel="noopener">将子文件夹拆分成新仓库</a></p>
+<h2 id="在-Git-中设置用户名"><a href="#在-Git-中设置用户名" class="headerlink" title="在 Git 中设置用户名"></a>在 Git 中设置用户名</h2><ul>
+<li>全局设置：<br>  <code>git config --global user.name &quot;Mona Lisa&quot;</code></li>
+<li>为一个仓库设置 Git 用户名<br>  <code>git config user.name &quot;Mona Lisa&quot;</code></li>
+<li>在 Git 中设置您的提交电子邮件地址<br>  <code>git config --global user.email &quot;email@example.com&quot;</code></li>
+</ul>
+<p><strong>在 Git 中缓存 GitHub 密码</strong><br>如果使用 HTTPS 克隆 GitHub 仓库</p>
+<ul>
+<li>windows: <code>git config --global credential.helper wincred</code></li>
+<li>linux: <code>git config --global credential.helper cache</code></li>
+<li>更改默认的密码缓存时限: <code>git config --global credential.helper &#39;cache --timeout=3600&#39;</code>(以秒为单位)</li>
+</ul>
+<p><strong>为什么 Git 总是询问我的密码？</strong><br>如果 Git 在您每次尝试与 GitHub 交互时均提示输入用户名和密码，则您可能为仓库使用的是 HTTPS 克隆 URL。</p>
+<h2 id="新增-SSH-密钥到-GitHub-帐户"><a href="#新增-SSH-密钥到-GitHub-帐户" class="headerlink" title="新增 SSH 密钥到 GitHub 帐户"></a>新增 SSH 密钥到 GitHub 帐户</h2><ol>
+<li>将 SSH 密钥复制到剪贴板</li>
+</ol>
+<ul>
+<li><code>ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;</code></li>
+<li><code>Copy</code> your <code>.ssh/id_rsa.pub</code></li>
+</ul>
+<ol start="2">
+<li><p>在任何页面的右上角，单击您的个人资料照片，然后单击 Settings（设置）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/userbar-account-settings.png" width="20%">
+</li>
+<li><p>在用户设置侧边栏中，单击 SSH and GPG keys（SSH 和 GPG 密钥）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/settings-sidebar-ssh-keys.png" width="30%">
+</li>
+<li><p>单击 New SSH key（新 SSH 密钥）或 Add SSH key（添加 SSH 密钥）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-add-ssh-key.png" width="50%">
+</li>
+<li><p>在 “Title”（标题）字段中，为新密钥添加描述性标签。 例如，如果您使用的是个人 Mac，此密钥名称可能是 “Personal MacBook Air”。</p>
+</li>
+<li><p>将密钥粘贴到 “Key”（密钥）字段。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-key-paste.png" width="50%">
+</li>
+<li><p>单击 Add SSH key（添加 SSH 密钥）。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/ssh-add-key.png" width="10%">
+</li>
+<li><p>如有提示，请确认您的 GitHub Enterprise 密码。</p>
+<img src="https://github-images.s3.amazonaws.com/enterprise/2.20/assets/images/help/settings/sudo_mode_popup.png" width="20%">
+
+</li>
+</ol>
+<p><em>参考：</em><a href="https://help.github.com/cn/enterprise/2.20/user/github/authenticating-to-github/connecting-to-github-with-ssh" target="_blank" rel="noopener">使用 SSH 连接到 GitHub</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/05/Text-to-AscII-Art/" rel="prev" title="Text to AscII Art">
+      <i class="fa fa-chevron-left"></i> Text to AscII Art
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/05/testing-photo/" rel="next" title="testing photo">
+      testing photo <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用常见-Git-命令"><span class="nav-number">1.</span> <span class="nav-text">使用常见 Git 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推送提交到远程仓库"><span class="nav-number">1.1.</span> <span class="nav-text">推送提交到远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从远程仓库获取更改"><span class="nav-number">1.2.</span> <span class="nav-text">从远程仓库获取更改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理远程仓库"><span class="nav-number">1.3.</span> <span class="nav-text">管理远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Git-中设置用户名"><span class="nav-number">1.4.</span> <span class="nav-text">在 Git 中设置用户名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新增-SSH-密钥到-GitHub-帐户"><span class="nav-number">1.5.</span> <span class="nav-text">新增 SSH 密钥到 GitHub 帐户</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lcxiao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lcxiao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
