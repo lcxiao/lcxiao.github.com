@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="脚本文件格式第一行写上#!&#x2F;bin&#x2F;bash注释信息 #代码注释：适当的缩进和空白行； 语言：编程语法格式，库，算法和数据结构；编程思想：问题空间 –&gt; 解空间 Bash是典型的弱类型的编程语言数据类型：字符型、整数值弱类型：字符型 变量：局部变量本地变量环境变量位置参数变量特殊变量 算数运算12345+, -, *, &#x2F;, %, **let VAR&#x3D;expressionVAR&#x3D;$[expr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bash脚本编程">
+<meta property="og:url" content="http://yoursite.com/2020/05/06/Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:description" content="脚本文件格式第一行写上#!&#x2F;bin&#x2F;bash注释信息 #代码注释：适当的缩进和空白行； 语言：编程语法格式，库，算法和数据结构；编程思想：问题空间 –&gt; 解空间 Bash是典型的弱类型的编程语言数据类型：字符型、整数值弱类型：字符型 变量：局部变量本地变量环境变量位置参数变量特殊变量 算数运算12345+, -, *, &#x2F;, %, **let VAR&#x3D;expressionVAR&#x3D;$[expr">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-06T05:22:33.000Z">
+<meta property="article:modified_time" content="2020-05-06T13:58:39.383Z">
+<meta property="article:author" content="lcxiao">
+<meta property="article:tag" content="Bash">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/05/06/Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bash脚本编程 | Lcxiao's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lcxiao's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lcxiao's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-lifestyle">
+
+    <a href="/lifestyle/" rel="section"><i class="fa fa-fw fa-lifestyle"></i>LifeStyle</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bash脚本编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-06 13:22:33 / 修改时间：21:58:39" itemprop="dateCreated datePublished" datetime="2020-05-06T13:22:33+08:00">2020-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="脚本文件格式"><a href="#脚本文件格式" class="headerlink" title="脚本文件格式"></a>脚本文件格式</h3><p>第一行写上<code>#!/bin/bash</code><br>注释信息 <code>#</code><br>代码注释：<br>适当的缩进和空白行；</p>
+<p>语言：编程语法格式，库，算法和数据结构；<br>编程思想：<br>问题空间 –&gt; 解空间</p>
+<p>Bash是典型的弱类型的编程语言<br>数据类型：字符型、整数值<br>弱类型：字符型</p>
+<h3 id="变量："><a href="#变量：" class="headerlink" title="变量："></a>变量：</h3><p>局部变量<br>本地变量<br>环境变量<br>位置参数变量<br>特殊变量</p>
+<h3 id="算数运算"><a href="#算数运算" class="headerlink" title="算数运算"></a>算数运算</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+, -, *, /, %, **</span><br><span class="line"><span class="built_in">let</span> VAR=expression</span><br><span class="line">VAR=$[expression]</span><br><span class="line">VAR=$((expression))</span><br><span class="line">VAR=$(expr argu1 argu2 argu3)</span><br></pre></td></tr></table></figure>
+
+<p>增强型赋值<br>变量做某种算数运算后回存到此变量中；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> i=<span class="variable">$i</span>+<span class="comment">#</span></span><br><span class="line"><span class="built_in">let</span> i+=<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p><code>+=, -=, *=, /=, %=</code></p>
+<h3 id="条件测试："><a href="#条件测试：" class="headerlink" title="条件测试："></a>条件测试：</h3><p>判断某需求是否满足；需要测试机制来实现；</p>
+<ol>
+<li>执行命令，根据命令的返回值来判断；<br>0：成功<br>1-255： 失败</li>
+<li>测试表达式；<br>test expression<br>[ expression ]<br>[[ expression ]]<br>注意： expression两端必须有空白字符，否则为语法错误；</li>
+</ol>
+<h3 id="Bash的测试类型："><a href="#Bash的测试类型：" class="headerlink" title="Bash的测试类型："></a>Bash的测试类型：</h3><ul>
+<li>数值测试</li>
+<li>字符串测试</li>
+<li>文字测试</li>
+</ul>
+<h4 id="数值测试：-数值比较；"><a href="#数值测试：-数值比较；" class="headerlink" title="数值测试： 数值比较；"></a>数值测试： 数值比较；</h4><pre><code>-eq： 是否等于；[ A -eq B ];
+-ne： 是否不等于；
+-gt： 是否大于；
+-ge： 是否大于等于；
+-lt： 是否小于；
+-le： 是否小于等于；</code></pre><p>代码中的 [] 执行基本的算数运算，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">a=5</span><br><span class="line">b=6</span><br><span class="line"></span><br><span class="line">result=$[a+b] <span class="comment"># 注意等号两边不能有空格</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"result 为： <span class="variable">$result</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串测试"><a href="#字符串测试" class="headerlink" title="字符串测试:"></a>字符串测试:</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">==： 是否等于；</span><br><span class="line">&gt;： 是否大于；</span><br><span class="line">&lt;： 是否小于；</span><br><span class="line">!=：是否不等于；</span><br><span class="line">=~： 左侧字符串是否能被右侧的PATTERN匹配；</span><br><span class="line">-z <span class="string">"STRING"</span>： 判断指定的字符串是否为空；空为真，非空为假。</span><br><span class="line">-n <span class="string">"STRING"</span>： 判断指定的字符串是否非空，非空为真，空为假；</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>字符串要加引用；</li>
+<li>要使用[[ ]];</li>
+</ul>
+<h4 id="文件测试："><a href="#文件测试：" class="headerlink" title="文件测试："></a>文件测试：</h4><ol>
+<li><p>存在测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-a FILE</span><br><span class="line">-e FILE: 如果文件存在则为真</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存在及类型测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-b 如果文件存在且为块特殊文件则为真</span><br><span class="line">-c 如果文件存在且为字符型特殊文件则为真</span><br><span class="line">-d 如果文件存在且为目录则为真</span><br><span class="line">-f 如果文件存在且为普通文件则为真</span><br><span class="line">-h 链接文件</span><br><span class="line">-p 管道文件</span><br><span class="line">-S 套接字文件</span><br><span class="line">3. 文件权限测试：</span><br><span class="line">-r 存在且可读</span><br><span class="line">-w 存在且可写</span><br><span class="line">-x 存在且可执行</span><br><span class="line">4. 特殊权限测试：</span><br><span class="line">-u 存在且拥有suid</span><br><span class="line">-g 存在且拥有sgid</span><br><span class="line">-k 存在且拥有sticky</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件内容测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-s 是否有内容</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>时间戳：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-N FILE ：文件自上一次读操作后是否被修改；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从属关系测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-O FILE：当前用户是否为文件的属主；</span><br><span class="line">-G FILE：当前用户是否为文件的属组；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>双目测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FILE1 -ef FILE2；FILE1与FILE2是否指向同一个文件系统的相同inode的硬链接；</span><br><span class="line">FILE1 -nt FILE2：FILE1是否新于FILE2；</span><br><span class="line">FILE1 -ot FILE2：FILE1是否旧于FILE2；</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="组合测试条件："><a href="#组合测试条件：" class="headerlink" title="组合测试条件："></a>组合测试条件：</h3><p>逻辑运算：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. </span><br><span class="line">    COMMAND1 &amp;&amp; COMMAND2</span><br><span class="line">    COMMAND1 || COMMAND2</span><br><span class="line">    !COMMAND</span><br><span class="line">    [ -O FILE ] &amp;&amp; [ -r FILE ]</span><br><span class="line">2. </span><br><span class="line">    EXPRESSION1 -a EXPRESSION2</span><br><span class="line">    EXPRESSION1 -O EXPRESSION2</span><br><span class="line">    !EXPRESSION</span><br><span class="line">    [ -O FILE -a -x FILE ]</span><br></pre></td></tr></table></figure>
+
+<p>练习：将当前主机名称保存至hostname变量中：<br>主机名如果为空，或者为localhost.localdomain,则将其设置为<a href="http://www.magedu.com" target="_blank" rel="noopener">www.magedu.com</a>;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">hostname=$(hostname)</span><br><span class="line">[ -z <span class="string">"<span class="variable">$hostname</span>"</span> -o <span class="string">"<span class="variable">$hostname</span>"</span>==<span class="string">"localhost.localdomain"</span> -o <span class="string">"<span class="variable">$hostname</span>"</span>==<span class="string">"localhost"</span> ] &amp;&amp; hostname www.magedu.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="脚本的状态返回值："><a href="#脚本的状态返回值：" class="headerlink" title="脚本的状态返回值："></a>脚本的状态返回值：</h3><p>默认是脚本执行的最后一条命令的返回值；<br>自定义状态退出状态码:<br>exit [n]：n为自己指定的状态码；<br>注意：SHELL进程遇到exit时，即会终止，因此整个脚本执行即为结束。</p>
+<h3 id="向脚本传递参数"><a href="#向脚本传递参数" class="headerlink" title="向脚本传递参数"></a>向脚本传递参数</h3><h4 id="位置参数变量"><a href="#位置参数变量" class="headerlink" title="位置参数变量"></a>位置参数变量</h4><p>myscript.sh<br>引用方式：<br>$1,$2,$3…$10,$11…<br>轮替：<br>shift [n]: 位置参数轮替：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">file1_lines=$(grep <span class="string">"^$"</span> <span class="variable">$1</span> | wc -l)</span><br><span class="line">file2_lines=$(grep <span class="string">"^$"</span> <span class="variable">$2</span> | wc -l)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Total blank lines: $[<span class="variable">$file1_lines</span>+<span class="variable">$file2_lines</span>]"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="特殊变量："><a href="#特殊变量：" class="headerlink" title="特殊变量："></a>特殊变量：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$0</span>:脚本文件路径本身;</span><br><span class="line"><span class="variable">$#</span>:脚本参数的个数；</span><br><span class="line">$*:所有参数 （分割为多个字符串）</span><br><span class="line"><span class="variable">$@</span>:所有参数 （合并为一个字符串）</span><br></pre></td></tr></table></figure>
+
+<p><code>[ $# -lt 2 ] &amp;&amp; echo &quot;At least two files&quot; &amp;&amp; exit 1</code><br>如果参数个数小于2个，提示至少需要2个参数，并退出，状态码1</p>
+<p>过程式编程语言的代码执行顺序：<br>顺序执行： 逐条执行；<br>选择执行：<br>    代码有一个分支： 条件满足时才会执行；<br>    两个或以上的分支：只会执行其中一个满足条件的分支；<br>循环执行：<br>    某代码片段（循环体）要执行0、1或者多个来回；<br>选择执行：<br>单分支的if语句：<br>if 测试条件<br>then<br>    代码分支<br>fi</p>
+<p>双分支的if语句<br>if 测试条件；then<br>    条件为真时执行的分支<br>else<br>    条件为假时执行的分支<br>fi</p>
+<p>示例： 通过参数传递一个用户名给脚本，此用户不存在时，则添加之；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">[ <span class="variable">$#</span> -lt 1 ] &amp;&amp; <span class="built_in">echo</span> <span class="string">"At least one username."</span> &amp;&amp; <span class="built_in">exit</span> 1</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ! grep <span class="string">"^<span class="variable">$1</span>\&gt;"</span> /etc/passwd &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">    useradd <span class="variable">$1</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$1</span> | passwd --stdin <span class="variable">$1</span> &amp;&gt; /dev/null</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Add user <span class="variable">$1</span> finished."</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"user <span class="variable">$1</span> exist."</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>练习1： 通过命令行参数给定两个数字，输出其中较大的数值；<br>练习2： 通过命令行参数指定一个用户名，判断其ID号是偶数还是奇数；<br>练习3： 通过命令行参数给定两个文本文件名，如果某文件不存在，则结束脚本执行；<br>        都存在时返回每个文件的行数，并说明其中行数较多的文件；</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Bash/" rel="tag"># Bash</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/shell/" rel="tag"># shell</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/06/%E7%A3%81%E7%9B%98%E5%92%8C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" rel="prev" title="磁盘和文件系统">
+      <i class="fa fa-chevron-left"></i> 磁盘和文件系统
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/06/progit/" rel="next" title="progit">
+      progit <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本文件格式"><span class="nav-number">1.</span> <span class="nav-text">脚本文件格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量："><span class="nav-number">2.</span> <span class="nav-text">变量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算数运算"><span class="nav-number">3.</span> <span class="nav-text">算数运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件测试："><span class="nav-number">4.</span> <span class="nav-text">条件测试：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bash的测试类型："><span class="nav-number">5.</span> <span class="nav-text">Bash的测试类型：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数值测试：-数值比较；"><span class="nav-number">5.1.</span> <span class="nav-text">数值测试： 数值比较；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串测试"><span class="nav-number">5.2.</span> <span class="nav-text">字符串测试:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件测试："><span class="nav-number">5.3.</span> <span class="nav-text">文件测试：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合测试条件："><span class="nav-number">6.</span> <span class="nav-text">组合测试条件：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本的状态返回值："><span class="nav-number">7.</span> <span class="nav-text">脚本的状态返回值：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向脚本传递参数"><span class="nav-number">8.</span> <span class="nav-text">向脚本传递参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#位置参数变量"><span class="nav-number">8.1.</span> <span class="nav-text">位置参数变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特殊变量："><span class="nav-number">8.2.</span> <span class="nav-text">特殊变量：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lcxiao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://163.com/" title="http:&#x2F;&#x2F;163.com" rel="noopener" target="_blank">163</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://baidu.com/" title="http:&#x2F;&#x2F;baidu.com" rel="noopener" target="_blank">baidu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/dalipan.com" title="dalipan.com">dalipan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://google.com/" title="https:&#x2F;&#x2F;google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lcxiao</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
