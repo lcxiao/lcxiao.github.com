@@ -224,8 +224,8 @@
   
   <entry>
     <title>Linux实现LVM逻辑卷及快照</title>
-    <link href="http://yoursite.com/2020/05/31/Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/"/>
-    <id>http://yoursite.com/2020/05/31/Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/</id>
+    <link href="http://yoursite.com/2020/05/31/4-Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/"/>
+    <id>http://yoursite.com/2020/05/31/4-Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/</id>
     <published>2020-05-31T20:26:12.000Z</published>
     <updated>2020-06-01T04:28:23.765Z</updated>
     
@@ -246,58 +246,9 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/05/06/hello-world/"/>
-    <id>http://yoursite.com/2020/05/06/hello-world/</id>
-    <published>2020-05-06T15:16:55.503Z</published>
-    <updated>2020-05-06T15:16:55.503Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>test</title>
-    <link href="http://yoursite.com/2020/05/06/test-1/"/>
-    <id>http://yoursite.com/2020/05/06/test-1/</id>
-    <published>2020-05-06T05:43:03.000Z</published>
-    <updated>2020-05-06T13:58:39.387Z</updated>
-    
-    <content type="html"><![CDATA[<p>test</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;test&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-      <category term="lifestyle" scheme="http://yoursite.com/categories/lifestyle/"/>
-    
-    
-      <category term="life" scheme="http://yoursite.com/tags/life/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Linux平台RAID</title>
-    <link href="http://yoursite.com/2020/05/06/Linux%E5%B9%B3%E5%8F%B0RAID/"/>
-    <id>http://yoursite.com/2020/05/06/Linux%E5%B9%B3%E5%8F%B0RAID/</id>
+    <link href="http://yoursite.com/2020/05/06/3-Linux%E5%B9%B3%E5%8F%B0RAID/"/>
+    <id>http://yoursite.com/2020/05/06/3-Linux%E5%B9%B3%E5%8F%B0RAID/</id>
     <published>2020-05-06T05:23:39.000Z</published>
     <updated>2020-05-06T13:58:39.383Z</updated>
     
@@ -316,20 +267,20 @@
       <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
     
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="RAID" scheme="http://yoursite.com/tags/RAID/"/>
-    
       <category term="磁盘" scheme="http://yoursite.com/tags/%E7%A3%81%E7%9B%98/"/>
     
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
       <category term="文件系统" scheme="http://yoursite.com/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="RAID" scheme="http://yoursite.com/tags/RAID/"/>
     
   </entry>
   
   <entry>
     <title>progit</title>
-    <link href="http://yoursite.com/2020/05/06/progit/"/>
-    <id>http://yoursite.com/2020/05/06/progit/</id>
+    <link href="http://yoursite.com/2020/05/06/101-progit/"/>
+    <id>http://yoursite.com/2020/05/06/101-progit/</id>
     <published>2020-05-06T05:23:11.000Z</published>
     <updated>2020-05-06T13:58:39.387Z</updated>
     
@@ -359,8 +310,8 @@
   
   <entry>
     <title>Bash脚本编程</title>
-    <link href="http://yoursite.com/2020/05/06/Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/"/>
-    <id>http://yoursite.com/2020/05/06/Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/</id>
+    <link href="http://yoursite.com/2020/05/06/100-Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/"/>
+    <id>http://yoursite.com/2020/05/06/100-Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/</id>
     <published>2020-05-06T05:22:33.000Z</published>
     <updated>2020-05-06T13:58:39.383Z</updated>
     
@@ -379,9 +330,9 @@
       <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
     
     
-      <category term="Bash" scheme="http://yoursite.com/tags/Bash/"/>
-    
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="Bash" scheme="http://yoursite.com/tags/Bash/"/>
     
       <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
     
@@ -389,8 +340,8 @@
   
   <entry>
     <title>磁盘和文件系统</title>
-    <link href="http://yoursite.com/2020/05/06/%E7%A3%81%E7%9B%98%E5%92%8C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://yoursite.com/2020/05/06/%E7%A3%81%E7%9B%98%E5%92%8C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</id>
+    <link href="http://yoursite.com/2020/05/06/1-%E7%A3%81%E7%9B%98%E5%92%8C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://yoursite.com/2020/05/06/1-%E7%A3%81%E7%9B%98%E5%92%8C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-05-06T05:22:01.000Z</published>
     <updated>2020-05-06T13:58:39.395Z</updated>
     
@@ -409,9 +360,9 @@
       <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
     
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
       <category term="磁盘" scheme="http://yoursite.com/tags/%E7%A3%81%E7%9B%98/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
       <category term="文件系统" scheme="http://yoursite.com/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
     
@@ -420,32 +371,9 @@
   </entry>
   
   <entry>
-    <title>testing photo</title>
-    <link href="http://yoursite.com/2020/05/05/testing-photo/"/>
-    <id>http://yoursite.com/2020/05/05/testing-photo/</id>
-    <published>2020-05-05T23:06:25.000Z</published>
-    <updated>2020-05-06T15:05:42.387Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://www.oclc.org/blog/main/wp-content/uploads/2016/07/wiki-libraries.jpg" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;http://www.oclc.org/blog/main/wp-content/uploads/2016/07/wiki-libraries.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>Git 和 GitHub 使用入门</title>
-    <link href="http://yoursite.com/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/"/>
-    <id>http://yoursite.com/2020/05/05/Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/</id>
+    <link href="http://yoursite.com/2020/05/05/102-Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/"/>
+    <id>http://yoursite.com/2020/05/05/102-Git-%E5%92%8C-GitHub-%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8/</id>
     <published>2020-05-05T23:03:09.000Z</published>
     <updated>2020-05-06T15:16:55.503Z</updated>
     
@@ -466,8 +394,8 @@
   
   <entry>
     <title>Text to AscII Art</title>
-    <link href="http://yoursite.com/2020/05/05/Text-to-AscII-Art/"/>
-    <id>http://yoursite.com/2020/05/05/Text-to-AscII-Art/</id>
+    <link href="http://yoursite.com/2020/05/05/103-Text-to-AscII-Art/"/>
+    <id>http://yoursite.com/2020/05/05/103-Text-to-AscII-Art/</id>
     <published>2020-05-05T23:02:19.000Z</published>
     <updated>2020-05-06T15:16:55.503Z</updated>
     
@@ -488,8 +416,8 @@
   
   <entry>
     <title>文件系统的挂载和使用</title>
-    <link href="http://yoursite.com/2020/05/05/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://yoursite.com/2020/05/05/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8/</id>
+    <link href="http://yoursite.com/2020/05/05/2-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>http://yoursite.com/2020/05/05/2-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD%E5%92%8C%E4%BD%BF%E7%94%A8/</id>
     <published>2020-05-05T22:59:43.000Z</published>
     <updated>2020-05-06T15:16:55.503Z</updated>
     
