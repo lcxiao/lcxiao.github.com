@@ -166,6 +166,203 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Master版本编译安装总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-01 05:18:30 / 修改时间：13:18:58" itemprop="dateCreated datePublished" datetime="2020-06-01T05:18:30+08:00">2020-06-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TrinityCore"><a href="#TrinityCore" class="headerlink" title="TrinityCore"></a>TrinityCore</h1><h2 id="项目简介："><a href="#项目简介：" class="headerlink" title="项目简介："></a>项目简介：</h2><p><strong>TrinityCore</strong>是主要基于C ++ 的<em>MMORPG</em>框架。</p>
+<p>它是从<em>MaNGOS</em>（<em>大型网络游戏对象服务器</em>）派生而来的，它基于该项目的代码，该代码随着时间的流逝发生了很大的变化，以在优化游戏机制和功能的同时优化，改进和清理代码库。MANGOS技术组骨干成员进行研发，在技术和经验上都有很好的保证 。</p>
+<p>TrinityCore维护的版本目前有2个，分别是：3.3.5a的WLK版本、master（同步官服）版本;</p>
+<ul>
+<li>官网：<a href="https://www.trinitycore.org/" target="_blank" rel="noopener">https://www.trinitycore.org</a></li>
+<li>源码：<a href="https://github.com/TrinityCore" target="_blank" rel="noopener">https://github.com/TrinityCore</a></li>
+</ul>
+<h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Processor with SSE2 support </span><br><span class="line">Boost ≥ 1.58</span><br><span class="line">MySQL ≥ 5.7.0</span><br><span class="line">OpenSSL ≥ 1.0.x</span><br><span class="line">CMake ≥ 3.13.4</span><br><span class="line">Clang  ≥ 5 (heavy recommended, especially on master branch) or GCC ≥ 7.1.0</span><br><span class="line">zlib ≥ 1.2.7</span><br></pre></td></tr></table></figure>
+
+<p>debian 10.x</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip default-libmysqlclient-dev</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<p>ubuntu 19.10+</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip libmariadb-client-lgpl-dev-compat</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<p>Fedora based distributions</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dnf install https://dev.mysql.com/get/mysql57-community-release-fc27-1.noarch.rpm</span><br><span class="line">dnf install git clang cmake make gcc gcc-c++ community-mysql-devel compat-openssl10-devel bzip2-devel readline-devel ncurses-devel boost-devel community-mysql-server p7zip</span><br><span class="line">rm -f /usr/bin/c++</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<h2 id="Core-Installation"><a href="#Core-Installation" class="headerlink" title="Core Installation"></a>Core Installation</h2><p><code>sudo adduser &lt;username&gt;</code></p>
+<p><code>sudo su - &lt;username&gt;</code></p>
+<h3 id="Building-the-server-itself"><a href="#Building-the-server-itself" class="headerlink" title="Building the server itself"></a>Building the server itself</h3><h4 id="Getting-the-source-code"><a href="#Getting-the-source-code" class="headerlink" title="Getting the source code"></a>Getting the source code</h4><p><strong>3.3.5 (wotlk client)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/</span><br><span class="line">git <span class="built_in">clone</span> -b 3.3.5 git://github.com/TrinityCore/TrinityCore.git</span><br></pre></td></tr></table></figure>
+
+<p><strong>master</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;</span><br><span class="line">git clone -b master git:&#x2F;&#x2F;github.com&#x2F;TrinityCore&#x2F;TrinityCore.git</span><br></pre></td></tr></table></figure>
+
+<h4 id="Compiling-the-source-code"><a href="#Compiling-the-source-code" class="headerlink" title="Compiling the source code"></a>Compiling the source code</h4><p>Creating the build-directory</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> TrinityCore</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br></pre></td></tr></table></figure>
+
+<h4 id="Configuring-for-compiling"><a href="#Configuring-for-compiling" class="headerlink" title="Configuring for compiling"></a>Configuring for compiling</h4><p><code>cmake ../ [additional parameters]</code></p>
+<p>TIPS:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">By default this is the only row you will need to run to setup your install:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/&lt;username&gt;/server</span><br><span class="line"> </span><br><span class="line">Another Examples Below:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/wow/server -DTOOLS=0</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/<span class="variable">$USER</span>/server -DTOOLS=0 -DWITH_WARNINGS=1</span><br></pre></td></tr></table></figure>
+
+<h4 id="Building-the-core"><a href="#Building-the-core" class="headerlink" title="Building the core"></a>Building the core</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h4 id="Keeping-the-code-up-to-date"><a href="#Keeping-the-code-up-to-date" class="headerlink" title="Keeping the code up to date"></a>Keeping the code up to date</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/TrinityCore/</span><br><span class="line"><span class="comment"># For 3.3.5 Branch</span></span><br><span class="line">git pull origin 3.3.5</span><br><span class="line">  </span><br><span class="line"><span class="comment"># For master Branch</span></span><br><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
+
+<h3 id="Installing-MySQL-Server"><a href="#Installing-MySQL-Server" class="headerlink" title="Installing MySQL Server"></a>Installing MySQL Server</h3><p>rename the <strong>worldserver.conf.dist</strong> and <strong>authserver.conf.dist</strong> files in <strong>worldserver.conf</strong> and <strong>authserver.conf</strong></p>
+<h2 id="Extractors"><a href="#Extractors" class="headerlink" title="Extractors"></a>Extractors</h2><table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Branch</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dbc</td>
+<td>all</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>maps</td>
+<td>all</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>vmaps</td>
+<td>all</td>
+<td>HIGHLY Recommended</td>
+</tr>
+<tr>
+<td>mmaps</td>
+<td>all</td>
+<td>HIGHLY Recommended</td>
+</tr>
+<tr>
+<td>cameras</td>
+<td>all</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>master only</td>
+<td>Mandatory</td>
+</tr>
+</tbody></table>
+<h2 id="Extracting-DBC-Maps-VMaps-amp-MMaps"><a href="#Extracting-DBC-Maps-VMaps-amp-MMaps" class="headerlink" title="Extracting DBC, Maps, VMaps &amp; MMaps"></a>Extracting DBC, Maps, VMaps &amp; MMaps</h2><h4 id="DBC-and-Maps-files"><a href="#DBC-and-Maps-files" class="headerlink" title="DBC and Maps files"></a>DBC and Maps files</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;mapextractor&#96;&#96;mkdir &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96;&#96; &#96; &#96;# Next line is 3.3.x only&#96;&#96;cp -r dbc maps &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96;&#96;# Next line is 6.x, 7.x only&#96;&#96;cp -r dbc maps gt &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96; &#96;edit worldserver.conf and change datadir from &#96;&#96;&quot;.&quot;&#96; &#96;to &#96;&#96;&quot;..&#x2F;data&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Visual-Maps-aka-vmaps-Note-If-you-stop-vmap4extractor-before-finish-you-will-need-to-delete-the-Buildings-directory-before-start-again"><a href="#Visual-Maps-aka-vmaps-Note-If-you-stop-vmap4extractor-before-finish-you-will-need-to-delete-the-Buildings-directory-before-start-again" class="headerlink" title="Visual Maps (aka vmaps) Note: If you stop vmap4extractor before finish you will need to delete the Buildings directory before start again."></a>Visual Maps (aka vmaps) Note: If you stop vmap4extractor before finish you will need to delete the Buildings directory before start again.</h4><p>You can also extract vmaps which will take quite a while depending on your machine (up to hours on ancient hardware).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;vmap4extractor&#96;&#96;mkdir vmaps&#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;vmap4assembler Buildings vmaps&#96;&#96;cp -r vmaps &#x2F;home&#x2F;&#x2F;server&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<p>When this is complete you will receive the following message which can be safely ignored.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Processing Map 724&#96;&#96;[################################################################]&#96;&#96;Extracting GameObject models...Extracting World\Wmo\Band\Final_Stage.wmo&#96;&#96;No such file.&#96;&#96;Couldn&#39;t open RootWmo!!!&#96;&#96;Done!&#96;&#96; &#96; &#96;Extract V4.00 2012_02. Work complete. No errors.</span><br></pre></td></tr></table></figure>
+
+<h4 id="Movement-Maps-aka-mmaps-optional-RECOMMENDED"><a href="#Movement-Maps-aka-mmaps-optional-RECOMMENDED" class="headerlink" title="Movement Maps  (aka mmaps - optional RECOMMENDED)"></a>Movement Maps  (aka mmaps - optional RECOMMENDED)</h4><p>Extracting mmaps will take quite a while depending on your machine (up to hours).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;mkdir mmaps&#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;mmaps_generator&#96;&#96;cp -r mmaps &#x2F;home&#x2F;&#x2F;server&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<h2 id="Setting-up-the-configuration-files"><a href="#Setting-up-the-configuration-files" class="headerlink" title="Setting up the configuration files"></a>Setting up the configuration files</h2><p>First of all you need to find the two default config files (named <strong>worldserver.conf.dist</strong> and <strong>authserver.conf.dist (\</strong>bnetserver.conf.dist in 6.x)*<strong>* ) and copy these to their namesakes without the **.dist</strong> extension. You can find them within /trinitycore/etc/ (may vary).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp worldserver.conf.dist worldserver.conf&#96;&#96;cp authserver.conf.dist authserver.conf # 3.3.5 only&#96;&#96;cp bnetserver.conf.dist bnetserver.conf # 6.x, 7.x only</span><br></pre></td></tr></table></figure>
+
+<h2 id="Databases-Installation"><a href="#Databases-Installation" class="headerlink" title="Databases Installation"></a>Databases Installation</h2><p>3.3.5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;</span><br><span class="line"></span><br><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39;;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+
+<p>master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 ;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;hotfixes&#96; DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;hotfixes&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Populating-the-MySQL-Trinity-databases"><a href="#Populating-the-MySQL-Trinity-databases" class="headerlink" title="Populating the MySQL Trinity databases"></a>Populating the MySQL Trinity databases</h4><p>下载github页面上的TDB文件，解压到程序主目录，就是有bin目录的那一层目录；</p>
+<h2 id="Worldserver-and-Authserver-configurations"><a href="#Worldserver-and-Authserver-configurations" class="headerlink" title="Worldserver and Authserver configurations"></a>Worldserver and Authserver configurations</h2><p>更新数据库的<strong>Realmlist Table</strong></p>
+<p>Open the <strong>auth</strong> database and find the <strong>realmlist</strong> table. You need to edit the <code>address</code> field </p>
+<ul>
+<li>LAN IP (192.168.x.x) - If you are installing TrinityCore on a different computer from where you run WoW, but all the computers involved are on the same network (router) use that computer’s Local Area Network IP.</li>
+<li>127.0.0.1 - Also known as “localhost”. Leave this setting alone here and in your configs if you’ve installed TrinityCore on the same computer you run WoW on, and only you are connecting to it.</li>
+<li>External IP – If you want other people to connect to your server, use your external IP. Visit <a href="http://www.whatismyip.com/" target="_blank" rel="noopener">http://www.whatismyip.com/</a> to find your external IP address.</li>
+</ul>
+<h2 id="Account-Creation-Examples"><a href="#Account-Creation-Examples" class="headerlink" title="Account Creation Examples:"></a>Account Creation Examples:</h2><h2 id="3-3-5"><a href="#3-3-5" class="headerlink" title="3.3.5"></a>3.3.5</h2><p><strong>To create your account: very important, don’t use @ on account names.</strong></p>
+<p>Type: *<em>account create  *</em></p>
+<p>Example: <strong>account create test test</strong></p>
+<p><strong>To set your account level:</strong></p>
+<p>Type: <strong>account set gmlevel  3 -1</strong></p>
+<p>Example: <strong>account set gmlevel test 3 -1</strong></p>
+<p><strong>Login to your account:</strong></p>
+<p>Log in with account <strong>test</strong> and <strong>password</strong> test through <strong>wow.exe.</strong></p>
+<h2 id="master"><a href="#master" class="headerlink" title="master"></a>master</h2><p><strong>To create your account:</strong></p>
+<p>Type: *<em>bnetaccount create  *</em></p>
+<p>Example: <strong>bnetaccount create test@test test</strong></p>
+<p><strong>To set your account level:</strong></p>
+<p>Type: <strong>account set gmlevel  3 -1</strong></p>
+<p>Example: <strong>account set gmlevel 1#1 3 -1</strong></p>
+<p>Note: The <strong>username</strong> used for setting your <strong>gmlevel</strong> is <strong>not the same as</strong> the <strong>username</strong> you create with <strong>bnetaccount</strong>. You must manually <strong>find</strong> the <strong>username in auth.account.username</strong>. These are formatted as <strong>1#1, 2#1, etc.</strong></p>
+<p><strong>NOTE2: if you have connected before using this command you will need to relog.</strong></p>
+<p><strong>Login to your account:</strong></p>
+<p>Log in with email <strong>test@test</strong> and password <strong>test</strong>.through a <strong>Custom Client Launcher (Not provided).</strong></p>
+<h2 id="Client-Setup"><a href="#Client-Setup" class="headerlink" title="Client Setup"></a>Client Setup</h2><p>3.35only</p>
+<ul>
+<li>Open the realmlist.wtf file inside your World of Warcraft\Data folder. The IP in the realmlist.wtf file should be exactly the same as the IP address you entered in the realmlist table above.<ul>
+<li>Change the first line to: *<em>set realmlist *</em></li>
+<li>Example: <strong><em>set realmlist 127.0.0.1\</em></strong></li>
+</ul>
+</li>
+<li>(Optional) If you wish to use the WoW Launcher.exe to run your client then you must change your <strong>set patchlist</strong> to the same ip/dns name as your realmlist.</li>
+</ul>
+<p>master only</p>
+<ul>
+<li>Change <strong>Config.wtf</strong>: SET portal “****”</li>
+<li>The IP in the Config.wtf file should be exactly the same as the IP address you entered in the realmlist table above. (Example: <strong>SET portal “127.0.0.1”</strong>)</li>
+</ul>
+<p>Note: you will need a custom client launcher (not provided) to connect to master branch server.</p>
+<p>NOTE don’t use localhost for address, if you need to connect to localhost use 127.0.0.1</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/103-%E4%B8%BAnginx%E5%88%9B%E5%BB%BAssl%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1887,159 +2084,6 @@ P caPabilities differ</code></pre><h3 id="验证包来源合法性和完整性">
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/4-Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/31/4-Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/" class="post-title-link" itemprop="url">Linux实现LVM逻辑卷及快照</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-01 04:26:12 / 修改时间：12:28:23" itemprop="dateCreated datePublished" datetime="2020-06-01T04:26:12+08:00">2020-06-01</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="LVM2"><a href="#LVM2" class="headerlink" title="LVM2"></a>LVM2</h1><p>Logical Volume Manager, Version2;</p>
-<p>dm device mapper:<br>将一个或者多个底层块设备组织成一个逻辑设备;</p>
-<h2 id="PV"><a href="#PV" class="headerlink" title="PV"></a>PV</h2><p>查看 :<br>    pvs    #简要;<br>    pvdisplay   #详细;<br>创建 :<br>    pvcreate /dev/DEVICE </p>
-<h2 id="VG"><a href="#VG" class="headerlink" title="VG"></a>VG</h2><p><strong>查看:</strong><br>    vgs<br>    vgdisplay<br><strong>创建:</strong><br>    vgcreate VG_NAME PV_DEVICE</p>
-<p>-s PE大小</p>
-<p>-P 最大PV数</p>
-<p><strong>例如：</strong></p>
-<p>vgcreate myvg /dev/sdb1 /dev/sdc1</p>
-<p>扩展：<br>    vgextend vgNAME PhysicalDevicePath [PhysicalDevicePath] #扩展;<br>缩减：<br>    vgreduce vgNAME PhysicalDevicePath [PhysicalDevicePath] #缩减;<br><strong>修改</strong><br><strong>删除</strong><br>顺序执行<br>    lvremove<br>    vgremove<br>    pvremove</p>
-<h2 id="LV"><a href="#LV" class="headerlink" title="LV"></a>LV</h2><p><strong>查看</strong><br>    lvs #简要;<br>    lvdisplay   #详细;<br><strong>创建</strong><br>    lvcreate -L #[mMgGtT] -n NAME VolumeGroup(VG) </p>
-<p><strong>修改</strong><br>扩容：</p>
-<ol>
-<li><p>逻辑边界 </p>
-</li>
-<li><p>物理空间<br>lvextend -L #目标大小 [+][mMgGtT] #要增加的大小 /dev/VG_NAME/LV_NAME #扩展物理大小;</p>
-<p>example: lvextend –size +2g /dev/testvg/testlv</p>
-</li>
-<li><p>resize2fs /dev/VG_NAME/LV_NAME  #重新设置分区大小;</p>
-</li>
-</ol>
-<p>缩减：</p>
-<ol>
-<li>逻辑边界 #先卸载文件系统，离线进行，在线有文件丢失风险;</li>
-<li>物理空间<br>umount /dev/VG_NAME/LV_NAME<br>e2fsck -f /dev/VG_NAME/LV_NAME<br>resize2fs /dev/VG_NAME/LV_NAME #[mMgGtT]<br>lvreduce -L [-][mMgGtT] /dev/VG_NAME/LV_NAME    #注意 <code>-L</code> 和 + 的区别；# 如果是其他文件系统，使用其他工具;<br>mount<br>删除：<br>lvremove /dev/VG_NAME/LV_NAME<br>vgremove<br>pvremove</li>
-</ol>
-<h2 id="练习1"><a href="#练习1" class="headerlink" title="练习1:"></a>练习1:</h2><p>创建一个至少有两个PV组成的大小为20G的名为testvg的VG；要求PE大小为16MB；<br>而后在卷组中创建大小为5G的逻辑卷testlv；挂载至/users目录；</p>
-<p><code>pvcreate /dev/sdb1 /dev/sdc1</code></p>
-<p><code>vgcreate -s 16m testvg /dev/sdb1 /dev/sdc1</code></p>
-<p><code>lvcreate -L 5G -n testlv testvg</code></p>
-<p><code>mkfs -v -t ext4 /dev/mapper/testvg-testlv</code></p>
-<p><code>mkdir -pv /users</code></p>
-<p><code>mount /dev/mapper/testvg-testlv /users/</code></p>
-<p>练习2：<br>新建用户archlinux，要求其家目录为/users/archlinux, 而后su切换至archlinux用户，复制/etc/pam.d目录至自己的家目录；</p>
-<p><code>mkdir -pv /users/archlinux</code></p>
-<p><code>useradd -d /users/archlinux/ archlinux</code></p>
-<p><code>su archlinux</code></p>
-<p><code>cp -av /etc/pam.d ~</code></p>
-<p>练习3：扩展testlv至7G，要求archlinux用户的文件不能丢失；</p>
-<p>umount /dev/mapper/testvg-testlv</p>
-<p>lvextend -L 7g /dev/testvg/testlv</p>
-<p>e2fsck -f /dev/mapper/testvg-testlv</p>
-<p>resize2fs /dev/mapper/testvg-testlv 7g</p>
-<p>mount /dev/mapper/testvg-testlv /users/</p>
-<p>练习4：收缩testlv至3G，要求archlinux用户的文件不能丢失；</p>
-<p>umount /dev/mapper/testvg-testlv<br>e2fsck -f /dev/mapper/testvg-testlv<br>resize2fs /dev/mapper/testvg-testlv 3g<br>lvreduce -L 3g /dev/testvg/testlv<br>mount /dev/mapper/testvg-testlv /users/</p>
-<h2 id="文件系统挂载使用中的问题："><a href="#文件系统挂载使用中的问题：" class="headerlink" title="文件系统挂载使用中的问题："></a>文件系统挂载使用中的问题：</h2><p>挂载光盘设备：<br>光盘设备文件: /dev/<br>    IDE: /dev/hdc<br>    SATA: /dev/sr0<br>符号链接文件：<br>    /dev/cdrom<br>    /dev/dvdrom<br>    /dev/dvd</p>
-<p>挂载：<br>mkdir -pv /medir/cdrom<br>mount -r /dev/sr0 /media/cdrom</p>
-<p>U 盘的挂载：<br>新挂载的设备，以大小来判断：<br>    /dev/sdx<br>    fdisk -l</p>
-<p>一个小命令的应用<br>DD： 一个实现文件底层拷贝的工具<br>复制命令<br>convert and copy a file<br>用法：<br>dd if=/PATH/FROM/SRC of=/PATH/TO/DEST<br>bs=# blocksize 块大小 默认为字节；<br>count=# 数量 多少个上面的块；<br>因为是复制的底层实现，所以拷贝效率高：<br>直接拷贝磁盘：<br>dd if=/dev/sda of=/dev/sdb</p>
-<p>备份MBR<br>dd if=/dev/sda of=/mbr.bak bs=512 count=1</p>
-<p>损坏MBR #瞬间让一个磁盘分区表失效<br>dd if=/dev/zero of=/dev/sda bs=512 count=1</p>
-<p>精准破坏BootLoader：<br>dd if=/dev/zero of=/dev/sda bs=256 count=1</p>
-<h2 id="两个特殊设备："><a href="#两个特殊设备：" class="headerlink" title="两个特殊设备："></a>两个特殊设备：</h2><p>/dev/null   数据黑洞<br>/dev/zero   吐零机</p>
-<p>测试硬盘系统读写速度：<br>dd if=/dev/zero of=/dev/null bs=1G count=2</p>
-<h1 id="快照：-snapshot"><a href="#快照：-snapshot" class="headerlink" title="快照： snapshot"></a>快照： snapshot</h1><p>对文件系统做快照，相当于对文件系统在某一时间做一次快速扫描，<br>备份<br>序列化<br>文件序列化后如何还原；<br>因为备份的时间短，在备份时后面的数据如果发生改变的话，会造成备份后的数据和原来想要备份的不一样<br>所以需要对文件做一次快照；<br>快照卷，类似于硬链接，执行原来的文件，本来是不存在任何数据的，监控原数据，任何时刻，当文件要变化时，拷贝一份；</p>
-<p>使用 LVM 创建 Linux 快照<br><code>lvcreate -s [-L &lt;size&gt;] -n SNAP_VOLUME SOURCE_VOLUME_PATH</code><br>如果不指定大小，快照会创建为瘦快照。<br><code>lvcreate -s -L 1G -n linux01-snap /dev/lvm/linux01</code><br>快照将被创建为 /dev/lvm/linux01-snap 卷。</p>
-<p>-p #读写权限 -s -n snapshot_lv_name </p>
-<p>监视快照<br><code>lvdisplay SNAP_VOLUME</code></p>
-<p>删除 Linux 快照<br><code>lvremove SNAP_VOLUME_PATH</code></p>
-<p>例如：<br><code>sudo lvremove /dev/lvmvg/linux01-snap</code></p>
-<p>存储快照的原理：</p>
-<p><img src="https://pic3.zhimg.com/v2-dbdc599a74b0cfa0b311e56e2642797d_1200x500.gif" alt=""><br>快照是完全可用的拷贝，但不是一份完整的拷贝;</p>
-<p>存储快照的使用场景:<br>场景一：<br>存储快照，是一种数据保护措施，可以对源数据进行一定程度的保护，通俗地讲，可以理解为—-后悔药。<br><img src="https://pic1.zhimg.com/80/v2-ce2e26a65fb74f821def18ff0c9fc0d4_720w.jpg" alt=""><br>如上图，假设在t0时刻，有一份完整的源数据，我们在t1时刻，针对这份源数据创建一份快照。</p>
-<p>t2时刻，若因为各种原因（误操作、系统错误等）导致源数据损毁，那么，我们可以通过回滚（rollback）快照，将源数据恢复至快照创建时的状态（即t1时刻），这样，可以尽量降低数据损失（损失的数据，是t1到t2之间产生的数据）。</p>
-<p>这种功能，常用于银行、公安户籍、科研单位等。操作系统、软件升级或机房设备更替，一般会选择在夜间或其他无生产业务时，进行高危操作，操作前会对数据进行快照，若操作失败，则将快照进行rollback，将源数据恢复至操作前的状态。</p>
-<p>场景2：<br>前面说过，快照是一份完全可用的副本，那么，它完全可以被上层业务当做源数据;<br><img src="https://pic2.zhimg.com/80/v2-c19d1d2e7e3ac832c3e1887294ce1231_720w.jpg" alt=""><br>如上图，针对源数据，创建快照后，将快照卷映射给其他上层业务，可以用于数据挖掘和开发测试等工作，针对快照的读操作不影响源卷的数据。</p>
-<p>这种功能，常用于直播（视频&amp;图片）鉴黄、科研数据模拟开发测试等，比如，视频直播平台需要将某一段时间的视频提供给执法机构进行筛查分析，那么可以通过对特定时间点保存的数据创建快照，将快照映射给执法机构的业务主机去进行挖掘分析。</p>
-<p>存储快照的实现原理<br>目前，快照的实现方式均由各个厂商自行决定，但主要技术分为2类，一种是写时拷贝COW（Copy On Write），另一种，是写重定向ROW（Redirect On Write）。</p>
-<p>写时拷贝COW<br>COW(Copy-On-Write)，写时拷贝，也称为写前拷贝。<br>创建快照以后，如果源卷的数据发生了变化，那么快照系统会首先将原始数据拷贝到快照卷上对应的数据块中，然后再对源卷进行改写。<br><img src="https://pic3.zhimg.com/v2-cf04fb26d7526ece20fda116c47aa936_b.webp" alt=""></p>
-<p>写操作：</p>
-<p>如上图简要示例，快照创建以后，若上层业务对源卷写数据X，X在缓存中排队，快照系统将X即将写入的位置（逻辑地址）上的数据Y，拷贝到快照卷中对应的位置（逻辑地址）上，同时，生成一张映射表，表中一列记录源卷上数据变化的逻辑地址，另一列记录快照卷上数据变化的逻辑地址。我们可以看到，上层业务每下发一个数据块，存储上，发生了两次写操作：一次是源卷将数据写入快照卷（即图中Y），一次是上层业务将数据写入源卷（即图中X）。<br><img src="https://pic4.zhimg.com/v2-d65390e6faee92f05481f56c203edc5f_b.webp" alt=""></p>
-<p>读操作：</p>
-<p>如上图，快照卷若映射给上层业务进行数据分析等用途时，针对快照进行读操作时，首先由快照系统判断，上层业务需要读取的数据是否在快照卷中，若在，直接从快照卷读取，若不在，则查询映射表，去对应源卷的逻辑地中读取（这个查表并去源卷读的操作，也叫读重定向）。这一点，恰好就解释了为什么快照是一份完全可用的副本，它没有对源卷进行100%的拷贝，但对上层业务来说，却可以将快照看做是和源卷“一模一样”的副本。</p>
-<p>针对源卷进行读操作时，与快照卷没有数据交互。</p>
-<p>我们可以看到，快照对源卷的数据具有很好的保护措施，快照可以单独作为一份可以读取的副本，但并没有像简单的镜像那样，一开始就占用了和源卷一样的空间，而是根据创建快照后上层业务产生的数据，来实时占用必需的存储空间。</p>
-<p>快照回滚（rollback）：<br><img src="https://pic1.zhimg.com/v2-c1865d4d0044c54fc857adb9956511a0_b.webp" alt=""></p>
-<p>如上图，回滚操作的前提条件是，锁定源卷（暂停对待回滚的逻辑地址上的IO操作），然后通过查映射表，将快照卷上的对应数据回拷到源卷中。</p>
-<p>快照删除：</p>
-<p>采用COW技术的快照，其源卷即保存着完整的实时数据，因此，删除快照时，直接销毁了快照卷和映射表，与源卷不存在数据交互。</p>
-<p>写时重定向ROW<br>ROW(Redirect-on-write )，也称为写时重定向。</p>
-<p>创建快照以后，快照系统把对数据卷的写请求重定向给了快照预留的存储空间，直接将新的数据写入快照卷。上层业务读源卷时，创建快照前的数据从源卷读，创建快照后产生的数据，从快照卷读。<br><img src="https://pic2.zhimg.com/v2-e5f7abc31f11459d563eee8cd9cae269_b.webp" alt=""></p>
-<p>写操作：</p>
-<p>如上图简要示例，快照创建以后，若上层业务对源卷写数据X，X在缓存中排队，快照系统判断X即将写入源卷的逻辑地址，然后将数据X写入快照卷中预留的对应逻辑地址中，同时，将源卷和快照卷的逻辑地址写入映射表，即写重定向。我们可以看到，上层针对源卷写入一个数据块X，存储上只发生一次写操作，只是写之前进行了重定向。</p>
-<p>读操作：</p>
-<p>若快照创建以后，上层业务对源卷进行读，则有两种情况：1）若读取的数据，在创建快照前产生，数据是保存在源卷上的，那么，上层就从源卷进行读取；2）若需要读取的数据是创建快照以后才产生的，那么上层就查询映射表，从快照卷进行读取（即读重定向）。</p>
-<p>若快照创建以后，上层业务对快照卷进行读，同样也有两种情况：1）若读取的数据，在创建快照前产生，数据是保存在源卷上的，那么上层就查询映射表，从源卷进行读取；2）若需要读取的数据是创建快照以后才产生的，那么上层就直接从快照卷进行读取。</p>
-<p>我们可以看到，ROW快照也是根据创建快照后上层业务产生的数据，来实时占用必需的存储空间。</p>
-<p>快照回滚（rollback）：</p>
-<p>采用ROW技术的快照，其源卷始终保存着快照创建前的完整数据，快照创建后，上层业务产生的数据都写入了快照中，因此，快照的回滚只是取消了对源卷的读重定向操作。通俗地说，就是源卷上没有进行任何数据操作，上层业务对源卷的读，仅限于读源卷（即不会去读取快照卷的数据）。</p>
-<p>快照删除：<br><img src="https://pic4.zhimg.com/v2-ff2b6084856227cde5386203a2ca6183_b.webp" alt=""><br>采用ROW技术的快照，其源卷始终保存着快照创建前的完整数据，快照创建后，上层业务产生的数据都写入了快照中。因此，若要删除快照，必然要先将快照卷中的数据，回拷到源卷中，拷贝完成才能删除，如上图。此时我们可以设想，如果，针对一份源数据，在18:00创建了快照，上层业务持续产生大量新的数据，19:00又创建了快照，20:00又创建了快照……那么，在有多份快照的情况下，如果需要删除快照，就会出现，多个快照向源卷回拷数据的情况，可能导致回拷量非常大，耗时很长。</p>
-<p>两种技术对比<br><img src="https://pic3.zhimg.com/80/v2-948ac88dbe0a3cd5adb5e4554e73735e_720w.jpg" alt=""></p>
-<p>如上表，COW的写时拷贝，导致每次写入都有拷贝操作，大量写入时，源卷的写性能会有所下降，而读源卷是不会受到任何影响的，删除快照时，只是解除了快照和源卷的关系，同时删除了快照卷的数据而已。ROW在每次写入仅做了重定向操作，这个操作耗时是几乎可以忽略不计的，源卷的写性能几乎不会受到影响，但读源卷时，则需要判断数据是创建快照前还是创建快照后，导致大量读时，性能受到一定影响，比较致命的是，若源卷有多个快照，在删除快照时，所有快照的数据均需要回拷到源卷才可以保证源卷数据的完整性。</p>
-<p>总结：<br>上面简单地介绍了存储快照的实现原理，实际上，快照特性应用广泛，其应用对象是很多的：<br><img src="https://pic4.zhimg.com/80/v2-35e470c5846221bd84c836f117457d73_720w.jpg" alt=""></p>
-<p>目前，主流厂商在自研产品上，对上面的ROW和COW技术都有小范围的改动，也有一些新兴的快照技术已经诞生，但这个行业里，没有最好的快照技术。技术为业务服务，只有针对业务类型做好本地化适配，才能达到最佳效用。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://zhuanlan.zhihu.com/p/39916936" target="_blank" rel="noopener">知乎：揭秘：存储快照的实现</a><br><a href="https://documentation.suse.com/zh-cn/sles/12-SP4/html/SLES-all/cha-lvm-snapshots.html" target="_blank" rel="noopener">LVM 卷快照</a><br><a href="https://documentation.suse.com/zh-cn/sles/12-SP4/html/SLES-all/part-lvm.html" target="_blank" rel="noopener">逻辑卷 (LVM)</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2109,7 +2153,7 @@ P caPabilities differ</code></pre><h3 id="验证包来源合法性和完整性">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
