@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="文本处理三剑客： sed、awk、grep SED 不处理源文件，每次读入一行到自己的工作空间（模式空间），处理完成之后输出至标准输出 默认会处理所有行，我们可以指定让他处理匹配到的行 因此； 先读入一行，然后判断是否匹配我们给的PATTERN 匹配到处理 不匹配不做任何处理 pattern space ​    &#x2F;            \ no                yes |">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12.sed">
+<meta property="og:url" content="http://yoursite.com/2020/05/31/12-sed/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:description" content="文本处理三剑客： sed、awk、grep SED 不处理源文件，每次读入一行到自己的工作空间（模式空间），处理完成之后输出至标准输出 默认会处理所有行，我们可以指定让他处理匹配到的行 因此； 先读入一行，然后判断是否匹配我们给的PATTERN 匹配到处理 不匹配不做任何处理 pattern space ​    &#x2F;            \ no                yes |">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-31T20:27:31.000Z">
+<meta property="article:modified_time" content="2020-06-01T04:31:03.163Z">
+<meta property="article:author" content="lcxiao">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/05/31/12-sed/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>12.sed | Lcxiao's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lcxiao's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lcxiao's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-lifestyle">
+
+    <a href="/lifestyle/" rel="section"><i class="fa fa-fw fa-lifestyle"></i>LifeStyle</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/12-sed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          12.sed
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-01 04:27:31 / 修改时间：12:31:03" itemprop="dateCreated datePublished" datetime="2020-06-01T04:27:31+08:00">2020-06-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>文本处理三剑客：</p>
+<p>sed、awk、grep</p>
+<p>SED</p>
+<p>不处理源文件，每次读入一行到自己的工作空间（模式空间），处理完成之后输出至标准输出</p>
+<p>默认会处理所有行，我们可以指定让他处理匹配到的行</p>
+<p>因此；</p>
+<p>先读入一行，然后判断是否匹配我们给的PATTERN</p>
+<p>匹配到处理</p>
+<p>不匹配不做任何处理</p>
+<p>pattern space</p>
+<p>​    /            \</p>
+<p>no                yes</p>
+<p>|                /        |</p>
+<p>|            /    edit –&gt; stdout</p>
+<p>stdout                    |</p>
+<p>​                        hold space</p>
+<p>逐行读入，匹配处理</p>
+<p>sed [OPTION]… ‘script’ [input-file]…</p>
+<ul>
+<li>script :地址定界编辑命令（直接写在一起）</li>
+<li>-n 不输出，（读入之后一定会输出stdout，匹配到的会进行编辑）如果不希望输出，使用这个选项，不输出模式空间的内容；</li>
+<li>-e script ; –expression=script :多点编辑<ul>
+<li>sed -e ‘s@^#[[:space:]]*@@’ -e ‘/^UUID/d’ /etc/fstab</li>
+</ul>
+</li>
+<li>-f  script-file 每行一个编辑命令</li>
+<li>-r –regexp-extended ：支持使用扩展正则表达式</li>
+<li>-i[SUFFIX], –in-place[=SUFFIX] ： 直接编辑源文件</li>
+</ul>
+<p>地址定界：</p>
+<ol>
+<li>不给地址：空地址，对全文进行编辑</li>
+<li>单地址：<ul>
+<li>#：指定行</li>
+<li>/pattern/：被此模式匹配到的每一行；</li>
+</ul>
+</li>
+<li>地址范围<ul>
+<li>#.# :</li>
+<li>#,+#:</li>
+<li>#,/pat1/<ul>
+<li>/pat1/,/pat2/</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>步进：~<ul>
+<li>1-2：所有奇数行</li>
+<li>2-2：所有偶数行</li>
+</ul>
+</li>
+</ol>
+<p>​    </p>
+<p>编辑命令:</p>
+<p>d 删除 注意删除的就不会再显示了,因为匹配到的内容被删除了，显示的是未删除的内容</p>
+<p>p 显示模式空间中的内容；（如不加-n选项指定行会被显示2遍）</p>
+<p>a \text ：在行后面追加文本“text”，支持使用\n添加多行</p>
+<p>i \text：在行前面添加文本，支持使用\n插入多行</p>
+<p>c \text：把匹配到的行替换为此处指定的文本“text”</p>
+<p>w /path/to/somewhere：保存模式空间匹配到的行至指定的文件中；</p>
+<p>r /path/from/somefile：读取指定的文件的内容至当前文件被模式匹配到的行后面，文件合并；</p>
+<p>=：模式匹配到的行加行号</p>
+<p>！：条件取反：格式为地址定界!编辑命令；</p>
+<p>s///：查找替换，其分隔符可自行指定。常用s@@@，s###等；</p>
+<p>替换标记：</p>
+<ul>
+<li>g：全局</li>
+<li>w /path/to/somefile：将替换成功的结果保存至指定文件中；</li>
+<li>p：显示替换成功的行；</li>
+</ul>
+<p>练习1：删除/boot/grub/grub2.cfg文件中所有以空白字符开头的行的行首的所有空白字符；</p>
+<p>sed ‘s@^[[:space:]]+@@’ /boot/grub2/grub.cfg </p>
+<p>练习2：删除/etc/fstab文件中所有以#开头的行的行首的#号以及#号后面的所有空白字符；</p>
+<p>sed ‘s@^#[[:space:]]*@@’ /etc/fstab</p>
+<p>练习3：输出一个绝对路径给sed，取出其目录，其行为类似dirname</p>
+<p>echo “/var/log/messages” | sed ‘s@[^/]+?$@@’</p>
+<p>echo “/var/log/messages/“ | sed -r ‘s@[^/]+/?$@@’</p>
+<p>高级编辑命令：</p>
+<ul>
+<li>h：把模式空间中的内容覆盖至保持空间中；</li>
+<li>H：把模式空间中的内容追加至保持空间中；</li>
+<li>g：把保持空间中的内容覆盖至模式空间中；</li>
+<li>G：把保持空间中的内容追加至模式空间中；</li>
+<li>x：把模式空间中的内容与保持空间中的内容互换；</li>
+<li>n：覆盖读取匹配到的行的下一行至模式空间中；</li>
+<li>N：追加读取匹配到的行的下一行至模式空间中；</li>
+<li>d：删除模式空间中的行；</li>
+<li>D：删除多行模式空间中的使用行；</li>
+</ul>
+<p>示例：</p>
+<p>​    sed -n ‘n;p’ /etc/fstab：显示偶数行；</p>
+<p>​    sed ‘1!G;h;$!d’ file：逆序显示；</p>
+<p>​    sed ‘$!N;$!D’ /etc/fstab :最后两行;</p>
+<p>​    sed ‘/^$/d;G’ file：删除所有空白行，而后为每行后面加一个空白行</p>
+<p>​    sed ‘n;d’ FILE：显示奇数行；</p>
+<p>​    sed ‘G’ file：在原有的每行后面添加空白行，包括原来的空白行</p>
+<p>注意：在任何修改系统关键配置文件的时候，记得要先做备份，而且要定期对/etc目录做备份</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/31/11-yum%E5%AE%9E%E6%88%98%E8%BF%9B%E9%98%B6%E5%8F%8Ashell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98/" rel="prev" title="11.yum实战进阶及shell脚本实现磁盘管理实战">
+      <i class="fa fa-chevron-left"></i> 11.yum实战进阶及shell脚本实现磁盘管理实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/31/103-%E4%B8%BAnginx%E5%88%9B%E5%BB%BAssl%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/" rel="next" title="103.为nginx创建ssl自签证书">
+      103.为nginx创建ssl自签证书 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lcxiao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://163.com/" title="http:&#x2F;&#x2F;163.com" rel="noopener" target="_blank">163</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://baidu.com/" title="http:&#x2F;&#x2F;baidu.com" rel="noopener" target="_blank">baidu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/dalipan.com" title="dalipan.com">dalipan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://google.com/" title="https:&#x2F;&#x2F;google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lcxiao</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
