@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="系统启动流程Linux系统组成部分：内核，根文件系统内核：进程管理，内存管理、网络协议栈、文件系统、驱动程序、安全功能（加密解密协议栈。selinux）    IPC：Inter Process Communication    消息队列、semerphor、shm    socket文件系统工作在内核空间 启动分区：&#x2F;bootrootfs：FHS：&#x2F;bin &#x2F;sbin &#x2F;lib &#x2F;proc &#x2F;s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="19.Linux系统启动流程">
+<meta property="og:url" content="http://yoursite.com/2020/06/15/19-Linux%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:description" content="系统启动流程Linux系统组成部分：内核，根文件系统内核：进程管理，内存管理、网络协议栈、文件系统、驱动程序、安全功能（加密解密协议栈。selinux）    IPC：Inter Process Communication    消息队列、semerphor、shm    socket文件系统工作在内核空间 启动分区：&#x2F;bootrootfs：FHS：&#x2F;bin &#x2F;sbin &#x2F;lib &#x2F;proc &#x2F;s">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-15T05:10:58.000Z">
+<meta property="article:modified_time" content="2020-06-15T13:11:12.352Z">
+<meta property="article:author" content="lcxiao">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/15/19-Linux%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>19.Linux系统启动流程 | Lcxiao's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lcxiao's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lcxiao's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-lifestyle">
+
+    <a href="/lifestyle/" rel="section"><i class="fa fa-fw fa-lifestyle"></i>LifeStyle</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/19-Linux%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          19.Linux系统启动流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-15 13:10:58 / 修改时间：21:11:12" itemprop="dateCreated datePublished" datetime="2020-06-15T13:10:58+08:00">2020-06-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="系统启动流程"><a href="#系统启动流程" class="headerlink" title="系统启动流程"></a>系统启动流程</h1><p>Linux系统组成部分：内核，根文件系统<br>内核：进程管理，内存管理、网络协议栈、文件系统、驱动程序、安全功能（加密解密协议栈。selinux）<br>    IPC：Inter Process Communication<br>    消息队列、semerphor、shm<br>    socket<br>文件系统工作在内核空间</p>
+<p>启动分区：/boot<br>rootfs：FHS：/bin /sbin /lib /proc /sys /etc<br>init 程序–</p>
+<p>内核设计流派：</p>
+<ul>
+<li>单内核 ：所有功能集成与同一个程序；<ul>
+<li>Linux</li>
+</ul>
+</li>
+<li>微内核 ：每种功能使用一个单独的子系统实现；<ul>
+<li>Windows，Solaris</li>
+</ul>
+</li>
+</ul>
+<p>Linux内核特点：</p>
+<ul>
+<li>支持模块化    .ko（Kernel Object）</li>
+<li>支持模块运行时动态装载或卸载；</li>
+<li>ramdisk 使用缓存和缓冲来加速对磁盘上的文件访问；</li>
+</ul>
+<p>Linux内核组成部分：</p>
+<ul>
+<li>核心文件  /boot/vmlinuz-VERSION-release</li>
+<li>模块文件  /lib/modules/VERSION-release</li>
+</ul>
+<p>vmlinux —-&gt; ramdisk —-&gt; rootfs<br>内核    –  临时根文件系统  –  切换真正的根文件系统<br>ramdisk：<br>centos5 /boot/initrd-VERSION-release.img<br>CentOS6,7: /boot/initramfs-VERSION-release.img</p>
+<p>模块文件：/lib/modules/VERSION-release </p>
+<p>PC架构的主机系统启动流程，（MBR）：<br>POST：rom（只读）CMOS –BIOS–basic input output system<br>ROM + RAM<br>加电自检<br>Boot Sequence：启动次序,按次序查找各引导设备；第一个有引导程序的设备即为本次启动要用到的设备；<br>bootloader：引导加载器，程序；<br>    windows：ntloader<br>    linux：<br>        LILO：Linux loader<br>        grub ：grand uniform BootLoader<br>        grub0.X grub legacy<br>        grub1.x grub2<br>功能：提供一个界面，允许用户选择要启动的系统或者不同版本的内核，把用户选定的内核装载到RAM中的特定空间中，解压、展开而后把系统控制权移交给内核；</p>
+<p>MBR：Master Boot Record<br>    512bytes:<br>        446bytes:bootloader<br>        64bits:fat<br>        2bytes:55AA<br>GRUB:<br>    Bootloader:1st stage<br>    partition :filesystem driver ,1.5 stage<br>    partition : /boot/grub 2nd stage</p>
+<p>之后是kernel：<br>    自身初始化：<br>        探测可识别到的所有硬件设备<br>        加载硬件驱动程序；（有可能会借助于ramdisk加载驱动）<br>        以只读方式挂载根文件系统；<br>        运行用户空间的第一个程序；INIT?<br>    ramdisk 动态创建；</p>
+<p>INIT文件类型:<br>SYSV,Upstart,Systemd<br>    CentOS5:SysV init 配置文件/etc/inittab<br>    CentOS6: Upstart /etc/inittab   /etc/init/*.conf<br>    CentOS7:Systemd 配置文件：/usr/lib/systemd/system/,/etc/systemd/system<br>注意GPT、UEFI可能不一样？</p>
+<p>安卓手机使用lilo引导</p>
+<p>对自己编译的内核来说，ramdisk可以是非必须的，（直接把硬盘驱动编译至内核）<br>可以使用工具创建：<br>CentOS5：mkinitrd<br>centos6，7<br>initramfs 工具程序<br>dracut ，mkinitrd</p>
+<p>系统初始化流程（内核级别）：POST–BootSequence（BIOS）–BootLoader（MBR）–kernel(ramdisk)–rootfs(readonly)–/sbin/init?</p>
+<p>sbin/init:<br>SysV init:<br>运行级别 （0-6）</p>
+<ul>
+<li>0 ：关机</li>
+<li>1 单用户级别  root 无需认证 ；维护模式</li>
+<li>2 带网络的单用户  启动网络功能，不会启动NFS，维护模式</li>
+<li>3 multiuser mode 多用户。完全认证，完整模式</li>
+<li>4 预留，未用</li>
+<li>5 graphic mode 图形界面</li>
+<li>6 重启</li>
+</ul>
+<p>默认3 5<br>级别切换 init #<br>级别查看：<br>who -r<br>runlevel</p>
+<p>配置文件： /etc/inittab</p>
+<p>CentOS5：每行定义一种action以及与之对应的process<br>id：runlevels：action：process<br>    id：一个任务的标识符<br>    runleves：在哪些级别启动此任务；#，###，也可以为空，表示所有级别；<br>    action：在什么条件下启动此任务；<br>    process：任务；</p>
+<p>action：<br>    wait：等待切换至此任务所在的级别时执行一次；<br>    respawn：一旦此任务终止，就自动重新启动之；<br>    initdefault：设定默认运行级别；此时，process省略；<br>    sysinit：设定系统初始化方式，此处一般为指定/etc/rc.d/ec.sysinit脚本；</p>
+<p>例如：<br>id：3:initdefault:<br>si::sysinit:/etc/rc.d/ec.sysinit<br>l0:0:wait:/etc/rc.d/rc 0<br>    意味着去启动或关闭/etc/rc.d/rc3.d/目录下的服务脚本所控制服务；<br>    K* ：要停止的服务；K##<em>，优先级，数字越小，越是优先关闭；依赖的服务先关闭；而后关闭被依赖的；<br>    S</em>：要启动的服务；S##*，优先级，数字越小，越是优先启动，被依赖的服务先启动，而依赖的服务后启动；</p>
+<p>rc脚本：接受一个运行级别数字为参数；<br>脚本框架:<br>for srv in /etc/rc.d/rc#.d/K*;do<br>    $srv stop<br>done</p>
+<p>for srv in /etc/rc.d/rc#.d/S*;do<br>    $srv start<br>done</p>
+<p>/etc/init.d/* 脚本执行方式：<br>service SRV_SCRIPT {start | stop | status |restart}<br>/etc/init.d/SRV_SCRIPT {start | stop |status |restart}</p>
+<p>Chkconfig 管理这些脚本软连接的<br>管控/etc/init.d /每个服务脚本在各级别下的启动和关闭状态；</p>
+<p>chkconfig SERVICE on | off<br>脚本文件中 “-” 表示 所有级别全关<br>chkconfig –list</p>
+<p>刚添加的脚本还没有创建链接？<br>chkconfig –add<br>chkconfig –del</p>
+<p>#chkconfig：LLL NN NN   LLL：运行级别。NN：开启优先级 NN：关闭优先级<br>#description：说明</p>
+<p>修改指定的链接类型<br>chkconfig {–level LEVELS} name 《on | off | reset》<br>默认2345</p>
+<p>正常级别下，最后一个启动的服务S99local没有链接至/etc/init.d下的某脚本，而是链接到了/etc/rc.d/rc.local脚本；因此，不方便或者不需写服务脚本的程序期望开机自动运行时，直接放置于此脚本文件中即可；</p>
+<p>rc.local<br>用户自定义开机运行的程序</p>
+<p>tty1：:2345：respawn：/usr/sbin/mingetty tty1<br>mingetty会调用login，<br>打开虚拟终端的程序除了mingetty之外，还有诸如getty等；</p>
+<p>系统初始化脚本 /etc/rc.d/rc.sysinit</p>
+<ul>
+<li>设置主机名</li>
+<li>设置欢迎信息</li>
+<li>激活udev和selinux （udev主要是创建设备文件）</li>
+<li>挂载/etc/fstab文件中定义的所有文件系统；</li>
+<li>检测根文件系统，并以读写方式重新挂载根文件系统；</li>
+<li>设置系统时钟</li>
+<li>根据/etc/sysctl.conf文件来设置内核参数</li>
+<li>激活LVM及软RAID设备</li>
+<li>激活swap设备；</li>
+<li>加载额外需要的驱动程序；</li>
+<li>清理操作</li>
+</ul>
+<p>总结（用户空间的启动流程）：/sbin/init (etc/inittab)<br>设置默认运行级别 –&gt; 运行系统初始化脚本 ，完成系统初始化 –&gt; 关闭对应级别下要停止的服务，启动对应级别下需要开启的服务 –&gt; 设置登录终端 –&gt; 【启动图形终端】（可选）；</p>
+<p>通读/etc/rc.d/rc.sysinit 文件；搞清楚每一步做了什么？</p>
+<p>CentOS6：<br>init程序：upstart，但依然为/sbin/init（/etc/inittab）<br>/etc/init/*.conf /etc/inittab （仅用于定义默认运行级别）</p>
+<p>注意：*.conf 为upstart风格的配置文件；</p>
+<p>rcS.conf<br>init-system-dbus.conf<br>start-ttys.conf</p>
+<p>CentOS7: Systemd,配置文件：/usr/lib/systemd/system/* , /etc/systemd/system/*</p>
+<p>systemctl get-default<br>systemctl set-default multi-user.target</p>
+<p>systemctl status<br>完全兼容SysV脚本机制；因此，service命令依然可用，但是，建议使用systemctl命令来控制服务</p>
+<p>systemctl {status | start | stop | restart | reload} SERVICE</p>
+<p>CentOS系统启动流程；</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/15/18-SHELL%E5%BE%AA%E7%8E%AF/" rel="prev" title="18.SHELL循环">
+      <i class="fa fa-chevron-left"></i> 18.SHELL循环
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/15/20-grub%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/" rel="next" title="20.grub系统配置与使用">
+      20.grub系统配置与使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统启动流程"><span class="nav-number">1.</span> <span class="nav-text">系统启动流程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lcxiao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://163.com/" title="http:&#x2F;&#x2F;163.com" rel="noopener" target="_blank">163</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://baidu.com/" title="http:&#x2F;&#x2F;baidu.com" rel="noopener" target="_blank">baidu</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/dalipan.com" title="dalipan.com">dalipan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://google.com/" title="https:&#x2F;&#x2F;google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lcxiao</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
