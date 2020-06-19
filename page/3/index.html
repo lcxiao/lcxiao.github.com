@@ -166,6 +166,131 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/5-btrfs%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/31/5-btrfs%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">5.btrfs文件系统管理与应用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-01 04:26:33 / 修改时间：12:29:09" itemprop="dateCreated datePublished" datetime="2020-06-01T04:26:33+08:00">2020-06-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>技术预览版。GPL，开源版本 2007 ORACLE Cow；取代linux系统的ext系列文件系统<br><code>B-tree</code><br><code>Butter FS</code><br><code>Better FS</code></p>
+<p><strong>特性</strong><br>多物理卷支持：可由多个底层物理卷组成，支持RAID，已联机添加、移除、修改；<br>写入时复制（cow）：复制、更新、以及替换指针；而非传统的“就地”更新；<br>数据及元数据校验码：checksum：极大的保证了数据的可靠性；<br>子卷：sub_volume；<br>快照：支持快照的快照；<br>透明压缩:节约时间，但是会浪费CPU时钟周期；<br><strong>btrfs</strong><br><strong>mkfs.btrfs</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkfs.btrfs </span></span><br><span class="line">btrfs-progs v4.9.1</span><br><span class="line">See http://btrfs.wiki.kernel.org <span class="keyword">for</span> more information.</span><br><span class="line"></span><br><span class="line">Usage: mkfs.btrfs [options] dev [ dev ... ]</span><br><span class="line">Options:</span><br><span class="line">  allocation profiles:</span><br><span class="line">        -d|--data PROFILE       data profile, raid0, raid1, raid5, raid6, raid10, dup or single</span><br><span class="line">        -m|--metadata PROFILE   metadata profile, values like <span class="keyword">for</span> data profile</span><br><span class="line">        -M|--mixed              mix metadata and data together</span><br><span class="line">  features:</span><br><span class="line">        -n|--nodesize SIZE      size of btree nodes</span><br><span class="line">        -s|--sectorsize SIZE    data block size (may not be mountable by current kernel)</span><br><span class="line">        -O|--features LIST      comma separated list of filesystem features (use <span class="string">'-O list-all'</span> to list features)</span><br><span class="line">        -L|--label LABEL        <span class="built_in">set</span> the filesystem label</span><br><span class="line">        -U|--uuid UUID          specify the filesystem UUID (must be unique)</span><br><span class="line">  creation:</span><br><span class="line">        -b|--byte-count SIZE    <span class="built_in">set</span> filesystem size to SIZE (on the first device)</span><br><span class="line">        -r|--rootdir DIR        copy files from DIR to the image root directory</span><br><span class="line">        -K|--nodiscard          <span class="keyword">do</span> not perform whole device TRIM</span><br><span class="line">        -f|--force              force overwrite of existing filesystem</span><br><span class="line">  general:</span><br><span class="line">        -q|--quiet              no messages except errors</span><br><span class="line">        -V|--version            <span class="built_in">print</span> the mkfs.btrfs version and <span class="built_in">exit</span></span><br><span class="line">        --<span class="built_in">help</span>                  <span class="built_in">print</span> this <span class="built_in">help</span> and <span class="built_in">exit</span></span><br><span class="line">  deprecated:</span><br><span class="line">        -A|--alloc-start START  the offset to start the filesystem</span><br><span class="line">        -l|--leafsize SIZE      deprecated, <span class="built_in">alias</span> <span class="keyword">for</span> nodesize</span><br></pre></td></tr></table></figure>
+
+<p>-L <code>LABEL</code></p>
+<p>-d <type>: raid0, raid1, raid5, raid6, raid10, single, dup</p>
+<p>-O <feature>: raid0, raid1, raid5, raid6, raid10, single, dup</p>
+<p>​    -O list-all: 列出支持的所有feature；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkfs.btrfs -O list-all</span></span><br><span class="line">Filesystem features available:</span><br><span class="line">mixed-bg            - mixed data and metadata block groups (0x4, compat=2.6.37, safe=2.6.37)</span><br><span class="line">extref              - increased hardlink <span class="built_in">limit</span> per file to 65536 (0x40, compat=3.7, safe=3.12, default=3.12)</span><br><span class="line">raid56              - raid56 extended format (0x80, compat=3.9)</span><br><span class="line">skinny-metadata     - reduced-size metadata extent refs (0x100, compat=3.10, safe=3.18, default=3.18)</span><br><span class="line">no-holes            - no explicit hole extents <span class="keyword">for</span> files (0x200, compat=3.14, safe=4.0)</span><br></pre></td></tr></table></figure>
+
+<p><code>mkfs.btrfs -L mydata /dev/sdb /dev/sdc -f</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkfs.btrfs -L mydata /dev/sdb /dev/sdc -f</span></span><br><span class="line">btrfs-progs v4.9.1</span><br><span class="line">See http://btrfs.wiki.kernel.org <span class="keyword">for</span> more information.</span><br><span class="line"></span><br><span class="line">Label:              mydata</span><br><span class="line">UUID:               7c9e06ee-52ee-4350-b066-d23e980f6b88</span><br><span class="line">Node size:          16384</span><br><span class="line">Sector size:        4096</span><br><span class="line">Filesystem size:    20.00GiB</span><br><span class="line">Block group profiles:</span><br><span class="line">  Data:             RAID0             2.00GiB</span><br><span class="line">  Metadata:         RAID1             1.00GiB</span><br><span class="line">  System:           RAID1             8.00MiB</span><br><span class="line">SSD detected:       no</span><br><span class="line">Incompat features:  extref, skinny-metadata</span><br><span class="line">Number of devices:  2</span><br><span class="line">Devices:</span><br><span class="line">   ID        SIZE  PATH</span><br><span class="line">    1    10.00GiB  /dev/sdb</span><br><span class="line">    2    10.00GiB  /dev/sdc</span><br></pre></td></tr></table></figure>
+
+<p>显示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># btrfs filesystem show</span></span><br><span class="line">Label: <span class="string">'mydata'</span>  uuid: 7c9e06ee-52ee-4350-b066-d23e980f6b88</span><br><span class="line">        Total devices 2 FS bytes used 112.00KiB</span><br><span class="line">        devid    1 size 10.00GiB used 2.01GiB path /dev/sdb</span><br><span class="line">        devid    2 size 10.00GiB used 2.01GiB path /dev/sdc</span><br></pre></td></tr></table></figure>
+
+
+
+<p>之后就可以挂载使用了</p>
+<p><code>mount -t btrfs /dev/sdc MOUNT_POINT</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkdir -pv /mnt/mydata</span></span><br><span class="line">mkdir: created directory ‘/mnt/mydata’</span><br><span class="line">[root@Centos7 ~]<span class="comment"># mount -t btrfs /dev/sd</span></span><br><span class="line">sda   sda1  sda2  sda3  sdb   sdc</span><br></pre></td></tr></table></figure>
+
+<p>只要使用sdb和sdc效果一样</p>
+<p><code>/dev/sdb on /mydata type btrfs (rw,relatime,seclabel,space_cache,subvolid=5,subvol=/)</code></p>
+<p>卸载umount即可</p>
+<p>透明压缩机制：</p>
+<p><code>mount -o compress={lzo|zlib} DEVICE MOUNT_POINT</code></p>
+<p><code>btrfs resize</code></p>
+<p>增加：</p>
+<p><code>btrfs device add /dev/sd? mount_point</code></p>
+<p>balance均衡操作：</p>
+<p><code>btrfs balance {status|start|pause|cancel|resume}</code></p>
+<p>联机拆除设备，不影响数据，会自动移动文件</p>
+<p><code>btrfs device delete /dev/sd? mount_point</code></p>
+<p>改变raid级别</p>
+<p><code>btrfs balance start -dconvert=raid5 /mydata</code>    数据块的</p>
+<p><code>btrfs balance start -mconvert=raid5 /mydata</code> 元数据的</p>
+<p>子卷：</p>
+<p><code>btrfs subvolume</code></p>
+<p>创建：create</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># btrfs subvolume create /mydata/logs</span></span><br><span class="line">Create subvolume <span class="string">'/mydata/logs'</span></span><br></pre></td></tr></table></figure>
+
+<p>列出；</p>
+<p>list</p>
+<p><code>btrfs subvolume list /mydata</code></p>
+<p>只挂载子卷：</p>
+<p>先卸载父卷</p>
+<p><code>mount -o subvol=logs /dev/sdb /mydata/</code></p>
+<p>使用子卷ID挂载：</p>
+<p><code>mount -o subvolid=1 /dev/sdb /mydata</code></p>
+<p>子卷删除：</p>
+<p><code>btrfs subvolume delete /mydata/logs</code> </p>
+<p>创建快照：</p>
+<p>子卷的快照必须与子卷在一个父卷中：</p>
+<p><code>btrfs subvolume snapshot /mydata/logs /mydata/log_snapshot</code></p>
+<p>删除:</p>
+<p><code>btrfs subvolume delete /mydata/logs_snapshot/</code></p>
+<p>对一个文件创建快照：</p>
+<p>cp –reflink file file_snapshot</p>
+<p>另一个文件最好在当前卷下某个路径下</p>
+<p>无损转换文件系统：</p>
+<p>ext4转换为btrfs</p>
+<p><code>fsck -f device</code></p>
+<p><code>btrfs-convert device</code></p>
+<p>回滚为ext4</p>
+<p><code>btrfs-convert -r device</code></p>
+<p><code>blkid</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/4-Linux%E5%AE%9E%E7%8E%B0LVM%E9%80%BB%E8%BE%91%E5%8D%B7%E5%8F%8A%E5%BF%AB%E7%85%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1428,7 +1553,7 @@ df：报告文件系统磁盘空间使用情况;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
