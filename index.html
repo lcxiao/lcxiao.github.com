@@ -166,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/19/Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/19/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -180,7 +180,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/19/Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">Linux内核模块及功能</a>
+            <a href="/2020/06/19/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">Linux内核模块及功能</a>
         </h2>
 
         <div class="post-meta">
@@ -206,119 +206,6 @@
 
       
           <h2 id="CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel-–-rootfs-—switch-root–sbin-init"><a href="#CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel-–-rootfs-—switch-root–sbin-init" class="headerlink" title="CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel – rootfs —switch root–sbin/init"></a>CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel – rootfs —switch root–sbin/init</h2><h2 id="ldd-打印共享依赖库"><a href="#ldd-打印共享依赖库" class="headerlink" title="ldd 打印共享依赖库"></a>ldd 打印共享依赖库</h2><p><code>ldd /bin/ls | grep -o &quot;/lib[^[:space:]]*&quot;</code></p>
-<p>内核设计体系：<br>单内核、微内核<br>linux：单内核设计，但充分借鉴了微内核设计体系的设计有点，为内核引入了模块化机制；</p>
-<h2 id="内核的组成部分："><a href="#内核的组成部分：" class="headerlink" title="内核的组成部分："></a>内核的组成部分：</h2><pre><code>kernel：内核核心，一般为bzimage，通常位于/boot目录、名称为vmlinuz-VERSION-release;
-kernel object：内核对象，即内核模块、一般防止与/lib/modules/VERSION-release/
-    内核模块与内核核心版本一定要严格匹配；
-    [ ]：N
-    [M]：Module
-    [*]：Y、编译至内核核心
-内核模块：动态装载和卸载；</code></pre><p>ramdisk ：辅助性文件，并非必须的，这取决与内核是否能直接驱动rootfs所在的设备；<br>    目标设备驱动，例如SCSI设备的驱动；<br>    逻辑设备驱动，例如LVM设备的驱动<br>    文件系统，例如xfs文件系统；</p>
-<pre><code>ramdisk：是一个简装版的根文件系统；（运行与内存的系统）
-下一步要做跟切换，持久化</code></pre><h2 id="内核信息获取："><a href="#内核信息获取：" class="headerlink" title="内核信息获取："></a>内核信息获取：</h2><h3 id="uname-：print-system-information"><a href="#uname-：print-system-information" class="headerlink" title="uname ：print system information"></a>uname ：print system information</h3><pre><code>-a ：all
--r ：release号，发行号
--m ：machine 平台架构
--n ：当前主机名</code></pre><p>模块信息获取：</p>
-<h3 id="lsmod"><a href="#lsmod" class="headerlink" title="lsmod"></a>lsmod</h3><p>显示当前系统的</p>
-<h3 id="modinfo"><a href="#modinfo" class="headerlink" title="modinfo"></a>modinfo</h3><p>显示模块详细信息；<br>-F field    ：仅显示指定字段的信息<br>-n 显示文件路径</p>
-<h3 id="modprobe"><a href="#modprobe" class="headerlink" title="modprobe"></a>modprobe</h3><p>实现模块动态装载卸载<br>默认是/etc/modprobe.conf<br>格式:<br><code>modprobe MODULE_NAME</code> 装载模块<br><code>modprobe -r MODULE_NAME</code> ：卸载模块</p>
-<p>不要随便卸载模块，除非你知道自己在做什么；</p>
-<h3 id="depmod"><a href="#depmod" class="headerlink" title="depmod"></a>depmod</h3><p>生成modules.dep和map文件；<br>内核模块依赖关系生成的工具；</p>
-<h3 id="模块的装载和卸载的另一组命令："><a href="#模块的装载和卸载的另一组命令：" class="headerlink" title="模块的装载和卸载的另一组命令："></a>模块的装载和卸载的另一组命令：</h3><p><code>insmode</code><br>    <code>insmode [filename] [module options...]
-        filename :模块的文件路径</code>rmmode<code></code>rmmod btrfs`<br>    rmmod [-f] [-s] [-v] [modulename]</p>
-<p>ramdisk 文件的管理；</p>
-<ol>
-<li>mkinitrd<ol>
-<li>为使用中的内核重新制作ramfs文件；</li>
-<li>–with=<module>：除了默认的模块之外需要装载至initramfs中的模块</li>
-<li>–preload=<module>:initramfs所提供的模块需要预先装载的模块；</li>
-<li>mkinitrd /boot/initramfs-$(uname -r) $(uname -r)</li>
-</ol>
-</li>
-<li>dracut   较为底层的制作initramfs文件的工具（选项较多，强大）<ol>
-<li>dracut [option…] <image> [<kernel version>]<br>例：<code>dracut initramfs-$(uname -r).img $(uname -r)</code></li>
-</ol>
-</li>
-</ol>
-<h2 id="操作系统上的两个伪文件系统："><a href="#操作系统上的两个伪文件系统：" class="headerlink" title="操作系统上的两个伪文件系统："></a>操作系统上的两个伪文件系统：</h2><p>/proc<br>    内核状态及统计信息的输出接口；同时，还提供了一个配置接口：/proc/sys<br>    参数：<br>        只读；信息输出/proc/#/*<br>        可写：可接受用户指定的一个“新值“来实现对内核某功能和特性的配置；/proc/sys</p>
-<p>/sys    调优就是改这里的参数<br>必须充分理解内核各项参数</p>
-<p>不应该使用文本编辑器命令去编辑<br>而是应该使用重定向的方式去覆盖里面的值</p>
-<ol>
-<li>sysctl ：专用的命令</li>
-</ol>
-<p><code>sysctl net.ipv4.ip_forward</code><br><code>sysctl -w net.ipv4.ip_forward=1</code></p>
-<pre><code>sysctl -a ：显示所有可修改的值；
-sysctl variable； 对用/proc/sys目录下有对应关系的文件
-修改其值：
-    #sysctl -w variable=value   写入
-    -p ：从指定文件中加载；默认是/etc/sysctl.conf
-    直接sysctl -p 就可以，必要时可以添加文件路径；</code></pre><ol start="2">
-<li>文件系统命令<br> 查看：cat /proc/sys/net/ipv4/ip_forward<br> 设定：echo “VALUE” &gt; /proc/sys/net/ipv4/ip_forward</li>
-</ol>
-<p>注意，这两种方式设定的只是当前有效，重启失效<br>要永久有效必须保存至文件/etc/sysctl.conf 、/etc/sysctl.d/*.conf</p>
-<p>内核参数：核心转发/proc/sys/net/ipv4/ip_forward<br>        vm.drop_cache   缓存的内存 （0、1、2）<br>        kernel.hostname 主机名<br>        /proc/sys/net/ipv4/icmp_echo_ignore_all 忽略ping操作</p>
-<p>sysfs ：/sys 目录<br>输出内核识别出的各硬件设备的相关属性信息，也有内核对硬件特性的可设置参数，对此些参数的修改，即可定制硬件设备工作特性；</p>
-<p>udev：通过读取/sys目录下的硬件设备信息，按需为硬件设备创建设备文件；<br>udev 是用户空间程序；正是/sys的存在才能创建设备</p>
-<p>专用工具：<br>devadmin<br>hotplug<br>udev为设备创建设备文件时，会读取事先定义好的规则文件，一般在/etc/udev/rules.d/目录下，以及/usr/lib/udev/rules.d/</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">21.Linux内核模块及功能</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:11:53 / 修改时间：21:12:04" itemprop="dateCreated datePublished" datetime="2020-06-15T13:11:53+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel-–-rootfs-—switch-root–sbin-init"><a href="#CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel-–-rootfs-—switch-root–sbin-init" class="headerlink" title="CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel – rootfs —switch root–sbin/init"></a>CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel – rootfs —switch root–sbin/init</h2><h2 id="ldd-打印共享依赖库"><a href="#ldd-打印共享依赖库" class="headerlink" title="ldd 打印共享依赖库"></a>ldd 打印共享依赖库</h2><p>ldd /bin/ls | grep -o “/lib[^[:space:]]*”</p>
 <p>内核设计体系：<br>单内核、微内核<br>linux：单内核设计，但充分借鉴了微内核设计体系的设计有点，为内核引入了模块化机制；</p>
 <h2 id="内核的组成部分："><a href="#内核的组成部分：" class="headerlink" title="内核的组成部分："></a>内核的组成部分：</h2><pre><code>kernel：内核核心，一般为bzimage，通常位于/boot目录、名称为vmlinuz-VERSION-release;
 kernel object：内核对象，即内核模块、一般防止与/lib/modules/VERSION-release/
@@ -1563,6 +1450,152 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/02/Trinity%E5%AE%89%E8%A3%85%E5%A4%87%E5%BF%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/02/Trinity%E5%AE%89%E8%A3%85%E5%A4%87%E5%BF%98/" class="post-title-link" itemprop="url">Trinity安装备忘</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-02 15:29:35 / 修改时间：23:29:51" itemprop="dateCreated datePublished" datetime="2020-06-02T15:29:35+08:00">2020-06-02</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Trinity-core-3-3-5"><a href="#Trinity-core-3-3-5" class="headerlink" title="Trinity core 3.3.5"></a>Trinity core 3.3.5</h1><h2 id="1-Linux-Requirements"><a href="#1-Linux-Requirements" class="headerlink" title="1. Linux Requirements"></a>1. Linux Requirements</h2><h3 id="debian-10-4"><a href="#debian-10-4" class="headerlink" title="debian 10.4"></a>debian 10.4</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip default-libmysqlclient-dev</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<h3 id="ubuntu-19-10"><a href="#ubuntu-19-10" class="headerlink" title="ubuntu 19.10"></a>ubuntu 19.10</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip libmariadb-client-lgpl-dev-compat</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fedora-based-distributions"><a href="#Fedora-based-distributions" class="headerlink" title="Fedora based distributions"></a>Fedora based distributions</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dnf install https://dev.mysql.com/get/mysql57-community-release-fc27-1.noarch.rpm</span><br><span class="line">dnf install git clang cmake make gcc gcc-c++ community-mysql-devel compat-openssl10-devel bzip2-devel readline-devel ncurses-devel boost-devel community-mysql-server p7zip</span><br><span class="line">rm -f /usr/bin/c++</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Core-Installation"><a href="#2-Core-Installation" class="headerlink" title="2. Core Installation"></a>2. Core Installation</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adduser &lt;username&gt;</span><br><span class="line">su - &lt;username&gt;</span><br><span class="line">git <span class="built_in">clone</span> -b 3.3.5 git://github.com/TrinityCore/TrinityCore.git</span><br><span class="line"><span class="built_in">cd</span> TrinityCore</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ../ [additional parameters]</span><br></pre></td></tr></table></figure>
+
+<h3 id="The-above-parameters-when-combined-into-a-full-example"><a href="#The-above-parameters-when-combined-into-a-full-example" class="headerlink" title="The above parameters when combined into a full example :"></a>The above parameters when combined into a full example :</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">By default this is the only row you will need to run to setup your install:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/&lt;username&gt;/server</span><br><span class="line"> </span><br><span class="line">Another Examples Below:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/wow/server -DTOOLS=0</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/<span class="variable">$USER</span>/server -DTOOLS=0 -DWITH_WARNINGS=1</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Building-the-core"><a href="#3-Building-the-core" class="headerlink" title="3. Building the core"></a>3. Building the core</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make -j&lt;number of cores&gt;</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/TrinityCore/</span><br><span class="line"><span class="comment"># For 3.3.5 Branch</span></span><br><span class="line">git pull origin 3.3.5</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Server-Setup"><a href="#4-Server-Setup" class="headerlink" title="4. Server Setup"></a>4. Server Setup</h2><table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Branch</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dbc</td>
+<td>all</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>maps</td>
+<td>all</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>vmaps</td>
+<td>all</td>
+<td>HIGHLY Recommended</td>
+</tr>
+<tr>
+<td>mmaps</td>
+<td>all</td>
+<td>HIGHLY Recommended</td>
+</tr>
+<tr>
+<td>cameras</td>
+<td>all</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>master only</td>
+<td>Mandatory</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;your WoW client directory&gt;</span><br><span class="line">/home/&lt;username&gt;/server/bin/mapextractor</span><br><span class="line">mkdir /home/&lt;username&gt;/server/data</span><br><span class="line">  </span><br><span class="line"><span class="comment"># Next line is 3.3.x only</span></span><br><span class="line">cp -r dbc maps /home/&lt;username&gt;/server/data</span><br><span class="line"></span><br><span class="line"><span class="comment"># edit worldserver.conf and change datadir from "." to "../data"</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;your WoW client directory&gt;</span><br><span class="line">/home/&lt;username&gt;/server/bin/vmap4extractor</span><br><span class="line">mkdir vmaps</span><br><span class="line">/home/&lt;username&gt;/server/bin/vmap4assembler Buildings vmaps</span><br><span class="line">cp -r vmaps /home/&lt;username&gt;/server/data</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;your WoW client directory&gt;</span><br><span class="line">mkdir mmaps</span><br><span class="line">/home/&lt;username&gt;/server/bin/mmaps_generator</span><br><span class="line">cp -r mmaps /home/&lt;username&gt;/server/data</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp worldserver.conf.dist worldserver.conf</span><br><span class="line">cp authserver.conf.dist authserver.conf <span class="comment"># 3.3.5 only</span></span><br><span class="line">cp bnetserver.conf.dist bnetserver.conf <span class="comment"># 6.x, 7.x only</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Databases-Installation"><a href="#5-Databases-Installation" class="headerlink" title="5. Databases Installation"></a>5. Databases Installation</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;</span><br><span class="line"></span><br><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39;;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-Networking"><a href="#6-Networking" class="headerlink" title="6. Networking"></a>6. Networking</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line">use auth</span><br><span class="line">update realmlist <span class="built_in">set</span> address=<span class="string">'IP'</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Final-Server-Steps"><a href="#7-Final-Server-Steps" class="headerlink" title="7. Final Server Steps"></a>7. Final Server Steps</h2><p><strong>account create USER PASSWORD</strong></p>
+<p><strong>account set gmlevel USER 3 -1</strong></p>
+<h2 id="8-Client-Setup"><a href="#8-Client-Setup" class="headerlink" title="8. Client Setup"></a>8. Client Setup</h2><ul>
+<li>Open the realmlist.wtffile inside your World of Warcraft\Data folder. The IP in the realmlist.wtf file should be exactly the same as the IP address you entered in the realmlist table above.<ul>
+<li>Change the first line to: *<em>set realmlist *</em></li>
+<li>Example: <strong>set realmlist 127.0.0.1</strong></li>
+</ul>
+</li>
+<li>(Optional) If you wish to use the WoW Launcher.exe to run your client then you must change your <strong>set patchlist</strong> to the same ip/dns name as your realmlist.</li>
+</ul>
+<h1 id="mysql命令导入"><a href="#mysql命令导入" class="headerlink" title="mysql命令导入"></a>mysql命令导入</h1><h2 id="1-mysql命令导入多个sql文件方法："><a href="#1-mysql命令导入多个sql文件方法：" class="headerlink" title="1 mysql命令导入多个sql文件方法："></a>1 mysql命令导入多个sql文件方法：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ for SQL in *.sql; do mysql -uroot -p&quot;123456&quot; mydb &lt; $SQL; done</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-source命令导入"><a href="#2-source命令导入" class="headerlink" title="2 source命令导入"></a>2 source命令导入</h2><p><code>source</code>命令需要首先进入<strong>MySQL命令行</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -uroot -p&quot;123456&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>导入多个sql**</strong>文件<strong>需要先创建一个额外的文件，名字随意，这里我们取：</strong>all.sql**，内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source user1.sql</span><br><span class="line">source user2.sql</span><br><span class="line">source user3.sql</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，这里每行一条，必须以source命令开头。</strong></p>
+<p>然后用<code>source</code>命令执行该文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; use mydb;</span><br><span class="line">mysql &gt; source &#x2F;home&#x2F;gary&#x2F;all.sql</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1632,7 +1665,7 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
