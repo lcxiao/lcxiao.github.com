@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-06-22T14:58:24.941Z</updated>
+  <updated>2020-06-22T14:59:34.032Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2.24编译安装</title>
+    <link href="http://yoursite.com/2020/06/22/2-24%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2020/06/22/2-24%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/</id>
+    <published>2020-06-22T06:59:14.000Z</published>
+    <updated>2020-06-22T14:59:34.032Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><ul><li>项目主页：<a href="http://httpd.apache.org/" target="_blank" rel="noopener">http://httpd.apache.org/</a></li><li>ARP主页：<a href="https://apr.apache.org/download.cgi" target="_blank" rel="noopener">https://apr.apache.org/download.cgi</a></li><li>2.24下载路径：<a href="https://mirrors.bfsu.edu.cn/apache//httpd/httpd-2.4.43.tar.bz2" target="_blank" rel="noopener">https://mirrors.bfsu.edu.cn/apache//httpd/httpd-2.4.43.tar.bz2</a></li><li>APR：<a href="https://mirrors.tuna.tsinghua.edu.cn/apache//apr/apr-1.7.0.tar.gz" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/apache//apr/apr-1.7.0.tar.gz</a></li><li>APR-util：<a href="https://mirrors.tuna.tsinghua.edu.cn/apache//apr/apr-util-1.6.1.tar.gz" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/apache//apr/apr-util-1.6.1.tar.gz</a></li><li>pcre：<a href="http://www.pcre.org/" target="_blank" rel="noopener">http://www.pcre.org/</a></li><li>pcre下载:<a href="ftp://ftp.pcre.org/pub/pcre/pcre-8.44.zip">ftp://ftp.pcre.org/pub/pcre/pcre-8.44.zip</a></li></ul><h2 id="编译依赖"><a href="#编译依赖" class="headerlink" title="编译依赖"></a>编译依赖</h2><p>pcre 编译安装<br>可能需要expat</p><p>将apr 和apr-util 放解压放入 httpd/srclib文件夹</p><h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;configure --prefix&#x3D;PREFIX</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br><span class="line">$ PREFIX&#x2F;bin&#x2F;apachectl start</span><br></pre></td></tr></table></figure><p>–sysconfdir=/etc/httpd<br>–enable-modules={ALL|MOST|…}<br>–enable-ssl<br>…</p><h2 id="设置变量"><a href="#设置变量" class="headerlink" title="设置变量"></a>设置变量</h2><p>vim /etc/profile.d/httpd.sh<br><code>PATH=$PATH:/usr/local/apache/bin:/usr/local/bin</code><br><code>export PATH</code></p><p>vim /etc/httpd/httpd.conf<br>ServerName localhost:80</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;源代码&quot;&gt;&lt;a href=&quot;#源代码&quot; class=&quot;headerlink&quot; title=&quot;源代码&quot;&gt;&lt;/a&gt;源代码&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;项目主页：&lt;a href=&quot;http://httpd.apache.org/&quot; target=&quot;_blank&quot; rel=
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>23.anaconda配置定制自动化安装Linux</title>
@@ -447,28 +470,6 @@
       
       
         &lt;h1 id=&quot;Linux程序包管理&quot;&gt;&lt;a href=&quot;#Linux程序包管理&quot; class=&quot;headerlink&quot; title=&quot;Linux程序包管理&quot;&gt;&lt;/a&gt;Linux程序包管理&lt;/h1&gt;&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerli
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>7.压缩工具与shell编程</title>
-    <link href="http://yoursite.com/2020/05/31/7-%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%E4%B8%8Eshell%E7%BC%96%E7%A8%8B/"/>
-    <id>http://yoursite.com/2020/05/31/7-%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%E4%B8%8Eshell%E7%BC%96%E7%A8%8B/</id>
-    <published>2020-05-31T20:26:54.000Z</published>
-    <updated>2020-06-01T04:29:42.264Z</updated>
-    
-    <content type="html"><![CDATA[<p>压缩和解压缩<br>压缩比，越大压缩后的文件越小<br>压缩的目的：<br>时间换空间<br>CPU的时间：用CPU的运算时间换存储空间<br>当cpu空闲时可以执行压缩，一定要知道压缩的目的。<br>compress/uncompress: .Z<br>gzip/gunzip: .gz<br>bzip2/bunzip2: .bz<br>xz/unxz: .xz<br>zip/unzip<br>tar<br>cpio</p><p>1.gzip/gunzip :<br>    gzip/gunzip,zcat compress or expand files<br>    zcat可以查看小的压缩后的gz文件，大文件不要使用zcat查看<br>    gzip [option…] FILE…<br>    -d 解压缩，相当于gunzip;<br>    -# 指定压缩比，默认是6，越大越浪费cpu周期，一般默认即可；<br>    -c 输出至标准输出，不删除源文件；<br>        gzip -c files &gt; files.gz</p><ol start="2"><li>bzip2/bunzip2/zcat<br> -d 解压缩<br> -# 指定压缩比，默认6<br> -k 保留源文件<br> bzip2 [option]… FILE…</li></ol><p>3.xz/unxz/xzcat<br>lzma/unlzma/lzcat</p><pre><code>xz [option]... FILE...    -d 解压缩    -# 压缩比    -k 保留源文件</code></pre><p>这几种压缩工具都不支持对文件夹进行压缩，在linux上如果要压缩目录需要先归档；</p><p>归档 tar,cpio</p><p>tar 目录可以不加‘-’;<br>    tar [option]… FILE…<br>    1.创建归档 -c<br>        -c -f /PATH/to/FILE<br>        -cf<br>        cf</p><pre><code>2.展开归档 -x3.查看归档文件内的文件列表 -t4.指定目录 -C</code></pre><p>归档并压缩<br>-z：gzip<br>tar czf gzfile sourcefile…<br>解压缩<br>tar xzf gzfile<br>z可省略，会自动判断文件类型</p><p>-j:bzip2<br>-jcf<br>-jxf</p><p>-J :xz<br>-Jcf<br>-Jxf</p><p>zip</p><p>zip/unzip</p><p>.zip</p><p>zip file.zip file</p><p>lftp下载文件</p><p>lftp [url/ip]/path/to/file</p><p>lftp&gt;mget file</p><p>Bash 脚本编程之用户交互：</p><p>脚本参数</p><p>可以直接与用户交互</p><p>交互：通过键盘输入数据，从而完成变量复制操作；</p><p>灵活的执行方式实现有2种方法：</p><p>通过传入参数</p><p>尽量避免与用户交互</p><p>read内嵌命令</p><p>help read</p><p>read -p “message:” var</p><p>[ -z $name ] &amp;&amp; echo “name is needed.” &amp;&amp; exit 2</p><p>如空可自行赋值：</p><p>read -p “Enter name. [jack]:” name</p><p>[ -z $name ] &amp;&amp; name=’Tom’  </p><p>bash -n 检测语法错误</p><p>只能检查语法错误，逻辑错误无法检测</p><p>bash -x debug模式</p><p>按步执行,调试执行</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;压缩和解压缩&lt;br&gt;压缩比，越大压缩后的文件越小&lt;br&gt;压缩的目的：&lt;br&gt;时间换空间&lt;br&gt;CPU的时间：用CPU的运算时间换存储空间&lt;br&gt;当cpu空闲时可以执行压缩，一定要知道压缩的目的。&lt;br&gt;compress/uncompress: .Z&lt;br&gt;gzip/gunz
       
     
     </summary>
