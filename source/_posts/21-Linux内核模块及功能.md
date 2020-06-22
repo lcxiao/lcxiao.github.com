@@ -1,6 +1,6 @@
 ---
-title: 21.Linux内核模块及功能
-date: 2020-06-15 13:11:53
+title: Linux内核模块及功能
+date: 2020-06-19 14:49:19
 layout:
 updated:
 comments:
@@ -11,7 +11,7 @@ tags:
 
 
 ## ldd 打印共享依赖库
-ldd /bin/ls | grep -o "/lib[^[:space:]]*"
+`ldd /bin/ls | grep -o "/lib[^[:space:]]*"`
 
 内核设计体系：
 单内核、微内核
