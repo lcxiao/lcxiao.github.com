@@ -166,6 +166,204 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/22/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/22/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux/" class="post-title-link" itemprop="url">23.anaconda配置定制自动化安装Linux</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-22 14:58:07 / 修改时间：22:58:24" itemprop="dateCreated datePublished" datetime="2020-06-22T14:58:07+08:00">2020-06-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>安装操作系统的过程就是规划系统，把需要的功能和响应的文件放到合适的位置；<br>创建用户<br>init程序<br>可以自动化实现</p>
+<p>CentOS系统安装：<br>bootloader–kernel（initrd（rootfs））–anaconda<br>安装程序：anaconda<br>必须先启动内核：<br>提供一个界面。首先，创建一个bootloader（安装在光盘或者U盘）<br>之后加载设备上某个路径的kernel（vmlinuz）<br>之后借助于initrd（rootfs）直接内存作为根文件系统；<br>之后启动anaconda程序（作为sbin/init）用户空间的第一个程序</p>
+<p>anaconda两个界面<br>tui：基于cureses的文本配置窗口<br>gui：图形界面</p>
+<p>CentOS的安装过程启动流程：<br>MBR：boot.cat<br>stage2：isolinux/isolinux.bin<br>    配置文件：isolinux/isolinux.cfg</p>
+<p>每个对应的菜单选项：<br>    加载内核：isolinux/vmlinuz<br>    向内核传递参数：append initrd=initrd.img </p>
+<p>获取根文件系统，并启动anaconda<br>    默认界面是图形界面；至少需要512MB内存，否则无法使用图形界面<br>    如果需要显示指定启动tui接口，向启动内核传递一个参数“text”即可；</p>
+<pre><code>ESC：
+boot：linux text</code></pre><p>注意：上述内容一般位于引导设备（光盘或者U盘）或者是网络上；<br>anaconda启动之后剩余的过程，后续的anaconda及其安装用到的程序包等；<br>可以来自于程序包仓库，此仓库的位置可以为：</p>
+<ul>
+<li>本地光盘</li>
+<li>本地硬盘</li>
+<li>ftp服务器</li>
+<li>http服务器</li>
+<li>nfs服务器</li>
+</ul>
+<p>如要手动指明安装仓库：则按ESC键<br>    boot：linux method（询问用户，让用户选择安装方法）</p>
+<p>anaconda的工作过程：<br>安装前配置阶段<br>    安装过程使用的语言<br>    键盘类型<br>    安装目标存储设备<br>        Basic Storage：本地磁盘<br>        Special Storage：iscsi<br>    设定主机名<br>    配置网络接口<br>    时区<br>    管理员密码<br>    设定分区方式及MBR的安装位置；<br>    创建一个普通用户；<br>安装阶段<br>    在目标磁盘创建分区并执行格式化<br>    将选定的程序包安装至指定位置<br>    安装bootloader<br>首次启动<br>    iptables<br>    selinux<br>    core dump（核心转储，崩溃时，把内存数据备份下来）（可做分析用）（内存小于2G无法开启）</p>
+<p>anaconda配置方式<br>    1. 交互式配置方式<br>    2. 支持通过读取配置文件中实现定义好的配置项自动完成配置；遵循特定的语法格式，此文件即为kickstart文件；</p>
+<p>此文件可以放在本地文件服务器上；</p>
+<p>安装引导选项：<br>text：文本安装方式<br>method：手动指定使用的安装方法<br>与网路相关的引导选项：<br>    ip=IPADDR<br>    netmask=NETMASK<br>    gateway=GW<br>    dns=DNS_SERVER_IP<br>远程访问功能相关的引导选项：<br>    VNC<br>    vncpasswd=’password’<br>启动紧急救援模式：<br>    rescue<br>装载额外驱动：<br>    dd</p>
+<p><a href="http://www.redhat.com/docs" target="_blank" rel="noopener">www.redhat.com/docs</a> &lt;<installation guide>&gt;</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/22/22-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%AE%9A%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/22/22-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%AE%9A%E5%88%B6/" class="post-title-link" itemprop="url">22.Linux内核模块功能定制</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-22 14:57:32 / 修改时间：22:57:55" itemprop="dateCreated datePublished" datetime="2020-06-22T14:57:32+08:00">2020-06-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Linux内核模块功能定制"><a href="#Linux内核模块功能定制" class="headerlink" title="Linux内核模块功能定制"></a>Linux内核模块功能定制</h1><h2 id="编译内核："><a href="#编译内核：" class="headerlink" title="编译内核："></a>编译内核：</h2><p>程序包的编译安装：<br>./configure ,make ,make install<br>配置参数，make是项目构建工具，调用各种编译工具完成构建，<br>二进制文件，库文件，配置文件，帮助文件，make install 完成复制</p>
+<p>编译前提：开发环境<br>开发工具（gcc）、开发库（API）库和头文件/usr/include/</p>
+<p>开源：源代码–可执行格式<br>发行版：以通用为目标；主包:支包 选择性安装功能<br>实在需要发行版没有编译进的功能的话，只有自己编译了</p>
+<h2 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h2><ul>
+<li>开发环境；</li>
+<li>目标主机硬件设备的相关信息；</li>
+<li>获取目标主机系统功能的相关信息，要启用的文件系统；</li>
+<li>获取内核代码：<a href="http://www.kernel.org" target="_blank" rel="noopener">www.kernel.org</a></li>
+</ul>
+<p>CentOS6,7：<br>    Development Tools<br>    Server Platform Development</p>
+<p>确保安装的包组里面有ncurses包</p>
+<p>获取目标主机上硬件的信息<br>CPU:<br>    cat /proc/cpuinfo<br>    lscpu<br>    x86info -a(包x86info)<br>PCI:<br>    lspci<br>    -v<br>    -vv</p>
+<p>USB:<br>    lsusb<br>    -v<br>    -vv</p>
+<p>lsblk</p>
+<p>全部硬件设备信息：<br>    hal-device<br>    lshw</p>
+<h2 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h2><pre><code>解压内核文件到/usr/src
+tar xvf kernel.tar.gz -C /usr/src
+ln -sv linux-x.x.x linux
+cd linux
+make menuconfig         #编译内核选项
+make -j CPU核心数
+make modules_install    #安装内核模块
+make install            #安装内核</code></pre><p>make –help</p>
+<h2 id="screen"><a href="#screen" class="headerlink" title="screen:"></a>screen:</h2><pre><code>打开新的screen窗口：screen
+命名新窗口：screen -S TITLE_NAME
+拆除screen： ctrl+a，d
+列出screen：screen -ls
+连接至screen：screen -r SCREEN_ID
+关闭screen：在screen内部exit</code></pre><p>screen不会因为ssh的连接断开而中断任务</p>
+<h3 id="模板文件"><a href="#模板文件" class="headerlink" title="模板文件"></a>模板文件</h3><p>复制/boot目录下的配置文件作为模板，之后修改这个文件</p>
+<p>内核配置模板文件：<br>有些发行版在/boot目录下有配置文件模板<br>有的在/proc/config.gz</p>
+<h2 id="（1）配置内核选项"><a href="#（1）配置内核选项" class="headerlink" title="（1）配置内核选项"></a>（1）配置内核选项</h2><h3 id="详细说明："><a href="#详细说明：" class="headerlink" title="详细说明："></a>详细说明：</h3><p>配置选项：</p>
+<ul>
+<li>make config ：基于命令行以遍历的方式去配置内核中可配置的每个选项；</li>
+<li>make menuconfig ：基于ncurses 方式的配置窗口</li>
+<li>make gconfig ：基于gtk开发环境的窗口界面界面；桌面平台开发包组</li>
+<li>make xconfig : 基于QT开发环境的窗口界面</li>
+</ul>
+<p>支持“全新配置”模式进行配置</p>
+<ul>
+<li>make defconfig ：基于内核为目标平台提供的“默认”为模板进行配置；</li>
+<li>make allnoconfig：所有选项为no；基于此选项来定制</li>
+</ul>
+<h3 id="编译："><a href="#编译：" class="headerlink" title="编译："></a>编译：</h3><ul>
+<li>make -j # 多线程编译（提高编译速度）</li>
+<li>编译内核中的部分功能<ul>
+<li>只编译某子目录中的代码–切换到源码树（cd /usr/src/linux）(make path/to/dir)</li>
+<li>只编译一个特定的模块–切换到源码树（编译某个模块的源码,例如xxx.c）(make xxx.ko)（编译完成之后记得要自行复制到相对应的目录中去）(驱动就是/lib/modules/xxxx/driver/)</li>
+<li>交叉编译：目标平台与编译操作不同平台<ul>
+<li>make ARCH=arch_name</li>
+<li>帮助信息：make ARCH=arm help 获取目标平台帮助信息</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何在执行编译操作的内核源码树上做重新编译："><a href="#如何在执行编译操作的内核源码树上做重新编译：" class="headerlink" title="如何在执行编译操作的内核源码树上做重新编译："></a>如何在执行编译操作的内核源码树上做重新编译：</h3><ul>
+<li>make clean    ：清理编译生成的绝大多数文件，但会保留config文件，以及编译外部模块所需要的文件；</li>
+<li>make mrproper ：清理编译生成的所有文件，包括配置生成的config文件以及某些备份文件</li>
+<li>make distclean    ：相当于mrproper ，额外清理各种patches以及编辑器备份文件；</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/19/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1053,549 +1251,6 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/13-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/13-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">13.网络基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:07:53 / 修改时间：21:08:21" itemprop="dateCreated datePublished" datetime="2020-06-15T13:07:53+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>计算机网络基础、</p>
-<p>CCNA</p>
-<p>IPV4:32位</p>
-<p>IPV6:128位</p>
-<p>通信时,进程的数字标识</p>
-<p>16bit</p>
-<p>0-65535:1-65535</p>
-<p>1-1023：固定分配，只有管理员有权限启用；</p>
-<p>1024-4W：半固定</p>
-<p>4W+: 临时</p>
-<p>进程地址：</p>
-<p>IP：port，socket</p>
-<p>MAC：本地通信，范围，本地局域网</p>
-<p>IP：界定通信主机，源和目标主机；范围：互联网；</p>
-<p>port：界定进程，范围：主机</p>
-<p>​                    OSI                                    TCP（事实标准）</p>
-<p>资源子网：应用层                                应用层</p>
-<p>​                    表示层</p>
-<p>​                    会话层</p>
-<p>通信子网：传输层                            传输层</p>
-<p>​                    网络层                            网络层</p>
-<p>​                    数据链路层                    物理层</p>
-<p>​                    物理层                            </p>
-<p>OS：</p>
-<p>用户空间：应用提供资源</p>
-<p>内核空间：进程调度，内存分配，网络功能（TCP协议栈）</p>
-<p>端口由内核分配</p>
-<p>路由表：</p>
-<ul>
-<li>静态学习</li>
-<li>动态学习：rlp2，ospf</li>
-</ul>
-<p>路由条目：</p>
-<ul>
-<li>目标地址 下一跳（nexthop）</li>
-<li>主机路由</li>
-<li>网络路由</li>
-<li>默认路由</li>
-</ul>
-<p>优先选择匹配范围最小的</p>
-<p>将一台Linux主机接入到网络中实现网络通信：</p>
-<ul>
-<li>IP/MASK：本地通信；</li>
-<li>路由：跨网络通信；</li>
-<li>DNS服务器地址：基于主机名的通信；<ul>
-<li>主dns服务器</li>
-<li>次dns服务器</li>
-<li>第三备用dns服务器</li>
-</ul>
-</li>
-<li>配置方式<ul>
-<li>动态分配DHCP</li>
-<li>静态分配</li>
-<li>ifcfg家族<ul>
-<li>ifconfig：配置ip，netmask</li>
-<li>route：路由</li>
-<li>netstat：状态及统计数据查看</li>
-</ul>
-</li>
-<li>iproute2家族：–&gt;in OBJECT：<ul>
-<li>addr：地址和掩码</li>
-<li>link：接口</li>
-<li>route：路由</li>
-<li>ss：状态及统计数据查看</li>
-</ul>
-</li>
-<li>Centos7：NM（NetworkManager）家族<ul>
-<li>nmcli：命令行工具</li>
-<li>nmtui：text window工具</li>
-</ul>
-</li>
-<li>注意：<ul>
-<li>DNS服务器的指定–&gt;配置文件：/etc/resolv.conf</li>
-<li>主机名：<ul>
-<li>hostname</li>
-<li>配置文件：/etc/sysconfig/network</li>
-<li>Centos7：hostnamectl</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>配置文件：<ul>
-<li>Redhat及相关发行版<ul>
-<li>/etc/sysconfig/network-scripts/ifcfg-NETCARD_NAME</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>网卡接口命名方式：</p>
-<ul>
-<li><p>传统命名：</p>
-<ul>
-<li>以太网：ethx,[0,oo],例如eth0,rth1…</li>
-<li>PPP网络：pppx[0,…]，例如：ppp0,ppp1，…</li>
-</ul>
-</li>
-<li><p>可预测命名方案（Centos）：</p>
-<ul>
-<li>支持多种不同的命名机制：</li>
-<li>Firmwar，拓扑结构</li>
-</ul>
-<ol>
-<li>如果Firmware或BIOS为主板上集成的设备提供的索引信息可用，则根据此索引进行命名，如eno1，eno2，…</li>
-<li>如果Firmware或BIOS为PCI-E扩展槽所提供的索引信息可用，且可预测，则根据此索引进行命名，如ens1，ens2，…</li>
-<li>如果硬件接口的物理位置信息可用，则根据此信息命名，如enp2s0，…</li>
-<li>如果用户显示定义，也可根据MAC地址命名，例如enx122161ab2e10，…</li>
-<li>上述均不可用时，则仍使用传统方式命名；</li>
-</ol>
-<p>命名格式的组成：</p>
-<p>​    en：ethernet</p>
-<p>​    wl：wlan</p>
-<p>​    ww：wwan</p>
-<p>​    名称类型：</p>
-<p>​        o&lt;index&gt;：集成设备的设备索引号；</p>
-<p>​        s&lt;slot&gt;：扩展槽的索引号；</p>
-<p>​        x&lt;MAC&gt;：基于MAC地址的命名；</p>
-<p>​        p&lt;bus&gt;s&lt;slot&gt;：基于总线及槽的拓扑结构命名；</p>
-</li>
-</ul>
-<p>PDU –&gt;  数据报文 –&gt; 数据帧</p>
-<p>协议传输单元</p>
-<p>链路层：以太网帧</p>
-<p>互联网层：IP报文</p>
-<p>以太网帧：MTU（1500）</p>
-<p>linux配置命令：</p>
-<p>ifcfg命令家族：ifconfig,route,netstat</p>
-<p>ifconfig:</p>
-<p>UP：激活</p>
-<p>MTU：最大传输单元 (Maximum transmission unit)</p>
-<p>MULTICAST:多播（组播）</p>
-<p>BROADCAST：广播</p>
-<p>prefixlen：前缀</p>
-<p>txqueuelen：</p>
-<p>RX：接收 ：主要关注dropped,overruns这两项；</p>
-<p>TX：发送</p>
-<p>ether：centos7表示以太网，相当于centos6 HWaddr：MAC地址；</p>
-<p>txqueuelen：传输队列长度</p>
-<p>EXP:</p>
-<p><code>ifconfig eth1 192.168.10.100/24 up</code></p>
-<p><code>ifconfig eth1 192.168.10.100 netmask 255.255.255.0</code></p>
-<p>送往内核中的tcp/ip协议栈，立即生效；</p>
-<p>启用混杂模式：</p>
-<p><code>ifconfig eth1 promisc</code></p>
-<p><code>ifconfig eth1 -promisc</code></p>
-<p>管理IPV6：</p>
-<p><code>add addr/prefixlen</code></p>
-<p><code>del addr/prefixlen</code></p>
-<p>ROUTE命令：</p>
-<p>路由类型：</p>
-<p>主机路由    目标为单个IP</p>
-<p>网络路由    目标为网络主机</p>
-<p>默认路由：目标为任意主机</p>
-<p>route -n：查看显示路由条目，-n指以数字格式显示，不反解路由条目；</p>
-<p>Kernel IP routing table</p>
-<p>Destination     Gateway        Genmask    Flags    Metric    Ref    Use    Iface</p>
-<p><code>route add -net 10.0.0.0/8 gw 192.168.10.1 dev eth1</code></p>
-<p><code>route add -net 0.0.0.0/0.0.0.0 gw 192.168.10.1 dev eth1</code></p>
-<p><code>route add default gw 192.168.10.1</code></p>
-<p><code>route del -net 10.0.0.0/8 gw 192.168.10.0</code></p>
-<p><code>route del default</code></p>
-<p>Netstat 命令</p>
-<p>显示路由表：netstat -rn</p>
-<p>​    -r：显示内核路由表</p>
-<p>​    -n：数字格式</p>
-<p>显示网络连接：</p>
-<p>​    netstat [–tcp|-t] [–udp|-u]</p>
-<p>​    -t：tcp相关的连接</p>
-<p>​    -u：UDP</p>
-<p>​    -w：raw    </p>
-<p>​    -l：处于监听的连接</p>
-<p>​    -a：所有状态</p>
-<p>​    -n：数字格式显示ip和port</p>
-<p>​    -e：扩展格式</p>
-<p>​    -p：显示进程及PID</p>
-<p>常用组合：ntlp。pantu。nta，utp</p>
-<p>​    传输层协议：</p>
-<p>​    tcp：面向连接的协议。要建立连接，通信完成拆除连接；</p>
-<p>​    udp：无连接的协议；直接发送报文；</p>
-<p>所有接口</p>
-<p>​    netstat -i</p>
-<p>指定接口</p>
-<p>​    netsrtat -I &lt;IFACE&gt;</p>
-<p>ifup/ifdown 命令</p>
-<p>通过配置文件来识别接口并完成配置</p>
-<p>/etc/sysconfig/network-scripts/ifcfg-IFACE</p>
-<p>hostname命令</p>
-<p>查看：hostname</p>
-<p>配置：hostname HOSTNAME     重启失效</p>
-<p>Centos7：hostnamectl</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@testlab:~<span class="comment"># hostnamectl --help</span></span><br><span class="line">hostnamectl [OPTIONS...] COMMAND ...</span><br><span class="line"></span><br><span class="line">Query or change system hostname.</span><br><span class="line"></span><br><span class="line">  -h --<span class="built_in">help</span>              Show this <span class="built_in">help</span></span><br><span class="line">     --version           Show package version</span><br><span class="line">     --no-ask-password   Do not prompt <span class="keyword">for</span> password</span><br><span class="line">  -H --host=[USER@]HOST  Operate on remote host</span><br><span class="line">  -M --machine=CONTAINER Operate on <span class="built_in">local</span> container</span><br><span class="line">     --transient         Only <span class="built_in">set</span> transient hostname</span><br><span class="line">     --static            Only <span class="built_in">set</span> static hostname</span><br><span class="line">     --pretty            Only <span class="built_in">set</span> pretty hostname</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  status                 Show current hostname settings	<span class="comment">#显示当前主机名信息；</span></span><br><span class="line">  <span class="built_in">set</span>-hostname NAME      Set system hostname	<span class="comment">#设定主机名，永久有效；</span></span><br><span class="line">  <span class="built_in">set</span>-icon-name NAME     Set icon name <span class="keyword">for</span> host</span><br><span class="line">  <span class="built_in">set</span>-chassis NAME       Set chassis <span class="built_in">type</span> <span class="keyword">for</span> host</span><br><span class="line">  <span class="built_in">set</span>-deployment NAME    Set deployment environment <span class="keyword">for</span> host</span><br></pre></td></tr></table></figure>
-
-<p>配置文件：/etc/sysconfig/network</p>
-<p>HOSTNAME=&lt;HOSTNAME&gt;</p>
-<p>此方法不会立即生效，但是会一直有效</p>
-<p>配置DNS服务器指向:</p>
-<p>配置件：/etxc/resolv.conf</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># cat /etc/resolv.conf</span></span><br><span class="line"><span class="comment"># Generated by NetworkManager</span></span><br><span class="line">search localdomain</span><br><span class="line">nameserver 192.168.1.2	<span class="comment">#注意写IP，不能写域名</span></span><br></pre></td></tr></table></figure>
-
-<p>测试DNS（dig、host、nslookup）</p>
-<p>dig -t A FQDN</p>
-<p>​    FQDN–IP</p>
-<p>互联网大多数主机名不支持反解，就是从IP解析到域名</p>
-<p>dig -x IP</p>
-<p>IP–FQDN</p>
-<p><strong>iproute2家族:</strong></p>
-<p>IP命令:查看，管理，路由，设备，策略路由，隧道</p>
-<p> ip [ OPTIONS ] OBJECT { COMMAND | help }</p>
-<p>OBJECT ：命令可简写，只要能唯一识别</p>
-<p>link | address | route</p>
-<p>ip link：网络设备的配置（add、show、set、delete）</p>
-<ul>
-<li>ip link set  :改便设备运行状态<ul>
-<li>ip link set dev IFACE up/down</li>
-<li>multicast on/off 开启/关闭多播功能；</li>
-<li>promisc on/off：启用/关闭混杂模式</li>
-<li>name:改网卡名（改之前先停用网卡）</li>
-<li>txqueuelen：队列长度</li>
-<li>mtu：设置MTU大小，默认1500</li>
-<li>netns：net namespace，用于将接口移动到指定的网络名称空间去（类似虚拟机）<ul>
-<li>ip netns add </li>
-<li>ip netns list</li>
-<li>ip netns del</li>
-<li>ip netns exec NAME COMMAAND</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>ip link show</li>
-<li>ip link help</li>
-</ul>
-<p><strong>ip address add</strong></p>
-<p>​    ip address add IFADDR dev IFNAME</p>
-<p>​    label NAME ：为额外添加的IP地址指明接口别名；</p>
-<p>​    [broadcast ADDRESS]：广播地址；会根据IP和NETMASK自动计算得到；</p>
-<p>​    [scope SCOPE_VALUE]：global（全局可用）、site（IPV6）、link（接口可用）、host（仅本机可用、内部使用）</p>
-<p><strong>ip address del</strong></p>
-<p>​    ip address delIFADDR dev IFNAME</p>
-<p> <strong>ip address show</strong></p>
-<p>​    [iFACE] ：仅显示指定接口；</p>
-<p>ip address flush dev</p>
-<p><strong>ip route add|delete|show |flush|get</strong></p>
-<p>​    ip route add TYPE PREFIX via GW [dev IFACE] [src SOURCE_IP]</p>
-<p>exp:</p>
-<p><code>ip route add 192.168.0.0/24 via 10.0.0.1 dev eth1</code></p>
-<p><code>ip route add 192.168.1.0/24 via 192.168.1.128 dev eth1 src 192.168.1.128</code> （src为本机网卡地址中的其中一个）</p>
-<p>​    ip route add default via GW；</p>
-<p><code>ip route add default via 192.168.1.2</code></p>
-<p><strong>ip route del</strong></p>
-<p>#ip route delete 192.168.1.0/24</p>
-<p><strong>ip route get TYPE PREFIX</strong></p>
-<p>#ip route get 192.168.0.0/24</p>
-<p>SS 命令：</p>
-<ul>
-<li>-t ：tcp</li>
-<li>-u：udp</li>
-<li>-w：raw</li>
-<li>-l：listen</li>
-<li>-a：所有状态</li>
-<li>-n：数字格式</li>
-<li>-p：PID和进程</li>
-<li>-e：扩展</li>
-<li>-m：内存用量</li>
-<li>-o：计时器信息</li>
-</ul>
-<p>FILTER := [ state STATE-FILTER ] [ EXPRESSION ]：过滤选项</p>
-<p>TCP的常见状态：</p>
-<p>TCP FSM：</p>
-<p>​    LISTEN：监听</p>
-<p>​    ESTABLISEHD：建立的连接</p>
-<p>​    FIN_WAIT_1：</p>
-<p>​    FIN_WAIT_2:</p>
-<p>​    SYN_SENT:</p>
-<p>​    SYN_RECV:</p>
-<p>​    CLOSED:</p>
-<p>EXPRESSION:</p>
-<p>​    dport=</p>
-<p>​    sport=</p>
-<p>​        示例：ss -tan state 状态</p>
-<p>配置文件：/etx/sysconfig/network-scripts/ifcfg-IFACE</p>
-<p>IP/NETMASK/GW/DNS等专属的配置文件：</p>
-<p>IFACE：接口名称</p>
-<p>路由的相关配置文件：</p>
-<p>/etc/sysconfig/network-scripts/route-IFACE</p>
-<p>配置文件/etc/sysconfig/network-scripts/ifcfg-IFACE通过大量参数来定义接口的属性；其可通过vim等文本编辑器直接修改，也可以使用专用的命令的进行修改</p>
-<p>centos6：system-config-network</p>
-<p>centos7：nmtui，nmcli</p>
-<p>ifcfg-IFACE配置文件参数：</p>
-<ul>
-<li>DEVICE：设备名称，与IFACE必须保持一致；</li>
-<li>ONBOOT：在系统引导过程中是否激活设备；</li>
-<li>NETBOOT：是否支持网络引导；</li>
-<li>UUID：此设备的唯一标识；</li>
-<li>IPV6INIT：是否初始化IPV6；</li>
-<li>BOOTPROTO=激活此接口时使用什么协议配置接口属性，常用的有dhcp，bootp，static=none；</li>
-<li>TYPE：指定接口类型；</li>
-<li>DNS1~~DNS2：DNS服务器指向；</li>
-<li>DOMAIN：DNS搜索域；</li>
-<li>DEFROUTE：是否默认路由所使用接口；</li>
-<li>GATEWAY：默认网关；</li>
-<li>IPADDR：IP地址；</li>
-<li>NETMASK：子网掩码；Centos7支持使用prefix以长度方式指明子网掩码；</li>
-<li>IPV4_FAILURE_FATAL ：</li>
-<li>USERCTL：是否允许普通用户控制此设备；</li>
-<li>PEERDNS：如果bootproto的值为’dhcp‘，是否允许dhcpserver分配的dns服务器指向覆盖本地手动指定的dns服务器；默认为允许；</li>
-<li>NM_CONTROLLED：是否使用NetworkManager服务来控制接口配置；</li>
-</ul>
-<p>网络服务：</p>
-<p>​    network</p>
-<p>​    NetworkManager</p>
-<p>管理网络服务</p>
-<p>​    centos6：service SERVICE {start|status|restart|stop}</p>
-<p>​    centos7：systemctl {status|start|stop|restart} SERVICE</p>
-<p>配置修改以后，如果要生效，需要重启网络服务</p>
-<p>centos6：service network restart</p>
-<p>centos7：systemctl restart network.service</p>
-<p>用到非默认网关路由：/etc/sysconfig/network-scripts/route-IFACE</p>
-<p>支持两种配置方式，但是不可混用；</p>
-<ol>
-<li><p>每行一个路由条目</p>
-<p>​    TARGET via GW</p>
-<ol start="2">
-<li>每三行一个路由条目：</li>
-</ol>
-<p>ADDRESS#=TARGET</p>
-<p>NETMASK#=MASK</p>
-<p>GATEWAY#=NEXTHOP</p>
-</li>
-</ol>
-<p>ifconfig 也可以添加多个IP地址</p>
-<p>1.ifconfig IFACE——LABEL IPADDR/NETMASK</p>
-<p>​    IFACE_LABEL：eth0，eth1</p>
-<p>为别名添加配置文件：</p>
-<p>DEVICE=IFACE_LABEL</p>
-<p>BOOTPROTO：网上别名不支持动态获取</p>
-<p>static，none；</p>
-<p>NMCLI：</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/02/Trinity%E5%AE%89%E8%A3%85%E5%A4%87%E5%BF%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/02/Trinity%E5%AE%89%E8%A3%85%E5%A4%87%E5%BF%98/" class="post-title-link" itemprop="url">Trinity安装备忘</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-02 15:29:35 / 修改时间：23:29:51" itemprop="dateCreated datePublished" datetime="2020-06-02T15:29:35+08:00">2020-06-02</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Trinity-core-3-3-5"><a href="#Trinity-core-3-3-5" class="headerlink" title="Trinity core 3.3.5"></a>Trinity core 3.3.5</h1><h2 id="1-Linux-Requirements"><a href="#1-Linux-Requirements" class="headerlink" title="1. Linux Requirements"></a>1. Linux Requirements</h2><h3 id="debian-10-4"><a href="#debian-10-4" class="headerlink" title="debian 10.4"></a>debian 10.4</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip default-libmysqlclient-dev</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
-
-<h3 id="ubuntu-19-10"><a href="#ubuntu-19-10" class="headerlink" title="ubuntu 19.10"></a>ubuntu 19.10</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip libmariadb-client-lgpl-dev-compat</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
-
-<h3 id="Fedora-based-distributions"><a href="#Fedora-based-distributions" class="headerlink" title="Fedora based distributions"></a>Fedora based distributions</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dnf install https://dev.mysql.com/get/mysql57-community-release-fc27-1.noarch.rpm</span><br><span class="line">dnf install git clang cmake make gcc gcc-c++ community-mysql-devel compat-openssl10-devel bzip2-devel readline-devel ncurses-devel boost-devel community-mysql-server p7zip</span><br><span class="line">rm -f /usr/bin/c++</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-Core-Installation"><a href="#2-Core-Installation" class="headerlink" title="2. Core Installation"></a>2. Core Installation</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adduser &lt;username&gt;</span><br><span class="line">su - &lt;username&gt;</span><br><span class="line">git <span class="built_in">clone</span> -b 3.3.5 git://github.com/TrinityCore/TrinityCore.git</span><br><span class="line"><span class="built_in">cd</span> TrinityCore</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ../ [additional parameters]</span><br></pre></td></tr></table></figure>
-
-<h3 id="The-above-parameters-when-combined-into-a-full-example"><a href="#The-above-parameters-when-combined-into-a-full-example" class="headerlink" title="The above parameters when combined into a full example :"></a>The above parameters when combined into a full example :</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">By default this is the only row you will need to run to setup your install:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/&lt;username&gt;/server</span><br><span class="line"> </span><br><span class="line">Another Examples Below:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/wow/server -DTOOLS=0</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/<span class="variable">$USER</span>/server -DTOOLS=0 -DWITH_WARNINGS=1</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-Building-the-core"><a href="#3-Building-the-core" class="headerlink" title="3. Building the core"></a>3. Building the core</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make -j&lt;number of cores&gt;</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-
-<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/TrinityCore/</span><br><span class="line"><span class="comment"># For 3.3.5 Branch</span></span><br><span class="line">git pull origin 3.3.5</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-Server-Setup"><a href="#4-Server-Setup" class="headerlink" title="4. Server Setup"></a>4. Server Setup</h2><table>
-<thead>
-<tr>
-<th>Directory</th>
-<th>Branch</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>dbc</td>
-<td>all</td>
-<td>Mandatory</td>
-</tr>
-<tr>
-<td>maps</td>
-<td>all</td>
-<td>Mandatory</td>
-</tr>
-<tr>
-<td>vmaps</td>
-<td>all</td>
-<td>HIGHLY Recommended</td>
-</tr>
-<tr>
-<td>mmaps</td>
-<td>all</td>
-<td>HIGHLY Recommended</td>
-</tr>
-<tr>
-<td>cameras</td>
-<td>all</td>
-<td>Recommended</td>
-</tr>
-<tr>
-<td>gt</td>
-<td>master only</td>
-<td>Mandatory</td>
-</tr>
-</tbody></table>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;your WoW client directory&gt;</span><br><span class="line">/home/&lt;username&gt;/server/bin/mapextractor</span><br><span class="line">mkdir /home/&lt;username&gt;/server/data</span><br><span class="line">  </span><br><span class="line"><span class="comment"># Next line is 3.3.x only</span></span><br><span class="line">cp -r dbc maps /home/&lt;username&gt;/server/data</span><br><span class="line"></span><br><span class="line"><span class="comment"># edit worldserver.conf and change datadir from "." to "../data"</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;your WoW client directory&gt;</span><br><span class="line">/home/&lt;username&gt;/server/bin/vmap4extractor</span><br><span class="line">mkdir vmaps</span><br><span class="line">/home/&lt;username&gt;/server/bin/vmap4assembler Buildings vmaps</span><br><span class="line">cp -r vmaps /home/&lt;username&gt;/server/data</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;your WoW client directory&gt;</span><br><span class="line">mkdir mmaps</span><br><span class="line">/home/&lt;username&gt;/server/bin/mmaps_generator</span><br><span class="line">cp -r mmaps /home/&lt;username&gt;/server/data</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp worldserver.conf.dist worldserver.conf</span><br><span class="line">cp authserver.conf.dist authserver.conf <span class="comment"># 3.3.5 only</span></span><br><span class="line">cp bnetserver.conf.dist bnetserver.conf <span class="comment"># 6.x, 7.x only</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-Databases-Installation"><a href="#5-Databases-Installation" class="headerlink" title="5. Databases Installation"></a>5. Databases Installation</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;</span><br><span class="line"></span><br><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39;;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="6-Networking"><a href="#6-Networking" class="headerlink" title="6. Networking"></a>6. Networking</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line">use auth</span><br><span class="line">update realmlist <span class="built_in">set</span> address=<span class="string">'IP'</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-Final-Server-Steps"><a href="#7-Final-Server-Steps" class="headerlink" title="7. Final Server Steps"></a>7. Final Server Steps</h2><p><strong>account create USER PASSWORD</strong></p>
-<p><strong>account set gmlevel USER 3 -1</strong></p>
-<h2 id="8-Client-Setup"><a href="#8-Client-Setup" class="headerlink" title="8. Client Setup"></a>8. Client Setup</h2><ul>
-<li>Open the realmlist.wtffile inside your World of Warcraft\Data folder. The IP in the realmlist.wtf file should be exactly the same as the IP address you entered in the realmlist table above.<ul>
-<li>Change the first line to: *<em>set realmlist *</em></li>
-<li>Example: <strong>set realmlist 127.0.0.1</strong></li>
-</ul>
-</li>
-<li>(Optional) If you wish to use the WoW Launcher.exe to run your client then you must change your <strong>set patchlist</strong> to the same ip/dns name as your realmlist.</li>
-</ul>
-<h1 id="mysql命令导入"><a href="#mysql命令导入" class="headerlink" title="mysql命令导入"></a>mysql命令导入</h1><h2 id="1-mysql命令导入多个sql文件方法："><a href="#1-mysql命令导入多个sql文件方法：" class="headerlink" title="1 mysql命令导入多个sql文件方法："></a>1 mysql命令导入多个sql文件方法：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ for SQL in *.sql; do mysql -uroot -p&quot;123456&quot; mydb &lt; $SQL; done</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-source命令导入"><a href="#2-source命令导入" class="headerlink" title="2 source命令导入"></a>2 source命令导入</h2><p><code>source</code>命令需要首先进入<strong>MySQL命令行</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -uroot -p&quot;123456&quot;</span><br></pre></td></tr></table></figure>
-
-<p><strong>导入多个sql**</strong>文件<strong>需要先创建一个额外的文件，名字随意，这里我们取：</strong>all.sql**，内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source user1.sql</span><br><span class="line">source user2.sql</span><br><span class="line">source user3.sql</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意，这里每行一条，必须以source命令开头。</strong></p>
-<p>然后用<code>source</code>命令执行该文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; use mydb;</span><br><span class="line">mysql &gt; source &#x2F;home&#x2F;gary&#x2F;all.sql</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1665,7 +1320,7 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
