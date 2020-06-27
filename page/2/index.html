@@ -166,6 +166,119 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/19/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/19/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">Linux内核模块及功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-19 14:49:19 / 修改时间：22:49:36" itemprop="dateCreated datePublished" datetime="2020-06-19T14:49:19+08:00">2020-06-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel-–-rootfs-—switch-root–sbin-init"><a href="#CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel-–-rootfs-—switch-root–sbin-init" class="headerlink" title="CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel – rootfs —switch root–sbin/init"></a>CentOS启动流程–POST–Bootloader（BIOS，MBR）–kernel – rootfs —switch root–sbin/init</h2><h2 id="ldd-打印共享依赖库"><a href="#ldd-打印共享依赖库" class="headerlink" title="ldd 打印共享依赖库"></a>ldd 打印共享依赖库</h2><p><code>ldd /bin/ls | grep -o &quot;/lib[^[:space:]]*&quot;</code></p>
+<p>内核设计体系：<br>单内核、微内核<br>linux：单内核设计，但充分借鉴了微内核设计体系的设计有点，为内核引入了模块化机制；</p>
+<h2 id="内核的组成部分："><a href="#内核的组成部分：" class="headerlink" title="内核的组成部分："></a>内核的组成部分：</h2><pre><code>kernel：内核核心，一般为bzimage，通常位于/boot目录、名称为vmlinuz-VERSION-release;
+kernel object：内核对象，即内核模块、一般防止与/lib/modules/VERSION-release/
+    内核模块与内核核心版本一定要严格匹配；
+    [ ]：N
+    [M]：Module
+    [*]：Y、编译至内核核心
+内核模块：动态装载和卸载；</code></pre><p>ramdisk ：辅助性文件，并非必须的，这取决与内核是否能直接驱动rootfs所在的设备；<br>    目标设备驱动，例如SCSI设备的驱动；<br>    逻辑设备驱动，例如LVM设备的驱动<br>    文件系统，例如xfs文件系统；</p>
+<pre><code>ramdisk：是一个简装版的根文件系统；（运行与内存的系统）
+下一步要做跟切换，持久化</code></pre><h2 id="内核信息获取："><a href="#内核信息获取：" class="headerlink" title="内核信息获取："></a>内核信息获取：</h2><h3 id="uname-：print-system-information"><a href="#uname-：print-system-information" class="headerlink" title="uname ：print system information"></a>uname ：print system information</h3><pre><code>-a ：all
+-r ：release号，发行号
+-m ：machine 平台架构
+-n ：当前主机名</code></pre><p>模块信息获取：</p>
+<h3 id="lsmod"><a href="#lsmod" class="headerlink" title="lsmod"></a>lsmod</h3><p>显示当前系统的</p>
+<h3 id="modinfo"><a href="#modinfo" class="headerlink" title="modinfo"></a>modinfo</h3><p>显示模块详细信息；<br>-F field    ：仅显示指定字段的信息<br>-n 显示文件路径</p>
+<h3 id="modprobe"><a href="#modprobe" class="headerlink" title="modprobe"></a>modprobe</h3><p>实现模块动态装载卸载<br>默认是/etc/modprobe.conf<br>格式:<br><code>modprobe MODULE_NAME</code> 装载模块<br><code>modprobe -r MODULE_NAME</code> ：卸载模块</p>
+<p>不要随便卸载模块，除非你知道自己在做什么；</p>
+<h3 id="depmod"><a href="#depmod" class="headerlink" title="depmod"></a>depmod</h3><p>生成modules.dep和map文件；<br>内核模块依赖关系生成的工具；</p>
+<h3 id="模块的装载和卸载的另一组命令："><a href="#模块的装载和卸载的另一组命令：" class="headerlink" title="模块的装载和卸载的另一组命令："></a>模块的装载和卸载的另一组命令：</h3><p><code>insmode</code><br>    <code>insmode [filename] [module options...]
+        filename :模块的文件路径</code>rmmode<code></code>rmmod btrfs`<br>    rmmod [-f] [-s] [-v] [modulename]</p>
+<p>ramdisk 文件的管理；</p>
+<ol>
+<li>mkinitrd<ol>
+<li>为使用中的内核重新制作ramfs文件；</li>
+<li>–with=<module>：除了默认的模块之外需要装载至initramfs中的模块</li>
+<li>–preload=<module>:initramfs所提供的模块需要预先装载的模块；</li>
+<li>mkinitrd /boot/initramfs-$(uname -r) $(uname -r)</li>
+</ol>
+</li>
+<li>dracut   较为底层的制作initramfs文件的工具（选项较多，强大）<ol>
+<li>dracut [option…] <image> [<kernel version>]<br>例：<code>dracut initramfs-$(uname -r).img $(uname -r)</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="操作系统上的两个伪文件系统："><a href="#操作系统上的两个伪文件系统：" class="headerlink" title="操作系统上的两个伪文件系统："></a>操作系统上的两个伪文件系统：</h2><p>/proc<br>    内核状态及统计信息的输出接口；同时，还提供了一个配置接口：/proc/sys<br>    参数：<br>        只读；信息输出/proc/#/*<br>        可写：可接受用户指定的一个“新值“来实现对内核某功能和特性的配置；/proc/sys</p>
+<p>/sys    调优就是改这里的参数<br>必须充分理解内核各项参数</p>
+<p>不应该使用文本编辑器命令去编辑<br>而是应该使用重定向的方式去覆盖里面的值</p>
+<ol>
+<li>sysctl ：专用的命令</li>
+</ol>
+<p><code>sysctl net.ipv4.ip_forward</code><br><code>sysctl -w net.ipv4.ip_forward=1</code></p>
+<pre><code>sysctl -a ：显示所有可修改的值；
+sysctl variable； 对用/proc/sys目录下有对应关系的文件
+修改其值：
+    #sysctl -w variable=value   写入
+    -p ：从指定文件中加载；默认是/etc/sysctl.conf
+    直接sysctl -p 就可以，必要时可以添加文件路径；</code></pre><ol start="2">
+<li>文件系统命令<br> 查看：cat /proc/sys/net/ipv4/ip_forward<br> 设定：echo “VALUE” &gt; /proc/sys/net/ipv4/ip_forward</li>
+</ol>
+<p>注意，这两种方式设定的只是当前有效，重启失效<br>要永久有效必须保存至文件/etc/sysctl.conf 、/etc/sysctl.d/*.conf</p>
+<p>内核参数：核心转发/proc/sys/net/ipv4/ip_forward<br>        vm.drop_cache   缓存的内存 （0、1、2）<br>        kernel.hostname 主机名<br>        /proc/sys/net/ipv4/icmp_echo_ignore_all 忽略ping操作</p>
+<p>sysfs ：/sys 目录<br>输出内核识别出的各硬件设备的相关属性信息，也有内核对硬件特性的可设置参数，对此些参数的修改，即可定制硬件设备工作特性；</p>
+<p>udev：通过读取/sys目录下的硬件设备信息，按需为硬件设备创建设备文件；<br>udev 是用户空间程序；正是/sys的存在才能创建设备</p>
+<p>专用工具：<br>devadmin<br>hotplug<br>udev为设备创建设备文件时，会读取事先定义好的规则文件，一般在/etc/udev/rules.d/目录下，以及/usr/lib/udev/rules.d/</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/20-grub%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1483,203 +1596,6 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Master版本编译安装总结</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-01 05:18:30 / 修改时间：13:18:58" itemprop="dateCreated datePublished" datetime="2020-06-01T05:18:30+08:00">2020-06-01</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="TrinityCore"><a href="#TrinityCore" class="headerlink" title="TrinityCore"></a>TrinityCore</h1><h2 id="项目简介："><a href="#项目简介：" class="headerlink" title="项目简介："></a>项目简介：</h2><p><strong>TrinityCore</strong>是主要基于C ++ 的<em>MMORPG</em>框架。</p>
-<p>它是从<em>MaNGOS</em>（<em>大型网络游戏对象服务器</em>）派生而来的，它基于该项目的代码，该代码随着时间的流逝发生了很大的变化，以在优化游戏机制和功能的同时优化，改进和清理代码库。MANGOS技术组骨干成员进行研发，在技术和经验上都有很好的保证 。</p>
-<p>TrinityCore维护的版本目前有2个，分别是：3.3.5a的WLK版本、master（同步官服）版本;</p>
-<ul>
-<li>官网：<a href="https://www.trinitycore.org/" target="_blank" rel="noopener">https://www.trinitycore.org</a></li>
-<li>源码：<a href="https://github.com/TrinityCore" target="_blank" rel="noopener">https://github.com/TrinityCore</a></li>
-</ul>
-<h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Processor with SSE2 support </span><br><span class="line">Boost ≥ 1.58</span><br><span class="line">MySQL ≥ 5.7.0</span><br><span class="line">OpenSSL ≥ 1.0.x</span><br><span class="line">CMake ≥ 3.13.4</span><br><span class="line">Clang  ≥ 5 (heavy recommended, especially on master branch) or GCC ≥ 7.1.0</span><br><span class="line">zlib ≥ 1.2.7</span><br></pre></td></tr></table></figure>
-
-<p>debian 10.x</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip default-libmysqlclient-dev</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
-
-<p>ubuntu 19.10+</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip libmariadb-client-lgpl-dev-compat</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
-
-<p>Fedora based distributions</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dnf install https://dev.mysql.com/get/mysql57-community-release-fc27-1.noarch.rpm</span><br><span class="line">dnf install git clang cmake make gcc gcc-c++ community-mysql-devel compat-openssl10-devel bzip2-devel readline-devel ncurses-devel boost-devel community-mysql-server p7zip</span><br><span class="line">rm -f /usr/bin/c++</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
-
-<h2 id="Core-Installation"><a href="#Core-Installation" class="headerlink" title="Core Installation"></a>Core Installation</h2><p><code>sudo adduser &lt;username&gt;</code></p>
-<p><code>sudo su - &lt;username&gt;</code></p>
-<h3 id="Building-the-server-itself"><a href="#Building-the-server-itself" class="headerlink" title="Building the server itself"></a>Building the server itself</h3><h4 id="Getting-the-source-code"><a href="#Getting-the-source-code" class="headerlink" title="Getting the source code"></a>Getting the source code</h4><p><strong>3.3.5 (wotlk client)</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/</span><br><span class="line">git <span class="built_in">clone</span> -b 3.3.5 git://github.com/TrinityCore/TrinityCore.git</span><br></pre></td></tr></table></figure>
-
-<p><strong>master</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;</span><br><span class="line">git clone -b master git:&#x2F;&#x2F;github.com&#x2F;TrinityCore&#x2F;TrinityCore.git</span><br></pre></td></tr></table></figure>
-
-<h4 id="Compiling-the-source-code"><a href="#Compiling-the-source-code" class="headerlink" title="Compiling the source code"></a>Compiling the source code</h4><p>Creating the build-directory</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> TrinityCore</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br></pre></td></tr></table></figure>
-
-<h4 id="Configuring-for-compiling"><a href="#Configuring-for-compiling" class="headerlink" title="Configuring for compiling"></a>Configuring for compiling</h4><p><code>cmake ../ [additional parameters]</code></p>
-<p>TIPS:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">By default this is the only row you will need to run to setup your install:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/&lt;username&gt;/server</span><br><span class="line"> </span><br><span class="line">Another Examples Below:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/wow/server -DTOOLS=0</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/<span class="variable">$USER</span>/server -DTOOLS=0 -DWITH_WARNINGS=1</span><br></pre></td></tr></table></figure>
-
-<h4 id="Building-the-core"><a href="#Building-the-core" class="headerlink" title="Building the core"></a>Building the core</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-
-<h4 id="Keeping-the-code-up-to-date"><a href="#Keeping-the-code-up-to-date" class="headerlink" title="Keeping the code up to date"></a>Keeping the code up to date</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/TrinityCore/</span><br><span class="line"><span class="comment"># For 3.3.5 Branch</span></span><br><span class="line">git pull origin 3.3.5</span><br><span class="line">  </span><br><span class="line"><span class="comment"># For master Branch</span></span><br><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
-
-<h3 id="Installing-MySQL-Server"><a href="#Installing-MySQL-Server" class="headerlink" title="Installing MySQL Server"></a>Installing MySQL Server</h3><p>rename the <strong>worldserver.conf.dist</strong> and <strong>authserver.conf.dist</strong> files in <strong>worldserver.conf</strong> and <strong>authserver.conf</strong></p>
-<h2 id="Extractors"><a href="#Extractors" class="headerlink" title="Extractors"></a>Extractors</h2><table>
-<thead>
-<tr>
-<th>Directory</th>
-<th>Branch</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>dbc</td>
-<td>all</td>
-<td>Mandatory</td>
-</tr>
-<tr>
-<td>maps</td>
-<td>all</td>
-<td>Mandatory</td>
-</tr>
-<tr>
-<td>vmaps</td>
-<td>all</td>
-<td>HIGHLY Recommended</td>
-</tr>
-<tr>
-<td>mmaps</td>
-<td>all</td>
-<td>HIGHLY Recommended</td>
-</tr>
-<tr>
-<td>cameras</td>
-<td>all</td>
-<td>Recommended</td>
-</tr>
-<tr>
-<td>gt</td>
-<td>master only</td>
-<td>Mandatory</td>
-</tr>
-</tbody></table>
-<h2 id="Extracting-DBC-Maps-VMaps-amp-MMaps"><a href="#Extracting-DBC-Maps-VMaps-amp-MMaps" class="headerlink" title="Extracting DBC, Maps, VMaps &amp; MMaps"></a>Extracting DBC, Maps, VMaps &amp; MMaps</h2><h4 id="DBC-and-Maps-files"><a href="#DBC-and-Maps-files" class="headerlink" title="DBC and Maps files"></a>DBC and Maps files</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;mapextractor&#96;&#96;mkdir &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96;&#96; &#96; &#96;# Next line is 3.3.x only&#96;&#96;cp -r dbc maps &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96;&#96;# Next line is 6.x, 7.x only&#96;&#96;cp -r dbc maps gt &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96; &#96;edit worldserver.conf and change datadir from &#96;&#96;&quot;.&quot;&#96; &#96;to &#96;&#96;&quot;..&#x2F;data&quot;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Visual-Maps-aka-vmaps-Note-If-you-stop-vmap4extractor-before-finish-you-will-need-to-delete-the-Buildings-directory-before-start-again"><a href="#Visual-Maps-aka-vmaps-Note-If-you-stop-vmap4extractor-before-finish-you-will-need-to-delete-the-Buildings-directory-before-start-again" class="headerlink" title="Visual Maps (aka vmaps) Note: If you stop vmap4extractor before finish you will need to delete the Buildings directory before start again."></a>Visual Maps (aka vmaps) Note: If you stop vmap4extractor before finish you will need to delete the Buildings directory before start again.</h4><p>You can also extract vmaps which will take quite a while depending on your machine (up to hours on ancient hardware).</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;vmap4extractor&#96;&#96;mkdir vmaps&#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;vmap4assembler Buildings vmaps&#96;&#96;cp -r vmaps &#x2F;home&#x2F;&#x2F;server&#x2F;data</span><br></pre></td></tr></table></figure>
-
-<p>When this is complete you will receive the following message which can be safely ignored.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Processing Map 724&#96;&#96;[################################################################]&#96;&#96;Extracting GameObject models...Extracting World\Wmo\Band\Final_Stage.wmo&#96;&#96;No such file.&#96;&#96;Couldn&#39;t open RootWmo!!!&#96;&#96;Done!&#96;&#96; &#96; &#96;Extract V4.00 2012_02. Work complete. No errors.</span><br></pre></td></tr></table></figure>
-
-<h4 id="Movement-Maps-aka-mmaps-optional-RECOMMENDED"><a href="#Movement-Maps-aka-mmaps-optional-RECOMMENDED" class="headerlink" title="Movement Maps  (aka mmaps - optional RECOMMENDED)"></a>Movement Maps  (aka mmaps - optional RECOMMENDED)</h4><p>Extracting mmaps will take quite a while depending on your machine (up to hours).</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;mkdir mmaps&#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;mmaps_generator&#96;&#96;cp -r mmaps &#x2F;home&#x2F;&#x2F;server&#x2F;data</span><br></pre></td></tr></table></figure>
-
-<h2 id="Setting-up-the-configuration-files"><a href="#Setting-up-the-configuration-files" class="headerlink" title="Setting up the configuration files"></a>Setting up the configuration files</h2><p>First of all you need to find the two default config files (named <strong>worldserver.conf.dist</strong> and <strong>authserver.conf.dist (\</strong>bnetserver.conf.dist in 6.x)*<strong>* ) and copy these to their namesakes without the **.dist</strong> extension. You can find them within /trinitycore/etc/ (may vary).</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp worldserver.conf.dist worldserver.conf&#96;&#96;cp authserver.conf.dist authserver.conf # 3.3.5 only&#96;&#96;cp bnetserver.conf.dist bnetserver.conf # 6.x, 7.x only</span><br></pre></td></tr></table></figure>
-
-<h2 id="Databases-Installation"><a href="#Databases-Installation" class="headerlink" title="Databases Installation"></a>Databases Installation</h2><p>3.3.5</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;</span><br><span class="line"></span><br><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39;;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
-
-<p>master</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 ;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;hotfixes&#96; DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;hotfixes&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Populating-the-MySQL-Trinity-databases"><a href="#Populating-the-MySQL-Trinity-databases" class="headerlink" title="Populating the MySQL Trinity databases"></a>Populating the MySQL Trinity databases</h4><p>下载github页面上的TDB文件，解压到程序主目录，就是有bin目录的那一层目录；</p>
-<h2 id="Worldserver-and-Authserver-configurations"><a href="#Worldserver-and-Authserver-configurations" class="headerlink" title="Worldserver and Authserver configurations"></a>Worldserver and Authserver configurations</h2><p>更新数据库的<strong>Realmlist Table</strong></p>
-<p>Open the <strong>auth</strong> database and find the <strong>realmlist</strong> table. You need to edit the <code>address</code> field </p>
-<ul>
-<li>LAN IP (192.168.x.x) - If you are installing TrinityCore on a different computer from where you run WoW, but all the computers involved are on the same network (router) use that computer’s Local Area Network IP.</li>
-<li>127.0.0.1 - Also known as “localhost”. Leave this setting alone here and in your configs if you’ve installed TrinityCore on the same computer you run WoW on, and only you are connecting to it.</li>
-<li>External IP – If you want other people to connect to your server, use your external IP. Visit <a href="http://www.whatismyip.com/" target="_blank" rel="noopener">http://www.whatismyip.com/</a> to find your external IP address.</li>
-</ul>
-<h2 id="Account-Creation-Examples"><a href="#Account-Creation-Examples" class="headerlink" title="Account Creation Examples:"></a>Account Creation Examples:</h2><h2 id="3-3-5"><a href="#3-3-5" class="headerlink" title="3.3.5"></a>3.3.5</h2><p><strong>To create your account: very important, don’t use @ on account names.</strong></p>
-<p>Type: *<em>account create  *</em></p>
-<p>Example: <strong>account create test test</strong></p>
-<p><strong>To set your account level:</strong></p>
-<p>Type: <strong>account set gmlevel  3 -1</strong></p>
-<p>Example: <strong>account set gmlevel test 3 -1</strong></p>
-<p><strong>Login to your account:</strong></p>
-<p>Log in with account <strong>test</strong> and <strong>password</strong> test through <strong>wow.exe.</strong></p>
-<h2 id="master"><a href="#master" class="headerlink" title="master"></a>master</h2><p><strong>To create your account:</strong></p>
-<p>Type: *<em>bnetaccount create  *</em></p>
-<p>Example: <strong>bnetaccount create test@test test</strong></p>
-<p><strong>To set your account level:</strong></p>
-<p>Type: <strong>account set gmlevel  3 -1</strong></p>
-<p>Example: <strong>account set gmlevel 1#1 3 -1</strong></p>
-<p>Note: The <strong>username</strong> used for setting your <strong>gmlevel</strong> is <strong>not the same as</strong> the <strong>username</strong> you create with <strong>bnetaccount</strong>. You must manually <strong>find</strong> the <strong>username in auth.account.username</strong>. These are formatted as <strong>1#1, 2#1, etc.</strong></p>
-<p><strong>NOTE2: if you have connected before using this command you will need to relog.</strong></p>
-<p><strong>Login to your account:</strong></p>
-<p>Log in with email <strong>test@test</strong> and password <strong>test</strong>.through a <strong>Custom Client Launcher (Not provided).</strong></p>
-<h2 id="Client-Setup"><a href="#Client-Setup" class="headerlink" title="Client Setup"></a>Client Setup</h2><p>3.35only</p>
-<ul>
-<li>Open the realmlist.wtf file inside your World of Warcraft\Data folder. The IP in the realmlist.wtf file should be exactly the same as the IP address you entered in the realmlist table above.<ul>
-<li>Change the first line to: *<em>set realmlist *</em></li>
-<li>Example: <strong><em>set realmlist 127.0.0.1\</em></strong></li>
-</ul>
-</li>
-<li>(Optional) If you wish to use the WoW Launcher.exe to run your client then you must change your <strong>set patchlist</strong> to the same ip/dns name as your realmlist.</li>
-</ul>
-<p>master only</p>
-<ul>
-<li>Change <strong>Config.wtf</strong>: SET portal “****”</li>
-<li>The IP in the Config.wtf file should be exactly the same as the IP address you entered in the realmlist table above. (Example: <strong>SET portal “127.0.0.1”</strong>)</li>
-</ul>
-<p>Note: you will need a custom client launcher (not provided) to connect to master branch server.</p>
-<p>NOTE don’t use localhost for address, if you need to connect to localhost use 127.0.0.1</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1749,7 +1665,7 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
