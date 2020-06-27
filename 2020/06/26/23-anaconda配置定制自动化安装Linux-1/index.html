@@ -23,16 +23,16 @@
   <meta name="description" content="安装操作系统的过程就是规划系统，把需要的功能和响应的文件放到合适的位置；创建用户init程序可以自动化实现 CentOS系统安装：bootloader–kernel（initrd（rootfs））–anaconda安装程序：anaconda必须先启动内核：提供一个界面。首先，创建一个bootloader（安装在光盘或者U盘）之后加载设备上某个路径的kernel（vmlinuz）之后借助于initr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="23.anaconda配置定制自动化安装Linux">
-<meta property="og:url" content="http://yoursite.com/2020/06/22/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/06/26/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux-1/index.html">
 <meta property="og:site_name" content="Lcxiao&#39;s blog">
 <meta property="og:description" content="安装操作系统的过程就是规划系统，把需要的功能和响应的文件放到合适的位置；创建用户init程序可以自动化实现 CentOS系统安装：bootloader–kernel（initrd（rootfs））–anaconda安装程序：anaconda必须先启动内核：提供一个界面。首先，创建一个bootloader（安装在光盘或者U盘）之后加载设备上某个路径的kernel（vmlinuz）之后借助于initr">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-22T06:58:07.000Z">
-<meta property="article:modified_time" content="2020-06-22T14:58:24.941Z">
+<meta property="article:published_time" content="2020-06-26T23:30:47.000Z">
+<meta property="article:modified_time" content="2020-06-27T07:31:04.386Z">
 <meta property="article:author" content="lcxiao">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/22/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux/">
+<link rel="canonical" href="http://yoursite.com/2020/06/26/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux-1/">
 
 
 <script id="page-configurations">
@@ -171,7 +171,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/22/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -195,7 +195,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-06-22 14:58:07 / 修改时间：22:58:24" itemprop="dateCreated datePublished" datetime="2020-06-22T14:58:07+08:00">2020-06-22</time>
+              <time title="创建时间：2020-06-27 07:30:47 / 修改时间：15:31:04" itemprop="dateCreated datePublished" datetime="2020-06-27T07:30:47+08:00">2020-06-27</time>
             </span>
 
           
@@ -229,7 +229,49 @@ boot：linux text</code></pre><p>注意：上述内容一般位于引导设备�
 <p>anaconda配置方式<br>    1. 交互式配置方式<br>    2. 支持通过读取配置文件中实现定义好的配置项自动完成配置；遵循特定的语法格式，此文件即为kickstart文件；</p>
 <p>此文件可以放在本地文件服务器上；</p>
 <p>安装引导选项：<br>text：文本安装方式<br>method：手动指定使用的安装方法<br>与网路相关的引导选项：<br>    ip=IPADDR<br>    netmask=NETMASK<br>    gateway=GW<br>    dns=DNS_SERVER_IP<br>远程访问功能相关的引导选项：<br>    VNC<br>    vncpasswd=’password’<br>启动紧急救援模式：<br>    rescue<br>装载额外驱动：<br>    dd</p>
-<p><a href="http://www.redhat.com/docs" target="_blank" rel="noopener">www.redhat.com/docs</a> &lt;<installation guide>&gt;</p>
+<p><a href="http://www.redhat.com/docs" target="_blank" rel="noopener">www.redhat.com/docs</a> 《installation guide》</p>
+<h2 id="CentOS系统安装："><a href="#CentOS系统安装：" class="headerlink" title="CentOS系统安装："></a>CentOS系统安装：</h2><pre><code>ks：指明kickstart文件的位置
+ks=
+    DVD driver：ks=cdrom:PATH/TO/KICKSTART_FILE
+    Hard_Driver:ks=hd:/DEVICE/PATH/TO/KICKSTART_FILE
+    HTTP Server  ks=http://HOST[:PORT]/PATH/TO/KICKSTART_FILE
+    FTP Server ks=ftp://HOST[:PORT]/PATH/TO/KICKSTART_FILE
+    HTTPS Server: ks=https://HOST[:PORT]/PATH/TO/KICKSTART_FILE
+
+kickstart文件的格式
+    命令段  指定各种安装前配置选项，如键盘类型等；
+        必备命令
+        可选命令
+
+    程序包段    
+        指明要安装的程序包，以及包组，也包括不安装的程序包；
+        %packages 表示程序包段开始，中间的都表示程序包
+        @group_name 安装包组
+        package 安装
+        -package    不安装
+        %end        结束
+
+    脚本段
+        %pre 安装前脚本
+            运行环境：运行安装介质上的微型linux系统环境
+        %post 安装后脚本
+            运行环境：安装完成的系统</code></pre><h3 id="命令端中的选项"><a href="#命令端中的选项" class="headerlink" title="命令端中的选项"></a>命令端中的选项</h3><p>auth | authconfig   认证方式配置<br><code>auth --enableshadow --passalgo=sha512</code><br>bootloader  定义bootloader的安装位置及相关配置<br><code>bootloader --append=&quot; crashkernel=auto&quot; --location=mbr --boot-drive=sda</code><br>Keyboard layouts    设置键盘类型<br><code>keyboard --vckeymap=us --xlayouts=&#39;us&#39;</code><br>System language 语言类型<br><code>lang en_US.UTF-8</code><br>part    分区布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line"># Disk partitioning information</span><br><span class="line">part &#x2F;boot --fstype&#x3D;&quot;xfs&quot; --ondisk&#x3D;sda --size&#x3D;1024</span><br><span class="line">part &#x2F; --fstype&#x3D;&quot;xfs&quot; --ondisk&#x3D;sda --size&#x3D;17404</span><br><span class="line">part swap --fstype&#x3D;&quot;swap&quot; --ondisk&#x3D;sda --size&#x3D;204</span><br></pre></td></tr></table></figure>
+<p> Partition clearing information 清空磁盘分区<br>    clearpart –none –initlabel</p>
+<p>volgroup：创建卷组<br>logvol：</p>
+<p>Root password       设置密码：<br>rootpw –iscrypted $6$TWt34GTGFsaxobTC$cR4TOgqr/2uf7RDAPFlPT6QgPbhoMZVNsKMAKpk3FduEsGB4F92Gx8Vivm.26QdEnnGlCUcbMWHQYqoA8QPnz.</p>
+<p>使用openssl手动生成一个：$ openssl passwd -1 -salt <code>openssl rand -hex 4</code></p>
+<p>System timezone 时区<br>timezone Asia/Shanghai –isUtc –nontp</p>
+<h3 id="可选命令："><a href="#可选命令：" class="headerlink" title="可选命令："></a>可选命令：</h3><p>install OR upgrade ：安装或升级<br>text ：安装界面类型 text为tui ，默认为GUI<br>network ：配置网络接口<br>    network –onboot=yes –device eth0 –bootproto dhcp –noipv6<br>firewall： 防火墙<br>    firewall –disable<br>selinux ：SELinux<br>    selinux –disable</p>
+<p>系统安装之后禁用防火墙：<br>    CentOS6：<br>        service iptables off<br>        chkconfig iptables off<br>    CentOS7：<br>        systemctl stop firewalld<br>        systemctl disable firewalls</p>
+<p>系统安装之后禁用selinux<br>    /etc/sysconfig/selinux 修改SELINUX的值为下面2.3项即可<br>        enforcing<br>        permissive<br>        disable<br>    getenforce  获取状态<br>    setenforce 0 设置关闭，立即生效<br>编辑/etx/sysconfig/selinux 或者 /etc/selinux/config</p>
+<p>halt、poweroff 或者reboot 安装完成之后的行为：<br>repo：指定安装时使用的repository：<br>    repo –name=”CentOS” –baseurl=cdrom:sr0 –cost=100<br>url:指明安装时使用的repository，但为url格式：<br>url –url=<a href="http://xxxx" target="_blank" rel="noopener">http://xxxx</a><br>必须定义好网络，能够访问才行；</p>
+<p>其他可参考官方文档：《Installation Guide》</p>
+<h3 id="如何编辑anaconda-ks-cfg文件"><a href="#如何编辑anaconda-ks-cfg文件" class="headerlink" title="如何编辑anaconda-ks.cfg文件"></a>如何编辑anaconda-ks.cfg文件</h3><p>yum install system-config-kickstart包</p>
+<p>ESC<br>linux ip=xxx.xxx.xxx.xxx netmask=255.255.255.xxx ks=<a href="http://PATH/to/file" target="_blank" rel="noopener">http://PATH/to/file</a></p>
+<p>把光盘的isolinux文件夹拷贝过来<br>把ks文件复制过来<br>放在光盘根目录或者isolinux文件夹下都可以<br>创建光盘镜像<br>mkisofs -R -J -T -v –no-emul-boot –boot-load-size 4 –boot-info-table -V “光盘名字” -c isolinux/boot.cat -b isolinux/isolinux.bin -o /root/boot.iso myboot/</p>
+<p>网络启动<br>dhcp服务器<br>tftp服务器<br>网络仓库</p>
+<p>自动化安装过程<br>DVD ： ks=cdrom：/PATH/TO/KS_FILE<br>HTTP: ks=<a href="http://HOST:PORT/PATH/TO/KS_FILE">http://HOST:PORT/PATH/TO/KS_FILE</a></p>
 
     </div>
 
@@ -264,12 +306,12 @@ boot：linux text</code></pre><p>注意：上述内容一般位于引导设备�
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/22/22-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%AE%9A%E5%88%B6/" rel="prev" title="22.Linux内核模块功能定制">
-      <i class="fa fa-chevron-left"></i> 22.Linux内核模块功能定制
+    <a href="/2020/06/22/2-24%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" rel="prev" title="2.24编译安装">
+      <i class="fa fa-chevron-left"></i> 2.24编译安装
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/22/2-24%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" rel="next" title="2.24编译安装">
-      2.24编译安装 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/06/26/24-%E5%BE%AA%E7%8E%AF%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/" rel="next" title="24.循环的高级用法">
+      24.循环的高级用法 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -329,6 +371,7 @@ boot：linux text</code></pre><p>注意：上述内容一般位于引导设备�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS系统安装："><span class="nav-number">1.</span> <span class="nav-text">CentOS系统安装：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令端中的选项"><span class="nav-number">1.1.</span> <span class="nav-text">命令端中的选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选命令："><span class="nav-number">1.2.</span> <span class="nav-text">可选命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何编辑anaconda-ks-cfg文件"><span class="nav-number">1.3.</span> <span class="nav-text">如何编辑anaconda-ks.cfg文件</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

