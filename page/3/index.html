@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Lcxiao&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Lcxiao&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="lcxiao">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Lcxiao&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Lcxiao&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="trinity-Master版本编译安装总结" class="article article-type-trinity" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2020-05-31T21:18:30.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/">Master版本编译安装总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="TrinityCore"><a href="#TrinityCore" class="headerlink" title="TrinityCore"></a>TrinityCore</h1><h2 id="项目简介："><a href="#项目简介：" class="headerlink" title="项目简介："></a>项目简介：</h2><p><strong>TrinityCore</strong>是主要基于C ++ 的<em>MMORPG</em>框架。</p>
+<p>它是从<em>MaNGOS</em>（<em>大型网络游戏对象服务器</em>）派生而来的，它基于该项目的代码，该代码随着时间的流逝发生了很大的变化，以在优化游戏机制和功能的同时优化，改进和清理代码库。MANGOS技术组骨干成员进行研发，在技术和经验上都有很好的保证 。</p>
+<p>TrinityCore维护的版本目前有2个，分别是：3.3.5a的WLK版本、master（同步官服）版本;</p>
+<ul>
+<li>官网：<a href="https://www.trinitycore.org/" target="_blank" rel="noopener">https://www.trinitycore.org</a></li>
+<li>源码：<a href="https://github.com/TrinityCore" target="_blank" rel="noopener">https://github.com/TrinityCore</a></li>
+</ul>
+<h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Processor with SSE2 support </span><br><span class="line">Boost ≥ 1.58</span><br><span class="line">MySQL ≥ 5.7.0</span><br><span class="line">OpenSSL ≥ 1.0.x</span><br><span class="line">CMake ≥ 3.13.4</span><br><span class="line">Clang  ≥ 5 (heavy recommended, especially on master branch) or GCC ≥ 7.1.0</span><br><span class="line">zlib ≥ 1.2.7</span><br></pre></td></tr></table></figure>
+
+<p>debian 10.x</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip default-libmysqlclient-dev</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<p>ubuntu 19.10+</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git clang cmake make gcc g++ libmariadbclient-dev libssl-dev libbz2-dev libreadline-dev libncurses-dev libboost-all-dev mariadb-server p7zip libmariadb-client-lgpl-dev-compat</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<p>Fedora based distributions</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dnf install https://dev.mysql.com/get/mysql57-community-release-fc27-1.noarch.rpm</span><br><span class="line">dnf install git clang cmake make gcc gcc-c++ community-mysql-devel compat-openssl10-devel bzip2-devel readline-devel ncurses-devel boost-devel community-mysql-server p7zip</span><br><span class="line">rm -f /usr/bin/c++</span><br><span class="line">update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100</span><br><span class="line">update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang 100</span><br></pre></td></tr></table></figure>
+
+<h2 id="Core-Installation"><a href="#Core-Installation" class="headerlink" title="Core Installation"></a>Core Installation</h2><p><code>sudo adduser &lt;username&gt;</code></p>
+<p><code>sudo su - &lt;username&gt;</code></p>
+<h3 id="Building-the-server-itself"><a href="#Building-the-server-itself" class="headerlink" title="Building the server itself"></a>Building the server itself</h3><h4 id="Getting-the-source-code"><a href="#Getting-the-source-code" class="headerlink" title="Getting the source code"></a>Getting the source code</h4><p><strong>3.3.5 (wotlk client)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/</span><br><span class="line">git <span class="built_in">clone</span> -b 3.3.5 git://github.com/TrinityCore/TrinityCore.git</span><br></pre></td></tr></table></figure>
+
+<p><strong>master</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;</span><br><span class="line">git clone -b master git:&#x2F;&#x2F;github.com&#x2F;TrinityCore&#x2F;TrinityCore.git</span><br></pre></td></tr></table></figure>
+
+<h4 id="Compiling-the-source-code"><a href="#Compiling-the-source-code" class="headerlink" title="Compiling the source code"></a>Compiling the source code</h4><p>Creating the build-directory</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> TrinityCore</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br></pre></td></tr></table></figure>
+
+<h4 id="Configuring-for-compiling"><a href="#Configuring-for-compiling" class="headerlink" title="Configuring for compiling"></a>Configuring for compiling</h4><p><code>cmake ../ [additional parameters]</code></p>
+<p>TIPS:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">By default this is the only row you will need to run to setup your install:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/&lt;username&gt;/server</span><br><span class="line"> </span><br><span class="line">Another Examples Below:</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/wow/server -DTOOLS=0</span><br><span class="line">cmake ../ -DCMAKE_INSTALL_PREFIX=/home/<span class="variable">$USER</span>/server -DTOOLS=0 -DWITH_WARNINGS=1</span><br></pre></td></tr></table></figure>
+
+<h4 id="Building-the-core"><a href="#Building-the-core" class="headerlink" title="Building the core"></a>Building the core</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h4 id="Keeping-the-code-up-to-date"><a href="#Keeping-the-code-up-to-date" class="headerlink" title="Keeping the code up to date"></a>Keeping the code up to date</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/TrinityCore/</span><br><span class="line"><span class="comment"># For 3.3.5 Branch</span></span><br><span class="line">git pull origin 3.3.5</span><br><span class="line">  </span><br><span class="line"><span class="comment"># For master Branch</span></span><br><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
+
+<h3 id="Installing-MySQL-Server"><a href="#Installing-MySQL-Server" class="headerlink" title="Installing MySQL Server"></a>Installing MySQL Server</h3><p>rename the <strong>worldserver.conf.dist</strong> and <strong>authserver.conf.dist</strong> files in <strong>worldserver.conf</strong> and <strong>authserver.conf</strong></p>
+<h2 id="Extractors"><a href="#Extractors" class="headerlink" title="Extractors"></a>Extractors</h2><table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Branch</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dbc</td>
+<td>all</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>maps</td>
+<td>all</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>vmaps</td>
+<td>all</td>
+<td>HIGHLY Recommended</td>
+</tr>
+<tr>
+<td>mmaps</td>
+<td>all</td>
+<td>HIGHLY Recommended</td>
+</tr>
+<tr>
+<td>cameras</td>
+<td>all</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>master only</td>
+<td>Mandatory</td>
+</tr>
+</tbody></table>
+<h2 id="Extracting-DBC-Maps-VMaps-amp-MMaps"><a href="#Extracting-DBC-Maps-VMaps-amp-MMaps" class="headerlink" title="Extracting DBC, Maps, VMaps &amp; MMaps"></a>Extracting DBC, Maps, VMaps &amp; MMaps</h2><h4 id="DBC-and-Maps-files"><a href="#DBC-and-Maps-files" class="headerlink" title="DBC and Maps files"></a>DBC and Maps files</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;mapextractor&#96;&#96;mkdir &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96;&#96; &#96; &#96;# Next line is 3.3.x only&#96;&#96;cp -r dbc maps &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96;&#96;# Next line is 6.x, 7.x only&#96;&#96;cp -r dbc maps gt &#x2F;home&#x2F;&#x2F;server&#x2F;data&#96; &#96;edit worldserver.conf and change datadir from &#96;&#96;&quot;.&quot;&#96; &#96;to &#96;&#96;&quot;..&#x2F;data&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Visual-Maps-aka-vmaps-Note-If-you-stop-vmap4extractor-before-finish-you-will-need-to-delete-the-Buildings-directory-before-start-again"><a href="#Visual-Maps-aka-vmaps-Note-If-you-stop-vmap4extractor-before-finish-you-will-need-to-delete-the-Buildings-directory-before-start-again" class="headerlink" title="Visual Maps (aka vmaps) Note: If you stop vmap4extractor before finish you will need to delete the Buildings directory before start again."></a>Visual Maps (aka vmaps) Note: If you stop vmap4extractor before finish you will need to delete the Buildings directory before start again.</h4><p>You can also extract vmaps which will take quite a while depending on your machine (up to hours on ancient hardware).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;vmap4extractor&#96;&#96;mkdir vmaps&#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;vmap4assembler Buildings vmaps&#96;&#96;cp -r vmaps &#x2F;home&#x2F;&#x2F;server&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<p>When this is complete you will receive the following message which can be safely ignored.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Processing Map 724&#96;&#96;[################################################################]&#96;&#96;Extracting GameObject models...Extracting World\Wmo\Band\Final_Stage.wmo&#96;&#96;No such file.&#96;&#96;Couldn&#39;t open RootWmo!!!&#96;&#96;Done!&#96;&#96; &#96; &#96;Extract V4.00 2012_02. Work complete. No errors.</span><br></pre></td></tr></table></figure>
+
+<h4 id="Movement-Maps-aka-mmaps-optional-RECOMMENDED"><a href="#Movement-Maps-aka-mmaps-optional-RECOMMENDED" class="headerlink" title="Movement Maps  (aka mmaps - optional RECOMMENDED)"></a>Movement Maps  (aka mmaps - optional RECOMMENDED)</h4><p>Extracting mmaps will take quite a while depending on your machine (up to hours).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#96;&#96;mkdir mmaps&#96;&#96;&#x2F;home&#x2F;&#x2F;server&#x2F;bin&#x2F;mmaps_generator&#96;&#96;cp -r mmaps &#x2F;home&#x2F;&#x2F;server&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<h2 id="Setting-up-the-configuration-files"><a href="#Setting-up-the-configuration-files" class="headerlink" title="Setting up the configuration files"></a>Setting up the configuration files</h2><p>First of all you need to find the two default config files (named <strong>worldserver.conf.dist</strong> and <strong>authserver.conf.dist (\</strong>bnetserver.conf.dist in 6.x)*<strong>* ) and copy these to their namesakes without the **.dist</strong> extension. You can find them within /trinitycore/etc/ (may vary).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp worldserver.conf.dist worldserver.conf&#96;&#96;cp authserver.conf.dist authserver.conf # 3.3.5 only&#96;&#96;cp bnetserver.conf.dist bnetserver.conf # 6.x, 7.x only</span><br></pre></td></tr></table></figure>
+
+<h2 id="Databases-Installation"><a href="#Databases-Installation" class="headerlink" title="Databases Installation"></a>Databases Installation</h2><p>3.3.5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0;</span><br><span class="line"></span><br><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39;;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+
+<p>master</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">GRANT USAGE ON * . * TO &#39;trinity&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;trinity&#39; WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 ;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;world&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;characters&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;auth&#96; DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line"></span><br><span class="line">CREATE DATABASE &#96;hotfixes&#96; DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;world&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;characters&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;auth&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line">GRANT ALL PRIVILEGES ON &#96;hotfixes&#96; . * TO &#39;trinity&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Populating-the-MySQL-Trinity-databases"><a href="#Populating-the-MySQL-Trinity-databases" class="headerlink" title="Populating the MySQL Trinity databases"></a>Populating the MySQL Trinity databases</h4><p>下载github页面上的TDB文件，解压到程序主目录，就是有bin目录的那一层目录；</p>
+<h2 id="Worldserver-and-Authserver-configurations"><a href="#Worldserver-and-Authserver-configurations" class="headerlink" title="Worldserver and Authserver configurations"></a>Worldserver and Authserver configurations</h2><p>更新数据库的<strong>Realmlist Table</strong></p>
+<p>Open the <strong>auth</strong> database and find the <strong>realmlist</strong> table. You need to edit the <code>address</code> field </p>
+<ul>
+<li>LAN IP (192.168.x.x) - If you are installing TrinityCore on a different computer from where you run WoW, but all the computers involved are on the same network (router) use that computer’s Local Area Network IP.</li>
+<li>127.0.0.1 - Also known as “localhost”. Leave this setting alone here and in your configs if you’ve installed TrinityCore on the same computer you run WoW on, and only you are connecting to it.</li>
+<li>External IP – If you want other people to connect to your server, use your external IP. Visit <a href="http://www.whatismyip.com/" target="_blank" rel="noopener">http://www.whatismyip.com/</a> to find your external IP address.</li>
+</ul>
+<h2 id="Account-Creation-Examples"><a href="#Account-Creation-Examples" class="headerlink" title="Account Creation Examples:"></a>Account Creation Examples:</h2><h2 id="3-3-5"><a href="#3-3-5" class="headerlink" title="3.3.5"></a>3.3.5</h2><p><strong>To create your account: very important, don’t use @ on account names.</strong></p>
+<p>Type: *<em>account create  *</em></p>
+<p>Example: <strong>account create test test</strong></p>
+<p><strong>To set your account level:</strong></p>
+<p>Type: <strong>account set gmlevel  3 -1</strong></p>
+<p>Example: <strong>account set gmlevel test 3 -1</strong></p>
+<p><strong>Login to your account:</strong></p>
+<p>Log in with account <strong>test</strong> and <strong>password</strong> test through <strong>wow.exe.</strong></p>
+<h2 id="master"><a href="#master" class="headerlink" title="master"></a>master</h2><p><strong>To create your account:</strong></p>
+<p>Type: *<em>bnetaccount create  *</em></p>
+<p>Example: <strong>bnetaccount create test@test test</strong></p>
+<p><strong>To set your account level:</strong></p>
+<p>Type: <strong>account set gmlevel  3 -1</strong></p>
+<p>Example: <strong>account set gmlevel 1#1 3 -1</strong></p>
+<p>Note: The <strong>username</strong> used for setting your <strong>gmlevel</strong> is <strong>not the same as</strong> the <strong>username</strong> you create with <strong>bnetaccount</strong>. You must manually <strong>find</strong> the <strong>username in auth.account.username</strong>. These are formatted as <strong>1#1, 2#1, etc.</strong></p>
+<p><strong>NOTE2: if you have connected before using this command you will need to relog.</strong></p>
+<p><strong>Login to your account:</strong></p>
+<p>Log in with email <strong>test@test</strong> and password <strong>test</strong>.through a <strong>Custom Client Launcher (Not provided).</strong></p>
+<h2 id="Client-Setup"><a href="#Client-Setup" class="headerlink" title="Client Setup"></a>Client Setup</h2><p>3.35only</p>
+<ul>
+<li>Open the realmlist.wtf file inside your World of Warcraft\Data folder. The IP in the realmlist.wtf file should be exactly the same as the IP address you entered in the realmlist table above.<ul>
+<li>Change the first line to: *<em>set realmlist *</em></li>
+<li>Example: <strong><em>set realmlist 127.0.0.1\</em></strong></li>
+</ul>
+</li>
+<li>(Optional) If you wish to use the WoW Launcher.exe to run your client then you must change your <strong>set patchlist</strong> to the same ip/dns name as your realmlist.</li>
+</ul>
+<p>master only</p>
+<ul>
+<li>Change <strong>Config.wtf</strong>: SET portal “****”</li>
+<li>The IP in the Config.wtf file should be exactly the same as the IP address you entered in the realmlist table above. (Example: <strong>SET portal “127.0.0.1”</strong>)</li>
+</ul>
+<p>Note: you will need a custom client launcher (not provided) to connect to master branch server.</p>
+<p>NOTE don’t use localhost for address, if you need to connect to localhost use 127.0.0.1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/Master%E7%89%88%E6%9C%AC%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E6%80%BB%E7%BB%93/" data-id="ckc4wgfos001zsc7l1ejvfahn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-103-为nginx创建ssl自签证书" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/103-%E4%B8%BAnginx%E5%88%9B%E5%BB%BAssl%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/" class="article-date">
+  <time datetime="2020-05-31T20:27:45.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/103-%E4%B8%BAnginx%E5%88%9B%E5%BB%BAssl%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/">103.为nginx创建ssl自签证书</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/103-%E4%B8%BAnginx%E5%88%9B%E5%BB%BAssl%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/" data-id="ckc4wgfnc000fsc7l8yxwaz1q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-12-sed" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/12-sed/" class="article-date">
+  <time datetime="2020-05-31T20:27:31.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/12-sed/">12.sed</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文本处理三剑客：</p>
+<p>sed、awk、grep</p>
+<p>SED</p>
+<p>不处理源文件，每次读入一行到自己的工作空间（模式空间），处理完成之后输出至标准输出</p>
+<p>默认会处理所有行，我们可以指定让他处理匹配到的行</p>
+<p>因此；</p>
+<p>先读入一行，然后判断是否匹配我们给的PATTERN</p>
+<p>匹配到处理</p>
+<p>不匹配不做任何处理</p>
+<p>pattern space</p>
+<p>​    /            \</p>
+<p>no                yes</p>
+<p>|                /        |</p>
+<p>|            /    edit –&gt; stdout</p>
+<p>stdout                    |</p>
+<p>​                        hold space</p>
+<p>逐行读入，匹配处理</p>
+<p>sed [OPTION]… ‘script’ [input-file]…</p>
+<ul>
+<li>script :地址定界编辑命令（直接写在一起）</li>
+<li>-n 不输出，（读入之后一定会输出stdout，匹配到的会进行编辑）如果不希望输出，使用这个选项，不输出模式空间的内容；</li>
+<li>-e script ; –expression=script :多点编辑<ul>
+<li>sed -e ‘s@^#[[:space:]]*@@’ -e ‘/^UUID/d’ /etc/fstab</li>
+</ul>
+</li>
+<li>-f  script-file 每行一个编辑命令</li>
+<li>-r –regexp-extended ：支持使用扩展正则表达式</li>
+<li>-i[SUFFIX], –in-place[=SUFFIX] ： 直接编辑源文件</li>
+</ul>
+<p>地址定界：</p>
+<ol>
+<li>不给地址：空地址，对全文进行编辑</li>
+<li>单地址：<ul>
+<li>#：指定行</li>
+<li>/pattern/：被此模式匹配到的每一行；</li>
+</ul>
+</li>
+<li>地址范围<ul>
+<li>#.# :</li>
+<li>#,+#:</li>
+<li>#,/pat1/<ul>
+<li>/pat1/,/pat2/</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>步进：~<ul>
+<li>1-2：所有奇数行</li>
+<li>2-2：所有偶数行</li>
+</ul>
+</li>
+</ol>
+<p>​    </p>
+<p>编辑命令:</p>
+<p>d 删除 注意删除的就不会再显示了,因为匹配到的内容被删除了，显示的是未删除的内容</p>
+<p>p 显示模式空间中的内容；（如不加-n选项指定行会被显示2遍）</p>
+<p>a \text ：在行后面追加文本“text”，支持使用\n添加多行</p>
+<p>i \text：在行前面添加文本，支持使用\n插入多行</p>
+<p>c \text：把匹配到的行替换为此处指定的文本“text”</p>
+<p>w /path/to/somewhere：保存模式空间匹配到的行至指定的文件中；</p>
+<p>r /path/from/somefile：读取指定的文件的内容至当前文件被模式匹配到的行后面，文件合并；</p>
+<p>=：模式匹配到的行加行号</p>
+<p>！：条件取反：格式为地址定界!编辑命令；</p>
+<p>s///：查找替换，其分隔符可自行指定。常用s@@@，s###等；</p>
+<p>替换标记：</p>
+<ul>
+<li>g：全局</li>
+<li>w /path/to/somefile：将替换成功的结果保存至指定文件中；</li>
+<li>p：显示替换成功的行；</li>
+</ul>
+<p>练习1：删除/boot/grub/grub2.cfg文件中所有以空白字符开头的行的行首的所有空白字符；</p>
+<p>sed ‘s@^[[:space:]]+@@’ /boot/grub2/grub.cfg </p>
+<p>练习2：删除/etc/fstab文件中所有以#开头的行的行首的#号以及#号后面的所有空白字符；</p>
+<p>sed ‘s@^#[[:space:]]*@@’ /etc/fstab</p>
+<p>练习3：输出一个绝对路径给sed，取出其目录，其行为类似dirname</p>
+<p>echo “/var/log/messages” | sed ‘s@[^/]+?$@@’</p>
+<p>echo “/var/log/messages/“ | sed -r ‘s@[^/]+/?$@@’</p>
+<p>高级编辑命令：</p>
+<ul>
+<li>h：把模式空间中的内容覆盖至保持空间中；</li>
+<li>H：把模式空间中的内容追加至保持空间中；</li>
+<li>g：把保持空间中的内容覆盖至模式空间中；</li>
+<li>G：把保持空间中的内容追加至模式空间中；</li>
+<li>x：把模式空间中的内容与保持空间中的内容互换；</li>
+<li>n：覆盖读取匹配到的行的下一行至模式空间中；</li>
+<li>N：追加读取匹配到的行的下一行至模式空间中；</li>
+<li>d：删除模式空间中的行；</li>
+<li>D：删除多行模式空间中的使用行；</li>
+</ul>
+<p>示例：</p>
+<p>​    sed -n ‘n;p’ /etc/fstab：显示偶数行；</p>
+<p>​    sed ‘1!G;h;$!d’ file：逆序显示；</p>
+<p>​    sed ‘$!N;$!D’ /etc/fstab :最后两行;</p>
+<p>​    sed ‘/^$/d;G’ file：删除所有空白行，而后为每行后面加一个空白行</p>
+<p>​    sed ‘n;d’ FILE：显示奇数行；</p>
+<p>​    sed ‘G’ file：在原有的每行后面添加空白行，包括原来的空白行</p>
+<p>注意：在任何修改系统关键配置文件的时候，记得要先做备份，而且要定期对/etc目录做备份</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/12-sed/" data-id="ckc4wgfni000ksc7l3l0221g0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-11-yum实战进阶及shell脚本实现磁盘管理实战" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/11-yum%E5%AE%9E%E6%88%98%E8%BF%9B%E9%98%B6%E5%8F%8Ashell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98/" class="article-date">
+  <time datetime="2020-05-31T20:27:24.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/11-yum%E5%AE%9E%E6%88%98%E8%BF%9B%E9%98%B6%E5%8F%8Ashell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98/">11.yum实战进阶及shell脚本实现磁盘管理实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>常用的桌面环境：</p>
+<p>windows7/8/10；</p>
+<p>Gnome</p>
+<p>KDE</p>
+<p>XFCE4</p>
+<p>CINEMON</p>
+<p>YUM C/S架构模型</p>
+<p>yum client（yum）</p>
+<p>yum repository（ftp/http/https）</p>
+<p>Bash 脚本编程</p>
+<p>过程式编程语言的执行流程：</p>
+<ul>
+<li>顺序执行</li>
+<li>选择执行</li>
+<li>循环执行</li>
+</ul>
+<p>选择执行:</p>
+<ul>
+<li>&amp;&amp; ||</li>
+<li>if</li>
+<li>case</li>
+</ul>
+<p>if语句：三种格式</p>
+<ul>
+<li><p>单分支：</p>
+<p>if condition；then</p>
+<p>​    if-true-分支；</p>
+<p>fi</p>
+</li>
+<li><p>双分支：、</p>
+<p>if condition； then</p>
+<p>​    if-true-分支</p>
+<p>else</p>
+<p>​    if-false分支</p>
+<p>fi</p>
+</li>
+<li><p>多分支的if语句</p>
+<p>if condition1；then</p>
+<p>​    条件1为真分支；</p>
+<p>elif condition2； then</p>
+<p>​    条件2为真分支</p>
+<p>elif condition3；then</p>
+<p>​    条件3为真分支</p>
+<p>…</p>
+<p>elif conditionN； then</p>
+<p>​    条件N为真分支</p>
+<p>else</p>
+<p>​    所有条件均不满足时的分支</p>
+<p>fi</p>
+</li>
+<li><p>注意：即使多个条件可能同时都会满足，分支只会选择执行其中一个，首先测试为“真”；</p>
+</li>
+</ul>
+<p>case 相当于一个简化版本的多分支if语句，但并不是所有的多分支if语句都可以转化为case语句；</p>
+<p>示例：脚本参数传递一个文件路径给脚本，判断此文件的类型；</p>
+<p>练习：写一个脚本：</p>
+<ol>
+<li>传递一个参数给脚本，此参数为用户名；</li>
+<li>根据ID号判断用户类型：<ul>
+<li>0：管理员</li>
+<li>1-999 系统用户</li>
+<li>1000+ 登录用户</li>
+</ul>
+</li>
+</ol>
+<p>循环执行：将一段代码重复执行0、1或多次；</p>
+<p>进入条件：条件满足时才进入循环；</p>
+<p>退出条件：每个循环都应该有退出条件，以有机会退出循环；</p>
+<ul>
+<li>for循环</li>
+<li>while循环</li>
+<li>until循环</li>
+</ul>
+<p>for循环</p>
+<ul>
+<li>遍历列表</li>
+<li>控制变量</li>
+</ul>
+<p>for VARAIBLE in LIST；do</p>
+<p>​    循环体</p>
+<p>done</p>
+<p>进入条件：只要列表有元素，即可进入循环；把列表中的元素挨个赋值给变量，每个来一遍；</p>
+<p>退出条件：列表中的元素遍历完成；</p>
+<p>LIST的生成：</p>
+<ol>
+<li>直接给出；</li>
+<li>整数列表；<ul>
+<li>{start..end}；（两个英文句号）</li>
+<li>seq [start [incremtal]] last</li>
+</ul>
+</li>
+<li>返回列表的命令；</li>
+<li>glob</li>
+<li>变量引用</li>
+</ol>
+<p>示例1，判断/var/log下文件类型</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> 1 <span class="comment">#!/bin/bash</span></span><br><span class="line"> 2 <span class="keyword">for</span> file <span class="keyword">in</span> /var/<span class="built_in">log</span>/*;<span class="keyword">do</span></span><br><span class="line"> 3     <span class="keyword">if</span> [ -f <span class="variable">$file</span> ];  <span class="keyword">then</span></span><br><span class="line"> 4         <span class="built_in">type</span>=<span class="string">"Regular file."</span></span><br><span class="line"> 5     <span class="keyword">elif</span> [ -d <span class="variable">$file</span> ]; <span class="keyword">then</span></span><br><span class="line"> 6         <span class="built_in">type</span>=<span class="string">"Directory."</span></span><br><span class="line"> 7     <span class="keyword">elif</span> [ -L <span class="variable">$file</span> ]; <span class="keyword">then</span></span><br><span class="line"> 8         <span class="built_in">type</span>=<span class="string">"Symbolic link."</span></span><br><span class="line"> 9     <span class="keyword">elif</span> [ -b <span class="variable">$file</span> ]; <span class="keyword">then</span></span><br><span class="line">10         <span class="built_in">type</span>=<span class="string">"Special file."</span></span><br><span class="line">11     <span class="keyword">fi</span></span><br><span class="line">12     <span class="built_in">echo</span> <span class="string">"<span class="variable">$file</span>  <span class="variable">$type</span>"</span></span><br><span class="line">13 <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>练习：</p>
+<ol>
+<li><p>分别求100以内所有偶数之和，以及所有奇数之和；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> 1 <span class="comment">#!/bin/bash</span></span><br><span class="line"> 2 <span class="comment"># 计算100以内的奇数和和偶数和</span></span><br><span class="line"> 3 <span class="built_in">declare</span> i jsum=1 osum=2</span><br><span class="line"> 4 <span class="keyword">for</span> i <span class="keyword">in</span> &#123;3..100&#125;;<span class="keyword">do</span></span><br><span class="line"> 5     <span class="keyword">if</span> [ $[<span class="variable">$i</span>%2] -eq 0 ]; <span class="keyword">then</span></span><br><span class="line"> 6         osum=$[<span class="variable">$osum</span>+<span class="variable">$i</span>]</span><br><span class="line"> 7     <span class="keyword">else</span></span><br><span class="line"> 8         jsum=$[<span class="variable">$jsum</span>+<span class="variable">$i</span>]</span><br><span class="line"> 9     <span class="keyword">fi</span></span><br><span class="line">10 <span class="keyword">done</span></span><br><span class="line">11 <span class="built_in">echo</span> <span class="string">"奇数之和=<span class="variable">$jsum</span>."</span></span><br><span class="line">12 <span class="built_in">echo</span> <span class="string">"偶数之和=<span class="variable">$osum</span>."</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>计算当前系统上的所有用的id之和;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> 1 <span class="comment">#!/bin/bash</span></span><br><span class="line"> 2 <span class="comment"># 计算系统上所有id之和</span></span><br><span class="line"> 3 <span class="built_in">declare</span> i idsum=0</span><br><span class="line"> 4 users=$(cat /etc/passwd | cut -d: -f1)</span><br><span class="line"> 5 <span class="comment">#echo $users</span></span><br><span class="line"> 6 <span class="keyword">for</span> user <span class="keyword">in</span> <span class="variable">$users</span>;<span class="keyword">do</span></span><br><span class="line"> 7     uid=$(id -u <span class="variable">$user</span>)</span><br><span class="line"> 8     idsum=$[<span class="variable">$idsum</span>+<span class="variable">$uid</span>]</span><br><span class="line"> 9 <span class="keyword">done</span></span><br><span class="line">10 <span class="built_in">echo</span> <span class="string">"id之和: <span class="variable">$idsum</span>"</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>通过脚本参数传递一个目录给脚本，而后计算此目录下所有文本文件的行数之和，并说明此类文件的总数；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  1 <span class="comment">#!/bin/bash</span></span><br><span class="line">  2 <span class="comment"># 通过脚本参数传递一个目录给脚本，而后计算此目录下所有文本文件的行数之和，并说明此文件的总数</span></span><br><span class="line">  3 </span><br><span class="line">  4 [ <span class="variable">$#</span> -eq 0 ] &amp;&amp; <span class="built_in">echo</span> <span class="string">"Need a parament."</span> &amp;&amp; <span class="built_in">exit</span> 1</span><br><span class="line">  5 ! [ -d <span class="variable">$1</span> ] &amp;&amp; <span class="built_in">echo</span> <span class="string">"Need a directory"</span> &amp;&amp; <span class="built_in">exit</span> 2</span><br><span class="line">  6 </span><br><span class="line">  7 <span class="built_in">declare</span> -i linesum=0</span><br><span class="line">  8 <span class="built_in">declare</span> -i filesum=0</span><br><span class="line">  9 files=$(ls <span class="variable">$1</span>)</span><br><span class="line"> 10 <span class="built_in">cd</span> <span class="variable">$1</span></span><br><span class="line"> 11 <span class="keyword">for</span> file <span class="keyword">in</span> <span class="variable">$files</span>;<span class="keyword">do</span></span><br><span class="line"> 12     <span class="keyword">if</span> [ -f <span class="variable">$file</span> ]; <span class="keyword">then</span></span><br><span class="line"> 13         line=$(wc -l <span class="variable">$file</span> | cut -d<span class="string">' '</span> -f1)</span><br><span class="line"> 14         linesum=$[<span class="variable">$linesum</span>+<span class="variable">$line</span>]</span><br><span class="line"> 15         <span class="built_in">let</span> filesum++</span><br><span class="line"> 16     <span class="keyword">fi</span></span><br><span class="line"> 17 <span class="keyword">done</span></span><br><span class="line"> 18 <span class="built_in">echo</span> <span class="string">"行数之和: <span class="variable">$linesum</span>"</span></span><br><span class="line"> 19 <span class="built_in">echo</span> <span class="string">"文件总数: <span class="variable">$filesum</span>"</span></span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/11-yum%E5%AE%9E%E6%88%98%E8%BF%9B%E9%98%B6%E5%8F%8Ashell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98/" data-id="ckc4wgfne000isc7l4e3l0x8r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-10-Linux软件包管理yum工具介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/10-Linux%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86yum%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time datetime="2020-05-31T20:27:17.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/10-Linux%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86yum%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/">10.Linux软件包管理yum工具介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux程序包管理"><a href="#Linux程序包管理" class="headerlink" title="Linux程序包管理"></a>Linux程序包管理</h1><p>rpm在安装包时需要解决依赖关系，手动解决比较麻烦，所以依赖于前端工具自动解决依赖关系，所以YUM应运而生，最新的为DNF，fedora22引入，CentOS7（安装之后也可以使用）以上可用。</p>
+<p>YUM接受命令后，通过配置文件访问源地址，URL（同一资源定位符）；</p>
+<p>访问远程服务器主机，服务器提供程序包仓库，放了每一个程序包的名字，版本，依赖关系；</p>
+<p>(rpm包的户口簿)，分析已安装的包和未安装的包，然后下载需要下载的包，缓存到本地。安装完之后会删除安装包，但源数据会被缓存本地，以后访问会访问本地的源数据去分析，源数据需要偶尔更新。（每次去请求源数据）</p>
+<p>源较多，选择最快的即可；</p>
+<p>镜像列表（使用互联网的或者自建仓库）；</p>
+<p>将远程的镜像到本地；</p>
+<p>YUM依赖于RPM而存在，只是一个前端工具；</p>
+<p>FTP、HTTP</p>
+<p>CREATEREPO</p>
+<p>程序包分组</p>
+<p>YUM（Yellowdog Updater, Modified）；是一个基于<a href="https://zh.wikipedia.org/wiki/RPM" target="_blank" rel="noopener">RPM</a>包管理的字符前端软件包管理器。能够从指定的服务器自动下载RPM包并且安装，可以处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装。被<a href="https://zh.wikipedia.org/wiki/Yellow_Dog_Linux" target="_blank" rel="noopener">Yellow Dog Linux</a>本身，以及<a href="https://zh.wikipedia.org/wiki/Fedora" target="_blank" rel="noopener">Fedora</a>、<a href="https://zh.wikipedia.org/wiki/Red_Hat_Enterprise_Linux" target="_blank" rel="noopener">Red Hat Enterprise Linux</a>采用。</p>
+<p>YUM repository：yum repo    /etc/yum.conf</p>
+<p>存储了众多rpm包，以及包的相关的元数据文件（放于特定目录下，repodata）；</p>
+<p>文件服务器：</p>
+<ul>
+<li>FTP://</li>
+<li>HTTP://</li>
+<li>nfs://</li>
+<li>file:///</li>
+</ul>
+<p>yum 客户端：</p>
+<ul>
+<li>配置文件：<ul>
+<li>/etc/yum.conf    ：为所有仓库提供的公共配置</li>
+<li>/etc/yum.repos.d/*.repo ：为仓库的指向提供配置</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>cachedir</code></th>
+<th>用于存储下载的软件包的目录。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>debuglevel</code></td>
+<td>日志记录级别，从0（无）到10（全部）。</td>
+</tr>
+<tr>
+<td><code>exactarch</code></td>
+<td>如果设置为1，则仅更新软件包以使用正确的体系结构。</td>
+</tr>
+<tr>
+<td><code>exclude</code></td>
+<td>用空格分隔的要从安装或更新中排除的软件包列表，例如： <code>exclude=VirtualBox-4.? kernel*</code>。</td>
+</tr>
+<tr>
+<td><code>gpgcheck</code></td>
+<td>如果设置为1，则通过检查GPG签名来验证软件包的真实性。<code>gpgcheck</code>如果软件包是未签名的，则可能需要将其设置 为0，但应注意该软件包可能已被恶意更改。</td>
+</tr>
+<tr>
+<td><code>gpgkey</code></td>
+<td>GPG公钥文件的路径名。</td>
+</tr>
+<tr>
+<td><code>installonly_limit</code></td>
+<td>任何一个软件包可以安装的最大版本数。</td>
+</tr>
+<tr>
+<td><code>keepcache</code></td>
+<td>如果设置为0，请在安装后删除软件包。</td>
+</tr>
+<tr>
+<td><code>logfile</code></td>
+<td>yum日志文件的路径名。</td>
+</tr>
+<tr>
+<td><code>obsoletes</code></td>
+<td>如果设置为1，则在升级过程中更换过时的软件包。</td>
+</tr>
+<tr>
+<td><code>plugins</code></td>
+<td>如果设置为1，则启用扩展<strong>yum</strong>功能的插件。</td>
+</tr>
+<tr>
+<td><code>proxy</code></td>
+<td>代理服务器的URL，包括端口号。</td>
+</tr>
+<tr>
+<td><code>proxy_password</code></td>
+<td>使用代理服务器进行身份验证的密码。</td>
+</tr>
+<tr>
+<td><code>proxy_username</code></td>
+<td>使用代理服务器进行身份验证的用户名。</td>
+</tr>
+<tr>
+<td><code>reposdir</code></td>
+<td><strong>yum</strong>应该 在其中查找带有<code>.repo</code> 扩展名的存储库文件的目录。默认目录为 <code>/etc/yum.repos.d</code>。</td>
+</tr>
+</tbody></table>
+<p>仓库的定义：</p>
+<ul>
+<li>[repositoryID]</li>
+<li>name=Some name for this repository</li>
+<li>baseurl=url://path/to/repository/</li>
+<li>enable={1|0}</li>
+<li>gpgcheck={1|0}</li>
+<li>gpgkey=URL</li>
+<li>enablegroups={1|0}</li>
+<li>failovermethod={}</li>
+<li>cost=（默认1000）</li>
+</ul>
+<p>YUM</p>
+<ul>
+<li>yum repolist ：显示仓库列表，默认仅显示启用的，显示未启用的(yum repolist disabled);</li>
+<li>yum list {all | updates|available|installed|glob_exp1}</li>
+<li>yum install ：安装程序包,后面直接跟上packagename，一次可安装多个,可选择版本安装，默认安装最新的版本；</li>
+<li>yum update ：升级指定程序包</li>
+<li>check-update ：检查升级；</li>
+<li>info […] ：查看程序包的详细信息；</li>
+<li>remove | erase package1 [package2] […] ：卸载包;</li>
+<li>provides | whatprovides feature1 [feature2] […] ：查看包提供的特性（可以是某文件）是有哪个程序包提供;</li>
+<li>clean [ packages | metadata | expire-cache | rpmdb | plugins | all ] ：清理本地缓存</li>
+<li>makecache ：创建缓存；</li>
+<li>search string1 [string2] […] ：根据指定的关键字搜索包名及summary信息;</li>
+<li>reinstall package1 [package2] […]：重新安装，覆盖的方式安装；</li>
+<li>downgrade package1 [package2] […]：降级安装;</li>
+<li>deplist package1 [package2] […] ：依赖关系分析；查看指定包所依赖的capabilities；</li>
+<li>version [ all | installed | available | group-* | nogroups* | grouplist | groupinfo ] ：查看版本信息；</li>
+<li>history    [info|list|packages-list|packages-info|summary|addon-info|redo|undo|roll‐back|new|sync|stats] :查看YUM事务历史；</li>
+<li>localinstall rpmfile1 [rpmfile2] […] ：安装本地rpm文件；可使用仓库的依赖关系解决；（已经废弃，直接使用install，update即可）;</li>
+<li>groups […] ：包组相关命令；{info | install | list | remove | summary}；groupinfo,groupinstall,groupupdate,groupremove,grouplist;</li>
+</ul>
+<p>TIPS：YUM可使用新版本的源，不能使用老版本的，比如6.0可使用6.1的，但是不能使用5.9的；</p>
+<p>使用本地YUM源</p>
+<p>使用本地光盘作为本地yum仓库:</p>
+<ol>
+<li>挂载光盘至某目录；</li>
+<li>创建配置文件；<ul>
+<li>[CentOS7]</li>
+<li>name=</li>
+<li>baseurl=</li>
+<li>gpgcheck=</li>
+<li>enabled=</li>
+</ul>
+</li>
+</ol>
+<p>YUM的命令行命令优先级高于配置文件；命令行选项：</p>
+<ul>
+<li>–nogpgcheck：禁止进行gpgcheck；</li>
+<li>-y ：自动回答yes；</li>
+<li>-q ：静默模式；</li>
+<li>–disablerepo=repoidglob ：临时禁用此处指定的repo；</li>
+<li>–enablerepo=repoidglob ：临时启用此处指定的repo；</li>
+<li>–noplugins : 临时禁用所有插件</li>
+</ul>
+<p>YUM的repo配置文件中可使用的变量；</p>
+<ul>
+<li>把远程服务器上所有访问路径固定下来，用变量来获取当前版本号，平台架构；</li>
+<li>$releaserver ：当前OS的发行版的版本号；</li>
+<li>$ARCH ：平台；</li>
+<li>$basearch ：基础平台；</li>
+<li>$YUM0~YUM9</li>
+</ul>
+<p>创建YUM仓库</p>
+<ul>
+<li>必须先安装这个createrepo程序包；</li>
+<li>createrepo [option] &lt;directory&gt;</li>
+</ul>
+<p>程序包编译安装：</p>
+<ul>
+<li>testapp-Version-release.src.rpm –&gt; 安装后，使用rpmbuild命令制作成二进制格式的rpm包，而后再安装；</li>
+<li>源代码 –&gt; 预处理 –&gt; 编译（GCC） –&gt; 汇编 – &gt; 链接 –&gt; 执行</li>
+<li>源代码组织格式：<ul>
+<li>多文件，文件中的代码之间，可能存在跨文件依赖关系；</li>
+<li>C、C++ ：make（Configure –&gt; Makefile.in –&gt; makefile）项目管理工具，依赖编译器去编译程序；</li>
+<li>JAVA ：maven</li>
+</ul>
+</li>
+</ul>
+<p>编译安装三步骤：</p>
+<ul>
+<li><p>./configure:</p>
+<ol>
+<li>通过选项传递参数，指定启用特性、安装路径等、执行时会参考用户的指定以及Makefile.in 文件生成makefile；</li>
+<li>检查依赖的外部环境；</li>
+</ol>
+</li>
+<li><p>make</p>
+<p>根据makefile文件，构建应用程序；</p>
+</li>
+<li><p>make install</p>
+</li>
+</ul>
+<p>开发工具：</p>
+<ul>
+<li>autoconf：结合配置文件生成configure脚本</li>
+<li>automake：结合配置文件生成Makefile.in文件</li>
+</ul>
+<p>建议：安装之前，阅读INSTALL文件，如果没有，阅读README文件；</p>
+<p>开源程序源代码的获取：</p>
+<ol>
+<li>官方网站；官方自建站点</li>
+<li>代码托管网站：<ul>
+<li>Github</li>
+<li>Gitlab</li>
+<li>GoogleCode</li>
+<li>SourceForge</li>
+<li>Gitee 码云</li>
+</ul>
+</li>
+</ol>
+<p>C、C++：GCC（GNU C Complier）（早期也被称作CC）</p>
+<p>编译C源代码：</p>
+<ul>
+<li><p>前提要提供开发工具和开发环境；</p>
+<ul>
+<li>开发工具：make gcc</li>
+<li>开发环境：开发库，头文件</li>
+<li>glibc：标准库</li>
+<li>通过 ”包组“ 提供开发组件：<ul>
+<li>CentOS6：Development Tool</li>
+<li>CentOS7：Development and Creative Workstation</li>
+<li>Debian系列：build-essential</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>第一步：configure脚本</p>
+<ul>
+<li><p>选项：指定安装位置，指定启用的特性；</p>
+</li>
+<li><p>–help：获取其支持使用的选项</p>
+<ul>
+<li><p>安装路径设定：–prefix=/path/to/somewhere ：指定安装位置；</p>
+</li>
+<li><p>配置文件安装位置：–sysconfdir=/PATH/to/somewhere;</p>
+</li>
+<li><p>System Types:</p>
+</li>
+<li><p>Optional features :可选特性；</p>
+<ul>
+<li>–disable-feature</li>
+<li>–enable-feature[=ARG]</li>
+</ul>
+</li>
+<li><p>Optional Packages:可选包</p>
+<ul>
+<li>–with-PACKAGE[=ARG]</li>
+<li>–without-PACKAGE</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>make </p>
+</li>
+<li><p>make install</p>
+</li>
+</ul>
+<p>安装后的配置</p>
+<ol>
+<li><p>导出二进制程序目录至PATH变量中；</p>
+<ul>
+<li>编辑/etc/profile.d/NAME.sh<ul>
+<li>export PATH=/PATH/TO/BIN:PATH</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>导出库文件路径</p>
+<p>编辑/etc/ld.so.conf.d/NAME.conf</p>
+<p>添加新的库文件到此处；</p>
+<p>让系统重新生成缓存 ldconfig [-v]</p>
+</li>
+<li><p>导出头文件</p>
+<p>ln -sv</p>
+</li>
+<li><p>导出帮助手册</p>
+<p>编辑/etc/man.config</p>
+<p>添加一条manpath</p>
+</li>
+</ol>
+<p>练习：</p>
+<ol>
+<li>YUM的配置和使用：包括yum repository的创建；</li>
+<li>编译安装apache 2.2；启动此服务；</li>
+<li>程序包管理，rpm、yum、编译</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/10-Linux%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86yum%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" data-id="ckc4wgfn00003sc7leg4x9mhn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-9-任务计划crontab及企业常用操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/9-%E4%BB%BB%E5%8A%A1%E8%AE%A1%E5%88%92crontab%E5%8F%8A%E4%BC%81%E4%B8%9A%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2020-05-31T20:27:09.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/9-%E4%BB%BB%E5%8A%A1%E8%AE%A1%E5%88%92crontab%E5%8F%8A%E4%BC%81%E4%B8%9A%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">9.任务计划crontab及企业常用操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux-任务计划、周期性任务执行"><a href="#Linux-任务计划、周期性任务执行" class="headerlink" title="Linux 任务计划、周期性任务执行"></a>Linux 任务计划、周期性任务执行</h1><p>未来的某个时间点执行以此某任务：at，batch</p>
+<p>周期性运行某任务：crontab</p>
+<p>执行结果：会通过邮件发送给用户</p>
+<p>这个邮件只用于本机，以及本机各用户之间</p>
+<p>/var/spool/mail/USER</p>
+<p>用户的邮箱</p>
+<p>ss -ntlp</p>
+<p>master 进程属于postfix进程负责监听的，为本地主机个用户之间传递邮件用的</p>
+<p><strong>本地电子邮件服务：</strong></p>
+<p>smtp： simple mall transmission protocol</p>
+<p>pop3：post office protocol</p>
+<p>imap4：Internet mall access protocol</p>
+<p><strong>mail命令</strong></p>
+<p>mailx - send and receive Internet mall</p>
+<p>MUA：mall USer Agent 用户收发邮件的工具程序</p>
+<p>mailx [-s SUBJECT] USERNAME@[HOSTNAME]</p>
+<p>mail不带任何命令表示收邮件</p>
+<p>输入邮件编号即可查看邮件</p>
+<p>subject：标题</p>
+<p>hostname：在发给本机用户时可省略</p>
+<p>content-type:正文内容</p>
+<p>from：谁发的</p>
+<p>to：发给谁</p>
+<p>DAte：时间</p>
+<p>user-agent：用什么程序发的；</p>
+<p><strong>示例：</strong></p>
+<p>mail -s “fstab file” root &lt; /etc/fstab</p>
+<p>cat /etc/fstab | mail -s “fstab file” centos</p>
+<p>邮件正文的输入：</p>
+<p>1：交互式输入：单独成行可以表示正文结束，ctrl+d 提交亦可</p>
+<p>2：输入重定向</p>
+<p>3：通过管道</p>
+<h2 id="AT命令："><a href="#AT命令：" class="headerlink" title="AT命令："></a>AT命令：</h2><p>at [OPTION]… TIME</p>
+<p>at now+2min</p>
+<p>at&gt;直接输入你要执行的命令</p>
+<p>ctrl+d提交</p>
+<p>at -l 显示任务队列</p>
+<p>at的作业有队列，用单个字母表示，默认都使用a队列；</p>
+<p>常用选项：</p>
+<p>-l 查看作业队列，相当于atq</p>
+<p>-f /path/from/somefile 从文件读入作业任务，而不用再交互式输入</p>
+<p>-d 删除任务队列，相当与atrm</p>
+<p>-c 查看指定作业的具体内容；</p>
+<p>-q queue：指明队列；</p>
+<p>注意，作业执行结果是以邮件发给提交作业的用户；</p>
+<h2 id="batch"><a href="#batch" class="headerlink" title="batch"></a>batch</h2><p>batch会让系统自行选择在系统资源空闲的时间去执行指定的任务；其他与at相同</p>
+<h2 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h2><p>周期性执行任务</p>
+<p>cron机制：</p>
+<p>服务程序：</p>
+<p>cronle：主程序包，提供了crond守护进程及相关辅助工具；</p>
+<p>systemctl status crond</p>
+<p>service crond status</p>
+<p>向crond提交作业的方式不同于at，它需要使用专用的配置文件，此文件有固定的格式，不建议使用文本编辑器直接编辑此文件；需要使用crontab命令；</p>
+<p>cron任务分为2类：</p>
+<h4 id="系统cron任务：主要用于实现系统自身的维护；"><a href="#系统cron任务：主要用于实现系统自身的维护；" class="headerlink" title="系统cron任务：主要用于实现系统自身的维护；"></a>系统cron任务：主要用于实现系统自身的维护；</h4><p>手动编辑：/etc/crontab 文件</p>
+<p>用户cron任务：</p>
+<p>命令：crontab命令</p>
+<p>SHELL=/bin/bash<br>PATH=/sbin:/bin:/usr/sbin:/usr/bin<br>MAILTO=root</p>
+<p>For details see man 4 crontabs</p>
+<p>Example of job definition:</p>
+<p>.—————- minute (0 - 59)</p>
+<p>|  .————- hour (0 - 23)</p>
+<p>|  |  .———- day of month (1 - 31)</p>
+<p>|  |  |  .——- month (1 - 12) OR jan,feb,mar,apr …</p>
+<p>|  |  |  |  .—- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</p>
+<p>|  |  |  |  |</p>
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>user-name  command to be executed</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong></p>
+<p>1.每一行定义一个周期性任务；</p>
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>定义周期性时间</li>
+<li>user-name 运行任务的用户身份</li>
+<li>command to be excuted 任务，最好使用程序的绝对路径</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>2.此处的环境变量不同与用户登陆后获得的环境，因此，建议命令使用绝对路径，或者自定义PATH变量</p>
+<p>3.执行结果会以邮件的形式mailto指定的用户</p>
+<h4 id="用户cron的配置格式：-var-spool-cron-USERNAME"><a href="#用户cron的配置格式：-var-spool-cron-USERNAME" class="headerlink" title="用户cron的配置格式：/var/spool/cron/USERNAME"></a>用户cron的配置格式：/var/spool/cron/USERNAME</h4><p><strong>注意：</strong></p>
+<p>1.每行定义一个cron任务，共6个字段；</p>
+<p>2.此处的环境变量不同与用户登陆后获得的环境，因此，建议命令使用绝对路径，或者自定义PATH变量</p>
+<p>3.执行结果会以邮件的形式发给当前用户</p>
+<h3 id="时间表示法："><a href="#时间表示法：" class="headerlink" title="时间表示法："></a>时间表示法：</h3><p>1.特定表示法；</p>
+<p>给定时间点有效取值范围的值；</p>
+<p>注意：day of week 和day of month 一般不同时使用；</p>
+<p>2.* 给定时间点上有效取值范围内的所有值；min（0-59），每分，每小时</p>
+<p>3.离散取值法：在给定时间点上使用逗号分割的多个值；</p>
+<p>#，#，#</p>
+<p>4.连续取值： -</p>
+<p>在时间点上使用-连接开头和结束</p>
+<p>#-#</p>
+<p>5 在指定时间点上，定义步长；</p>
+<p>*/# :# 及步长</p>
+<p><strong>注意：</strong></p>
+<p>1.指定时间点不能被步长整除时，其意义将不复存在；</p>
+<p>2.最小单位为 <code>分钟</code> ，想完成 <code>秒</code>级任务，需要额外借助于其他机制；</p>
+<p>定义每分钟任务：而在利用脚本实现在每分钟之内，循环执行多次；</p>
+<p><strong>示例：</strong></p>
+<p>1.3 * * * * ：每小时执行一次；每小时的第3分钟；</p>
+<p>2.3 4 * * 5 : 每周执行一次；每周5的4点3分；</p>
+<p>3.5 6 7 * * ：每月执行一次，每月的7号的6点5分；</p>
+<p>4.7 8 9 10 * ：每年执行一次；每年的10月9号8点7分</p>
+<p>5.9 8 * * 3,7 ：每周三和周日；8点9分</p>
+<p>6.* 8,20 * * 3,7 ; 每周三和周日的8点和20点各执行一次；</p>
+<p>7.0 9-18 * * 1-5：周一到周五的9-18点，工作日的每小时；</p>
+<p>8.*/5 * * * * ：每5分钟执行一次；</p>
+<p>9.*/7 * * * * :</p>
+<h3 id="crontab命令："><a href="#crontab命令：" class="headerlink" title="crontab命令："></a>crontab命令：</h3><p>crontab [-u user] [-l | -r | -e] [-i] [-s]</p>
+<p>-e 编辑任务；</p>
+<p>-l 列出所有任务</p>
+<p>-r 移除所有任务；即删除/var/spool/cron/USERNAME文件；</p>
+<p>-i 在使用-r选项移除所有任务时提示用户确认；</p>
+<p>-u user：root用户可指定为某个用户编辑任务；</p>
+<p><strong>注意</strong>：运行结果以邮件通知给当前用户；如果拒绝接受邮件：</p>
+<p>1.command &gt;/dev/null</p>
+<p>2.command &amp;&gt; /dev/null</p>
+<p><strong>(确保正常执行再加/dev/null，否则就悲剧了)</strong></p>
+<p>注意：定义command，如果命令需要用到%，需要对其转义；但放置于单引号中的%不用转义亦可；</p>
+<p>某任务在指定的时间因关机未能执行，下次开机会不会自动执行？</p>
+<p>不会！！</p>
+<p>如果期望某时间因故未能按时执行，下次开机后无论是否到了时间点都要执行一次，可用anacron实现；</p>
+<p>课外作业：anacron及其应用；</p>
+<p>练习：</p>
+<p>1.每12个小时备份一个/etc 目录至/backup 目录中，保存文件格式为“etc-yyyy-mm-dd-hh.tar.xz”;</p>
+<p>2.每周2,4,7备份/var/log/secure 文件至/logs目录中，文件名格式为 “secure-yyyymmdd”;</p>
+<p>3.每两小时取出当前系统/proc/meminfo文件中以S或M开头的行信息追加到/tmp/meminfo.txt文件中；</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/9-%E4%BB%BB%E5%8A%A1%E8%AE%A1%E5%88%92crontab%E5%8F%8A%E4%BC%81%E4%B8%9A%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" data-id="ckc4wgfor001vsc7l22qw18qu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-8-Linux程序包管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/8-Linux%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%AE%A1%E7%90%86/" class="article-date">
+  <time datetime="2020-05-31T20:27:01.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/8-Linux%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%AE%A1%E7%90%86/">8.Linux程序包管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux程序包管理"><a href="#Linux程序包管理" class="headerlink" title="Linux程序包管理"></a>Linux程序包管理</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>软件层    shell（人机交互接口）</p>
+<p>//        \\</p>
+<p>lib call(库调用)</p>
+<p>//                    \\</p>
+<p>system call(系统调用)]</p>
+<p>//                        \\</p>
+<p>底层硬件</p>
+<p><strong>API：Application Program Interface</strong></p>
+<p>API函数库是连接用户软件和系统内核桥梁，或者是“协议”，操作系统厂商写好函数库说明书，应用软件开发者不必关心其内部是如何实现的，用的时候对照着API手册查询就够了；应用软件也可以越过系统函数库通过system call（系统调用）直接调用os内核函数，如图中红色虚线所示，当然这种方式并不被推荐。</p>
+<p>如果各系统平台都能提供相同的系统函数库，那么开发者在这个系统函数库基础之上编写软件代码，那么就很容易将软件移植到各个系统平台。然而，这只是个美好的愿望，IEEE就是为了达成这样的愿望才牵头制定POSIX标准。POSIX标准主要就是针对UNIX API而制订，不管函数如何包装、功能如何实现，但API按照标准约定来（比如函数变量等符号名称、数据结构、参数类型与个数、基本工具命令名称等），Linux完全兼容POSIX标准（部分函数符合POSIX，部分函数是Linux专有，即是POSIX的超集），微软声称Windows部分兼容POSIX标准。</p>
+<p><strong>ABI：Application Binary Interface</strong></p>
+<p>Unix-Like：ELF</p>
+<p>Windows：exe，msi</p>
+<h3 id="从软件角度理解系统"><a href="#从软件角度理解系统" class="headerlink" title="从软件角度理解系统"></a><strong>从软件角度理解系统</strong></h3><p>计算机世界里存在各种各样的操作系统，目前通用操作系统有主流的三大类：</p>
+<ul>
+<li>UNIX，通用操作系统鼻祖，发展出特别多衍生系统；</li>
+<li>Windows，微软家根基，桌面市场霸主；</li>
+<li>GNU/Linux，UNIX近亲，有各种发行版如Ubuntu、CentOS等。</li>
+</ul>
+<blockquote>
+<p>“All problems in computer science can be solved by another level of indirection（计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决）”。</p>
+</blockquote>
+<p>在硬件基础之上逐步堆叠了系统内核、系统函数库等中间层，在应用程序内部还可以继续细分多个层次，这样把最终用户与硬件隔离开来，增强了抽象能力、屏蔽底层细节，也让开发者分工，专注于各自层次的开发，同时降低了软件迁移的难度。</p>
+<p>Cygwin就是在Windows中增加了一个中间层——兼容POSIX的模拟层，并在此基础上构建了大量Linux-like的软件工具。再来解释本文开头的回答，如下图，POSXI兼容环境包括以下两部分：</p>
+<ul>
+<li>cygwin1.dll，作为实现POSIX系统调用的模拟层，可原生运行在Windows中；</li>
+<li>在cygwin1.dll之上构建的大量函数库、应用程序，如libc、zlib、bash、gcc、vim、awk、sed、git等等，与UNIX/Linux几乎等同*。</li>
+</ul>
+<p><em>*注：Cygwin的libc是Newlib，Linux的libc是GNU libc，UNIX有的是BSD libc。</em></p>
+<h3 id="库级别的虚拟化"><a href="#库级别的虚拟化" class="headerlink" title="库级别的虚拟化"></a>库级别的虚拟化</h3><p>Linux：WinE</p>
+<p>Windows：Cygwin</p>
+<p><em>MinGW：MinGW，又称mingw32，是将GCC编译器和GNU Binutils移植到Win32平台下的产物，包括一系列头文件、库和可执行文件。 另有可用于产生32位及64位Windows可执行文件的MinGW-w64项目，是从原本MinGW产生的分支。如今已经独立发展。</em></p>
+<p><strong>系统级开发</strong>：(注重性能)</p>
+<p>C/C++ :httpd,vsftpd,nginx</p>
+<p>新的热门语言：Go</p>
+<p><strong>应用级开发</strong>:</p>
+<p>Java/Python/Perl/Ruby/Php</p>
+<p>java：hadoop，hbase    （jvm）</p>
+<p>python：openstack    （pvm）</p>
+<p>perl：（perl解释器）</p>
+<p>ruby：（ruby解释器）</p>
+<p>php：（php解释器）</p>
+<p>高级语言，开发周期端，性能不如C，库多，代码量少</p>
+<p>标准C库</p>
+<h3 id="程序格式："><a href="#程序格式：" class="headerlink" title="程序格式："></a>程序格式：</h3><p><strong>源代码</strong>：文本格式的程序代码；</p>
+<p>​        编译开发环境：编译器、头文件、开发库</p>
+<p><strong>二进制格式</strong>：文本格式的程序代码–&gt;二进制格式–&gt;（二进制程序、库文件、配置文件、帮助文件）</p>
+<p><strong>java/python程序格式：</strong></p>
+<p>源代码：编译成能够在其虚拟机（jvm/pvm）运行的格式；</p>
+<p>​        开发环境：编译器，开发库、导入的库（跟头文件实现功能相同）</p>
+<p>二进制</p>
+<p><strong>项目构建工具：</strong></p>
+<p>C/C++：make</p>
+<p>Java：maven</p>
+<h2 id="程序包管理器"><a href="#程序包管理器" class="headerlink" title="程序包管理器"></a>程序包管理器</h2><p>源代码 –&gt; 目标二进制代码 –&gt; 组织成为一个或者有限几个<code>包</code>文件;</p>
+<p>安装、升级、卸载、查询、校验</p>
+<p><strong>程序包管理器：</strong></p>
+<p>​        Debian：dpt，dpkg：“.deb”，</p>
+<p>​        Redhat：redhat package manager，rpm：“rpm”；开始使用perl开发，后来C重写。</p>
+<p>​        rpm事实上的工业标准；</p>
+<p>​        SuSE：rpm，与红帽的组织格式不兼容，使用的rpm包管理器，“.rpm”</p>
+<p>​        Gentoo：ports</p>
+<p>​        Archlinux：pacman；</p>
+<p>源代码：name-VERSION.tar.gz</p>
+<p>Version：Major.minor.release</p>
+<p>版本 –&gt;主版本号 –&gt; 次版本号 –&gt;</p>
+<p>rpm包命名格式：</p>
+<p>name-Version-release.arch.rpm</p>
+<p>Version：major.minor.release</p>
+<p>release.arch：rpm包的发行号</p>
+<p>​        release.os.:2.el7.i386.rpm</p>
+<p>​        archetecture:I386,X64(amd64),ppc,noarch（java，python之类的不依赖凭平台的）</p>
+<p>redis-3.0.2-1.centos7.x64.rpm</p>
+<p>changelog:版本更新历史；</p>
+<p>i386（旧32位cpu），i686（较新32位cpu），x64/amd64（64位cpu）</p>
+<p><strong>拆包</strong>：主包和支包</p>
+<p>主包：name-version-release.arch.rpm</p>
+<p>支包：name-function-version-release.arch.rpm</p>
+<p>​        function：devel（开发版本），utils（工具程序），libs（库文件）</p>
+<p><strong>组成格式</strong></p>
+<p>Linux设计思想，小工具组合完成复杂任务；</p>
+<p>包和包之间存在依赖关系：</p>
+<p>X，Y，Z</p>
+<p>X –&gt; Y，Z</p>
+<p>​    Y –&gt;A，B，C</p>
+<p>​    C –&gt; Y</p>
+<p>前端工具（自动解决复杂依赖关系）：</p>
+<p>YUM：rpm包的前端工具；</p>
+<p>APT：deb包的前端工具；（apt-get）（apt-cache）</p>
+<p>zypper：suse的rpm包管理工具；（比yum稍微好用）</p>
+<p>dnf：fedora22+系统上rpm包管理器的前端工具；</p>
+<p>前端工具（apt，yum）配合后端（rpm，deb）管理工具，能提升使用效率；</p>
+<h4 id="程序包管理器："><a href="#程序包管理器：" class="headerlink" title="程序包管理器："></a><strong>程序包管理器：</strong></h4><p>功能：将编译好的应用程序的各组成文件打包成一个或者几个程序包文件，从而更方便的实现程序包的安装、升级、卸载和查询等管理操作；</p>
+<p>1.程序包的组成清单（每个程序包都单独实现）；</p>
+<p>​    文件清单</p>
+<p>​    安装或卸载时运行的脚本；</p>
+<p>2.数据库（公共）</p>
+<p>​    程序包名称和版本；</p>
+<p>​    依赖关系</p>
+<p>​    功能说明；</p>
+<p>​    安装生成的各文件的文件路径及校验码信息；</p>
+<p>​    。。。</p>
+<p>​    /var/lib/rpm</p>
+<h4 id="获取程序包的途径："><a href="#获取程序包的途径：" class="headerlink" title="获取程序包的途径："></a>获取程序包的途径：</h4><p>1.系统发行版的光盘或者官方的文件服务器（或者镜像站点）：</p>
+<p>2.项目的官方站点</p>
+<p>3.第三方组织：</p>
+<p>​    （a）EPEL</p>
+<p>​    （b）搜索引擎</p>
+<p>​        <a href="https://pkgs.org/" target="_blank" rel="noopener">https://pkgs.org/</a></p>
+<p>​        <a href="https://rpmfind.net/" target="_blank" rel="noopener">https://rpmfind.net/</a></p>
+<p>​        <a href="http://rpm.pbone.net/" target="_blank" rel="noopener">http://rpm.pbone.net/</a></p>
+<p>​    </p>
+<p>4.自己动手，丰衣足食</p>
+<p>建议：检查其合法性</p>
+<p>​    来源合法性；信任的组织发布的</p>
+<p>​    程序包的完整性：检验MD5，SHA1</p>
+<h4 id="CentOS系统上的rpm命令管理程序包："><a href="#CentOS系统上的rpm命令管理程序包：" class="headerlink" title="CentOS系统上的rpm命令管理程序包："></a>CentOS系统上的rpm命令管理程序包：</h4><p>安装、升级、卸载、查询和校验、数据库维护</p>
+<h4 id="rpm命令："><a href="#rpm命令：" class="headerlink" title="rpm命令："></a>rpm命令：</h4><p>​    rpm [option] [Package_FILE]</p>
+<p>​    安装： -i，–install</p>
+<p>​    升级：-U，–update，-F，–freshen</p>
+<p>​    卸载：-e，–erase</p>
+<p>​    查询：-q，–query</p>
+<p>​    校验：-V，–verify</p>
+<p>​    数据库维护：–build，</p>
+<p>​    </p>
+<h4 id="安装：rpm-ivh（常用）"><a href="#安装：rpm-ivh（常用）" class="headerlink" title="安装：rpm -ivh（常用）"></a>安装：rpm -ivh（常用）</h4><p>rpm {-i|–install} [install-options] PACKAGE_FILE</p>
+<p>install-options：</p>
+<p>​    -v，verbose 详细信息</p>
+<p>​    -vv，更详细的信息</p>
+<p>​    -h hash marks输出进度条；每个#表示2%的进度；</p>
+<p>​    –test ：测试安装：不安装文件，仅检查并报告依赖关系、冲突错误。</p>
+<p>​    –nodeps：忽略依赖关系，安装完成之后不一定会可以使用。有些场景可使用。</p>
+<p>​     rpm -ivh –replacepkgs：重新安装；</p>
+<p>​    –justdb：不安装包，只更新数据库；</p>
+<p>注意：rpm可以自带脚本：</p>
+<p>4类：</p>
+<p>​    preinstall：安装过程开始之前运行的脚本，%pre ，–nopre（跳过执行脚本）</p>
+<p>​    postinstall：安装过程完成之后运行的脚本，%post ， –nopost</p>
+<p>​    preuninstall：卸载过程真正开始执行之前运行的脚本；%preun， –nopreun</p>
+<p>​    postuninstall：卸载过程完成之后运行的脚本，%postun， –nopostun</p>
+<p>​    –noscripts（跳过执行所有脚本）</p>
+<p>​    –nosignature    跳过检查包签名信息，即不检查来源合法性</p>
+<p>​    –nodigest：不检查包完整性；</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>rpm {-U|–upgrade} [install-options] PACKAGE_FILE …</p>
+<p>rpm {-F|–freshen} [install-options] PACKAGE_FILE …</p>
+<p>​    -U：升级或安装</p>
+<p>​    -F：升级</p>
+<p>​    rpm -Uvh PACKAGE_FILE…</p>
+<p>​    rpm -Fvh PACKAGE_FILE…</p>
+<p>​            –oldpackage：降级；</p>
+<p>​            –force：强制升级；</p>
+<p>注意：（1）不要对内核做升级操作；Linux支持多内核版本共存，因此，直接安装新版本内核即可；</p>
+<p>​            （2）如果某原程序包的配置文件安装后曾被修改过，升级时，新版本的程序提供的同一个配置                                           文件不会覆盖原有版本的配置文件，而是把新版本的配置文件重命名（filename.rpmnew）后提供。</p>
+<h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>rpm {-e|–erase} [–allmatches] [–justdb] [–nodeps] [–noscripts]<br>           [–notriggers] [–test] PACKAGE_NAME …</p>
+<p>​    –allmatches：卸载所有匹配指定名称的程序包的各版本；</p>
+<p>​    –nodeps：忽略依赖关系；</p>
+<p>​    –test：测试卸载，dry run模式（干跑）</p>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>rpm {-q|–query} [select-options] [query-options]</p>
+<p>select-options：</p>
+<p>​    package_name：查询指定的包是安装，及其版本；</p>
+<p>​    -a，–all：查询所有已安装的包</p>
+<p>​    -f FILE：查询指定的文件由哪个程序包安装生成；</p>
+<p>​    -g 查询指定包组包含哪些包；</p>
+<p>​    -p，–package PACKAGE_FILE：用于实现对未安装的包执行查询操作；</p>
+<p>​    –whatprovides CAPABILITY：查询指定的CAPABILITY由哪个程序包提供；</p>
+<p>​    –whatrequires CAPABILITY：查询指定的CAPABILITY被哪个包依赖；</p>
+<p>query-options：</p>
+<p>​    –changelog ：查看更新历史</p>
+<p>​    -c，–configfiles：列出程序包提供的配置文件</p>
+<p>​    -l ，–list：列出程序包安装生成的所有文件列表</p>
+<p>​    -i，–info：程序包相关的信息，版本号、大小、所属的包组、等；</p>
+<p>​    -d，–docfiles：列出程序包提供的帮助文件列表</p>
+<p>​    –provides：列出程序包提供的所有CAPABILITY；</p>
+<p>​    –whatrequires：查询指定程序包被谁所依赖；</p>
+<p>​    -R，–requires：查询指定程序包的依赖关系；</p>
+<p>​    –scripts：查询程序包自带的脚本片段；</p>
+<p>​    -ql PAKAGE，-qf FILE，-qc PACKAGE，-ql PACKAGE，-qd PACKAGE；</p>
+<p>​    -qpi PACKAGE_FILE，-qpl PACKAGE_FILE，-qpc PACKAGE_FILE</p>
+<h3 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h3><p>rpm {-V|–verify} [select-options] [verify-options]</p>
+<pre><code> [--nodeps] [--nofiles] [--noscripts]
+ [--nodigest] [--nosignature]
+ [--nolinkto] [--nofiledigest] [--nosize] [--nouser]
+ [--nogroup] [--nomtime] [--nomode] [--nordev]
+ [--nocaps] [--noconfig] [--noghost]
+c %config configuration file.
+d %doc documentation file.
+g %ghost file (i.e. the file contents are not included in the package payload).
+l %license license file.
+r %readme readme file.
+S file Size differs
+M Mode differs (includes permissions and file type)
+5 digest (formerly MD5 sum) differs
+D Device major/minor number mismatch
+L readLink(2) path mismatch
+U User ownership differs
+G Group ownership differs
+T mTime differs
+P caPabilities differ</code></pre><h3 id="验证包来源合法性和完整性"><a href="#验证包来源合法性和完整性" class="headerlink" title="验证包来源合法性和完整性"></a>验证包来源合法性和完整性</h3><p><strong>来源合法性验证：</strong></p>
+<p>​        数字签名：非对称加密</p>
+<p>​    （计算特征码）–&gt;私钥加密特征码 –&gt;公钥解密验证（安全获得公钥）CA</p>
+<p><strong>完整性验证：</strong></p>
+<p>​        获取并导入信任的包的制作者的密钥；</p>
+<p>​        对于centos发行版来说，导入光盘中的KEY文件</p>
+<p>​        导入公钥： rpm –important RPM-GPG-KEY-CENTOS7</p>
+<p><strong>验证：</strong></p>
+<p>​        1.安装此组织签名的程序时，会自动执行验证；</p>
+<p>​        2.手动验证：rpm -k PACKAGE_FILE</p>
+<h3 id="数据库重建"><a href="#数据库重建" class="headerlink" title="数据库重建"></a>数据库重建</h3><p>rpm管理数据库路径：/var/lib/rpm</p>
+<p>​        查询操作：通过此处的数据库进行；</p>
+<p>获取帮助：</p>
+<p>centos6：man rpm</p>
+<p>centos7：man rpmdb</p>
+<p>rpm {–initdb|–rebuilddb}</p>
+<p>rpm {–initdb|–rebuilddb} [-v] [–dbpath DIRECTORY] [–root DIRECTORY]</p>
+<p>​    –initdb：初始化数据库，当前无任何数据库可初始化创建一个新的，当前有时不执行任何操作；</p>
+<p>​    –rebuilddb：重新构建，通过读取当前系统上的所有已安装过的数据包进行重建；</p>
+<h2 id="Debian-全球镜像站"><a href="#Debian-全球镜像站" class="headerlink" title="Debian 全球镜像站"></a>Debian 全球镜像站</h2><p>主要 Debian 镜像站</p>
+<table>
+<thead>
+<tr>
+<th>中国大陆</th>
+<th><a href="http://ftp2.cn.debian.org/debian/" target="_blank" rel="noopener">ftp2.cn.debian.org/debian/</a></th>
+<th>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中国大陆</td>
+<td><a href="http://ftp.cn.debian.org/debian/" target="_blank" rel="noopener">ftp.cn.debian.org/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+</tbody></table>
+<p>次要 Debian 镜像站</p>
+<table>
+<thead>
+<tr>
+<th><strong>中国大陆</strong></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ftp2.cn.debian.org</td>
+<td><a href="http://ftp2.cn.debian.org/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>ftp.cn.debian.org</td>
+<td><a href="http://ftp.cn.debian.org/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirror.lzu.edu.cn</td>
+<td><a href="http://mirror.lzu.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>ALL amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.163.com</td>
+<td><a href="http://mirrors.163.com/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 i386</td>
+</tr>
+<tr>
+<td>mirrors.bfsu.edu.cn</td>
+<td><a href="http://mirrors.bfsu.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>ALL amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.huaweicloud.com</td>
+<td><a href="http://mirrors.huaweicloud.com/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>ALL amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.tuna.tsinghua.edu.cn</td>
+<td><a href="http://mirrors.tuna.tsinghua.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.ustc.edu.cn</td>
+<td><a href="http://mirrors.ustc.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+</tbody></table>
+<h2 id="List-of-CentOS-Mirrors"><a href="#List-of-CentOS-Mirrors" class="headerlink" title="List of CentOS Mirrors"></a>List of CentOS Mirrors</h2><table>
+<thead>
+<tr>
+<th>Asia</th>
+<th align="left">Bangladesh</th>
+<th><a href="http://www.colocity.com.bd/" target="_blank" rel="noopener">CoLoCity</a></th>
+<th align="left"><a href="http://mirror.myfahim.com/centos/" target="_blank" rel="noopener">http://mirror.myfahim.com/centos/</a></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Asia</td>
+<td align="left">Bangladesh</td>
+<td><a href="http://www.dhakacom.com/" target="_blank" rel="noopener">dhakaCom Limited</a></td>
+<td align="left"><a href="http://mirror.dhakacom.com/centos/" target="_blank" rel="noopener">http://mirror.dhakacom.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">Bangladesh</td>
+<td><a href="https://www.xeonbd.com/" target="_blank" rel="noopener">XeonBD</a></td>
+<td align="left"><a href="http://mirror.xeonbd.com/centos/" target="_blank" rel="noopener">http://mirror.xeonbd.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">Cambodia</td>
+<td><a href="https://cambo.host/" target="_blank" rel="noopener">Cambo.Host Ltd</a></td>
+<td align="left"><a href="http://mirror.cambo.host/centos/" target="_blank" rel="noopener">http://mirror.cambo.host/centos/</a></td>
+<td></td>
+<td><a href="rsync://mirror.cambo.host/centos/">rsync://mirror.cambo.host/centos/</a></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.aliyun.com/" target="_blank" rel="noopener">Alibaba Cloud Computing</a></td>
+<td align="left"><a href="http://mirrors.aliyun.com/centos/" target="_blank" rel="noopener">http://mirrors.aliyun.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://global.bfsu.edu.cn/" target="_blank" rel="noopener">Beijing Foreign Studies University</a></td>
+<td align="left"><a href="http://mirrors.bfsu.edu.cn/centos/" target="_blank" rel="noopener">http://mirrors.bfsu.edu.cn/centos/</a></td>
+<td><a href="https://mirrors.bfsu.edu.cn/centos/" target="_blank" rel="noopener">https://mirrors.bfsu.edu.cn/centos/</a></td>
+<td><a href="rsync://mirrors.bfsu.edu.cn/centos/">rsync://mirrors.bfsu.edu.cn/centos/</a></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.bit.edu.cn/" target="_blank" rel="noopener">Beijing Institute of Technology</a></td>
+<td align="left"><a href="http://mirror.bit.edu.cn/centos/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://lanunion.cqu.edu.cn/" target="_blank" rel="noopener">ChongQing University</a></td>
+<td align="left"><a href="http://mirrors.cqu.edu.cn/CentOS/" target="_blank" rel="noopener">http://mirrors.cqu.edu.cn/CentOS/</a></td>
+<td><a href="https://mirrors.cqu.edu.cn/CentOS/" target="_blank" rel="noopener">https://mirrors.cqu.edu.cn/CentOS/</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.cn99.com/" target="_blank" rel="noopener">CN99 Corp.</a></td>
+<td align="left"><a href="http://mirrors.cn99.com/centos/" target="_blank" rel="noopener">http://mirrors.cn99.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.neusoft.edu.cn/" target="_blank" rel="noopener">Dalian Neusoft University of Information</a></td>
+<td align="left"><a href="http://mirrors.neusoft.edu.cn/centos/" target="_blank" rel="noopener">http://mirrors.neusoft.edu.cn/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/8-Linux%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%AE%A1%E7%90%86/" data-id="ckc4wgfoq001tsc7l70h7fmhr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-7-压缩工具与shell编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/7-%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%E4%B8%8Eshell%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time datetime="2020-05-31T20:26:54.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/7-%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%E4%B8%8Eshell%E7%BC%96%E7%A8%8B/">7.压缩工具与shell编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>压缩和解压缩<br>压缩比，越大压缩后的文件越小<br>压缩的目的：<br>时间换空间<br>CPU的时间：用CPU的运算时间换存储空间<br>当cpu空闲时可以执行压缩，一定要知道压缩的目的。<br>compress/uncompress: .Z<br>gzip/gunzip: .gz<br>bzip2/bunzip2: .bz<br>xz/unxz: .xz<br>zip/unzip<br>tar<br>cpio</p>
+<p>1.gzip/gunzip :<br>    gzip/gunzip,zcat compress or expand files<br>    zcat可以查看小的压缩后的gz文件，大文件不要使用zcat查看<br>    gzip [option…] FILE…<br>    -d 解压缩，相当于gunzip;<br>    -# 指定压缩比，默认是6，越大越浪费cpu周期，一般默认即可；<br>    -c 输出至标准输出，不删除源文件；<br>        gzip -c files &gt; files.gz</p>
+<ol start="2">
+<li>bzip2/bunzip2/zcat<br> -d 解压缩<br> -# 指定压缩比，默认6<br> -k 保留源文件<br> bzip2 [option]… FILE…</li>
+</ol>
+<p>3.xz/unxz/xzcat<br>lzma/unlzma/lzcat</p>
+<pre><code>xz [option]... FILE...
+    -d 解压缩
+    -# 压缩比
+    -k 保留源文件</code></pre><p>这几种压缩工具都不支持对文件夹进行压缩，在linux上如果要压缩目录需要先归档；</p>
+<p>归档 tar,cpio</p>
+<p>tar 目录可以不加‘-’;<br>    tar [option]… FILE…<br>    1.创建归档 -c<br>        -c -f /PATH/to/FILE<br>        -cf<br>        cf</p>
+<pre><code>2.展开归档 -x
+3.查看归档文件内的文件列表 -t
+4.指定目录 -C</code></pre><p>归档并压缩<br>-z：gzip<br>tar czf gzfile sourcefile…<br>解压缩<br>tar xzf gzfile<br>z可省略，会自动判断文件类型</p>
+<p>-j:bzip2<br>-jcf<br>-jxf</p>
+<p>-J :xz<br>-Jcf<br>-Jxf</p>
+<p>zip</p>
+<p>zip/unzip</p>
+<p>.zip</p>
+<p>zip file.zip file</p>
+<p>lftp下载文件</p>
+<p>lftp [url/ip]/path/to/file</p>
+<p>lftp&gt;mget file</p>
+<p>Bash 脚本编程之用户交互：</p>
+<p>脚本参数</p>
+<p>可以直接与用户交互</p>
+<p>交互：通过键盘输入数据，从而完成变量复制操作；</p>
+<p>灵活的执行方式实现有2种方法：</p>
+<p>通过传入参数</p>
+<p>尽量避免与用户交互</p>
+<p>read内嵌命令</p>
+<p>help read</p>
+<p>read -p “message:” var</p>
+<p>[ -z $name ] &amp;&amp; echo “name is needed.” &amp;&amp; exit 2</p>
+<p>如空可自行赋值：</p>
+<p>read -p “Enter name. [jack]:” name</p>
+<p>[ -z $name ] &amp;&amp; name=’Tom’  </p>
+<p>bash -n 检测语法错误</p>
+<p>只能检查语法错误，逻辑错误无法检测</p>
+<p>bash -x debug模式</p>
+<p>按步执行,调试执行</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/7-%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%E4%B8%8Eshell%E7%BC%96%E7%A8%8B/" data-id="ckc4wgfop001rsc7l39p75uo8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-6-Bash脚本编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/6-Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time datetime="2020-05-31T20:26:42.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/6-Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/">6.Bash脚本编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="脚本文件格式"><a href="#脚本文件格式" class="headerlink" title="脚本文件格式"></a>脚本文件格式</h3><p>第一行写上<code>#!/bin/bash</code><br>注释信息 <code>#</code><br>代码注释：<br>适当的缩进和空白行；</p>
+<p>语言：编程语法格式，库，算法和数据结构；<br>编程思想：<br>问题空间 –&gt; 解空间</p>
+<p>Bash是典型的弱类型的编程语言<br>数据类型：字符型、整数值<br>弱类型：字符型</p>
+<h3 id="变量："><a href="#变量：" class="headerlink" title="变量："></a>变量：</h3><p>局部变量<br>本地变量<br>环境变量<br>位置参数变量<br>特殊变量</p>
+<h3 id="算数运算"><a href="#算数运算" class="headerlink" title="算数运算"></a>算数运算</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+, -, *, /, %, **</span><br><span class="line"><span class="built_in">let</span> VAR=expression</span><br><span class="line">VAR=$[expression]</span><br><span class="line">VAR=$((expression))</span><br><span class="line">VAR=$(expr argu1 argu2 argu3)</span><br></pre></td></tr></table></figure>
+
+<p>增强型赋值<br>变量做某种算数运算后回存到此变量中；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> i=<span class="variable">$i</span>+<span class="comment">#</span></span><br><span class="line"><span class="built_in">let</span> i+=<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p><code>+=, -=, *=, /=, %=</code></p>
+<h3 id="条件测试："><a href="#条件测试：" class="headerlink" title="条件测试："></a>条件测试：</h3><p>判断某需求是否满足；需要测试机制来实现；</p>
+<ol>
+<li>执行命令，根据命令的返回值来判断；<br>0：成功<br>1-255： 失败</li>
+<li>测试表达式；<br>test expression<br>[ expression ]<br>[[ expression ]]<br>注意： expression两端必须有空白字符，否则为语法错误；</li>
+</ol>
+<h3 id="Bash的测试类型："><a href="#Bash的测试类型：" class="headerlink" title="Bash的测试类型："></a>Bash的测试类型：</h3><ul>
+<li>数值测试</li>
+<li>字符串测试</li>
+<li>文字测试</li>
+</ul>
+<h4 id="数值测试：-数值比较；"><a href="#数值测试：-数值比较；" class="headerlink" title="数值测试： 数值比较；"></a>数值测试： 数值比较；</h4><pre><code>-eq： 是否等于；[ A -eq B ];
+-ne： 是否不等于；
+-gt： 是否大于；
+-ge： 是否大于等于；
+-lt： 是否小于；
+-le： 是否小于等于；</code></pre><p>代码中的 [] 执行基本的算数运算，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">a=5</span><br><span class="line">b=6</span><br><span class="line"></span><br><span class="line">result=$[a+b] <span class="comment"># 注意等号两边不能有空格</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"result 为： <span class="variable">$result</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串测试"><a href="#字符串测试" class="headerlink" title="字符串测试:"></a>字符串测试:</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">==： 是否等于；</span><br><span class="line">&gt;： 是否大于；</span><br><span class="line">&lt;： 是否小于；</span><br><span class="line">!=：是否不等于；</span><br><span class="line">=~： 左侧字符串是否能被右侧的PATTERN匹配；</span><br><span class="line">-z <span class="string">"STRING"</span>： 判断指定的字符串是否为空；空为真，非空为假。</span><br><span class="line">-n <span class="string">"STRING"</span>： 判断指定的字符串是否非空，非空为真，空为假；</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>字符串要加引用；</li>
+<li>要使用[[ ]];</li>
+</ul>
+<h4 id="文件测试："><a href="#文件测试：" class="headerlink" title="文件测试："></a>文件测试：</h4><ol>
+<li><p>存在测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-a FILE</span><br><span class="line">-e FILE: 如果文件存在则为真</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存在及类型测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-b 如果文件存在且为块特殊文件则为真</span><br><span class="line">-c 如果文件存在且为字符型特殊文件则为真</span><br><span class="line">-d 如果文件存在且为目录则为真</span><br><span class="line">-f 如果文件存在且为普通文件则为真</span><br><span class="line">-h 链接文件</span><br><span class="line">-p 管道文件</span><br><span class="line">-S 套接字文件</span><br><span class="line">3. 文件权限测试：</span><br><span class="line">-r 存在且可读</span><br><span class="line">-w 存在且可写</span><br><span class="line">-x 存在且可执行</span><br><span class="line">4. 特殊权限测试：</span><br><span class="line">-u 存在且拥有suid</span><br><span class="line">-g 存在且拥有sgid</span><br><span class="line">-k 存在且拥有sticky</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件内容测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-s 是否有内容</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>时间戳：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-N FILE ：文件自上一次读操作后是否被修改；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从属关系测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-O FILE：当前用户是否为文件的属主；</span><br><span class="line">-G FILE：当前用户是否为文件的属组；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>双目测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FILE1 -ef FILE2；FILE1与FILE2是否指向同一个文件系统的相同inode的硬链接；</span><br><span class="line">FILE1 -nt FILE2：FILE1是否新于FILE2；</span><br><span class="line">FILE1 -ot FILE2：FILE1是否旧于FILE2；</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="组合测试条件："><a href="#组合测试条件：" class="headerlink" title="组合测试条件："></a>组合测试条件：</h3><p>逻辑运算：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. </span><br><span class="line">    COMMAND1 &amp;&amp; COMMAND2</span><br><span class="line">    COMMAND1 || COMMAND2</span><br><span class="line">    !COMMAND</span><br><span class="line">    [ -O FILE ] &amp;&amp; [ -r FILE ]</span><br><span class="line">2. </span><br><span class="line">    EXPRESSION1 -a EXPRESSION2</span><br><span class="line">    EXPRESSION1 -O EXPRESSION2</span><br><span class="line">    !EXPRESSION</span><br><span class="line">    [ -O FILE -a -x FILE ]</span><br></pre></td></tr></table></figure>
+
+<p>练习：将当前主机名称保存至hostname变量中：<br>主机名如果为空，或者为localhost.localdomain,则将其设置为<a href="http://www.magedu.com" target="_blank" rel="noopener">www.magedu.com</a>;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">hostname=$(hostname)</span><br><span class="line">[ -z <span class="string">"<span class="variable">$hostname</span>"</span> -o <span class="string">"<span class="variable">$hostname</span>"</span>==<span class="string">"localhost.localdomain"</span> -o <span class="string">"<span class="variable">$hostname</span>"</span>==<span class="string">"localhost"</span> ] &amp;&amp; hostname www.magedu.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="脚本的状态返回值："><a href="#脚本的状态返回值：" class="headerlink" title="脚本的状态返回值："></a>脚本的状态返回值：</h3><p>默认是脚本执行的最后一条命令的返回值；<br>自定义状态退出状态码:<br>exit [n]：n为自己指定的状态码；<br>注意：SHELL进程遇到exit时，即会终止，因此整个脚本执行即为结束。</p>
+<h3 id="向脚本传递参数"><a href="#向脚本传递参数" class="headerlink" title="向脚本传递参数"></a>向脚本传递参数</h3><h4 id="位置参数变量"><a href="#位置参数变量" class="headerlink" title="位置参数变量"></a>位置参数变量</h4><p>myscript.sh<br>引用方式：<br>$1,$2,$3…$10,$11…<br>轮替：<br>shift [n]: 位置参数轮替：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">file1_lines=$(grep <span class="string">"^$"</span> <span class="variable">$1</span> | wc -l)</span><br><span class="line">file2_lines=$(grep <span class="string">"^$"</span> <span class="variable">$2</span> | wc -l)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Total blank lines: $[<span class="variable">$file1_lines</span>+<span class="variable">$file2_lines</span>]"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="特殊变量："><a href="#特殊变量：" class="headerlink" title="特殊变量："></a>特殊变量：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$0</span>:脚本文件路径本身;</span><br><span class="line"><span class="variable">$#</span>:脚本参数的个数；</span><br><span class="line">$*:所有参数 （分割为多个字符串）</span><br><span class="line"><span class="variable">$@</span>:所有参数 （合并为一个字符串）</span><br></pre></td></tr></table></figure>
+
+<p><code>[ $# -lt 2 ] &amp;&amp; echo &quot;At least two files&quot; &amp;&amp; exit 1</code><br>如果参数个数小于2个，提示至少需要2个参数，并退出，状态码1</p>
+<p>过程式编程语言的代码执行顺序：<br>顺序执行： 逐条执行；<br>选择执行：<br>    代码有一个分支： 条件满足时才会执行；<br>    两个或以上的分支：只会执行其中一个满足条件的分支；<br>循环执行：<br>    某代码片段（循环体）要执行0、1或者多个来回；<br>选择执行：<br>单分支的if语句：<br>if 测试条件<br>then<br>    代码分支<br>fi</p>
+<p>双分支的if语句<br>if 测试条件；then<br>    条件为真时执行的分支<br>else<br>    条件为假时执行的分支<br>fi</p>
+<p>示例： 通过参数传递一个用户名给脚本，此用户不存在时，则添加之；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">[ <span class="variable">$#</span> -lt 1 ] &amp;&amp; <span class="built_in">echo</span> <span class="string">"At least one username."</span> &amp;&amp; <span class="built_in">exit</span> 1</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ! grep <span class="string">"^<span class="variable">$1</span>\&gt;"</span> /etc/passwd &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">    useradd <span class="variable">$1</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$1</span> | passwd --stdin <span class="variable">$1</span> &amp;&gt; /dev/null</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Add user <span class="variable">$1</span> finished."</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"user <span class="variable">$1</span> exist."</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>练习1： 通过命令行参数给定两个数字，输出其中较大的数值；<br>练习2： 通过命令行参数指定一个用户名，判断其ID号是偶数还是奇数；<br>练习3： 通过命令行参数给定两个文本文件名，如果某文件不存在，则结束脚本执行；<br>        都存在时返回每个文件的行数，并说明其中行数较多的文件；</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/6-Bash%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B/" data-id="ckc4wgfoo001psc7ldmb25fup" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-5-btrfs文件系统管理与应用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/5-btrfs%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/" class="article-date">
+  <time datetime="2020-05-31T20:26:33.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/31/5-btrfs%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/">5.btrfs文件系统管理与应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>技术预览版。GPL，开源版本 2007 ORACLE Cow；取代linux系统的ext系列文件系统<br><code>B-tree</code><br><code>Butter FS</code><br><code>Better FS</code></p>
+<p><strong>特性</strong><br>多物理卷支持：可由多个底层物理卷组成，支持RAID，已联机添加、移除、修改；<br>写入时复制（cow）：复制、更新、以及替换指针；而非传统的“就地”更新；<br>数据及元数据校验码：checksum：极大的保证了数据的可靠性；<br>子卷：sub_volume；<br>快照：支持快照的快照；<br>透明压缩:节约时间，但是会浪费CPU时钟周期；<br><strong>btrfs</strong><br><strong>mkfs.btrfs</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkfs.btrfs </span></span><br><span class="line">btrfs-progs v4.9.1</span><br><span class="line">See http://btrfs.wiki.kernel.org <span class="keyword">for</span> more information.</span><br><span class="line"></span><br><span class="line">Usage: mkfs.btrfs [options] dev [ dev ... ]</span><br><span class="line">Options:</span><br><span class="line">  allocation profiles:</span><br><span class="line">        -d|--data PROFILE       data profile, raid0, raid1, raid5, raid6, raid10, dup or single</span><br><span class="line">        -m|--metadata PROFILE   metadata profile, values like <span class="keyword">for</span> data profile</span><br><span class="line">        -M|--mixed              mix metadata and data together</span><br><span class="line">  features:</span><br><span class="line">        -n|--nodesize SIZE      size of btree nodes</span><br><span class="line">        -s|--sectorsize SIZE    data block size (may not be mountable by current kernel)</span><br><span class="line">        -O|--features LIST      comma separated list of filesystem features (use <span class="string">'-O list-all'</span> to list features)</span><br><span class="line">        -L|--label LABEL        <span class="built_in">set</span> the filesystem label</span><br><span class="line">        -U|--uuid UUID          specify the filesystem UUID (must be unique)</span><br><span class="line">  creation:</span><br><span class="line">        -b|--byte-count SIZE    <span class="built_in">set</span> filesystem size to SIZE (on the first device)</span><br><span class="line">        -r|--rootdir DIR        copy files from DIR to the image root directory</span><br><span class="line">        -K|--nodiscard          <span class="keyword">do</span> not perform whole device TRIM</span><br><span class="line">        -f|--force              force overwrite of existing filesystem</span><br><span class="line">  general:</span><br><span class="line">        -q|--quiet              no messages except errors</span><br><span class="line">        -V|--version            <span class="built_in">print</span> the mkfs.btrfs version and <span class="built_in">exit</span></span><br><span class="line">        --<span class="built_in">help</span>                  <span class="built_in">print</span> this <span class="built_in">help</span> and <span class="built_in">exit</span></span><br><span class="line">  deprecated:</span><br><span class="line">        -A|--alloc-start START  the offset to start the filesystem</span><br><span class="line">        -l|--leafsize SIZE      deprecated, <span class="built_in">alias</span> <span class="keyword">for</span> nodesize</span><br></pre></td></tr></table></figure>
+
+<p>-L <code>LABEL</code></p>
+<p>-d <type>: raid0, raid1, raid5, raid6, raid10, single, dup</p>
+<p>-O <feature>: raid0, raid1, raid5, raid6, raid10, single, dup</p>
+<p>​    -O list-all: 列出支持的所有feature；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkfs.btrfs -O list-all</span></span><br><span class="line">Filesystem features available:</span><br><span class="line">mixed-bg            - mixed data and metadata block groups (0x4, compat=2.6.37, safe=2.6.37)</span><br><span class="line">extref              - increased hardlink <span class="built_in">limit</span> per file to 65536 (0x40, compat=3.7, safe=3.12, default=3.12)</span><br><span class="line">raid56              - raid56 extended format (0x80, compat=3.9)</span><br><span class="line">skinny-metadata     - reduced-size metadata extent refs (0x100, compat=3.10, safe=3.18, default=3.18)</span><br><span class="line">no-holes            - no explicit hole extents <span class="keyword">for</span> files (0x200, compat=3.14, safe=4.0)</span><br></pre></td></tr></table></figure>
+
+<p><code>mkfs.btrfs -L mydata /dev/sdb /dev/sdc -f</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkfs.btrfs -L mydata /dev/sdb /dev/sdc -f</span></span><br><span class="line">btrfs-progs v4.9.1</span><br><span class="line">See http://btrfs.wiki.kernel.org <span class="keyword">for</span> more information.</span><br><span class="line"></span><br><span class="line">Label:              mydata</span><br><span class="line">UUID:               7c9e06ee-52ee-4350-b066-d23e980f6b88</span><br><span class="line">Node size:          16384</span><br><span class="line">Sector size:        4096</span><br><span class="line">Filesystem size:    20.00GiB</span><br><span class="line">Block group profiles:</span><br><span class="line">  Data:             RAID0             2.00GiB</span><br><span class="line">  Metadata:         RAID1             1.00GiB</span><br><span class="line">  System:           RAID1             8.00MiB</span><br><span class="line">SSD detected:       no</span><br><span class="line">Incompat features:  extref, skinny-metadata</span><br><span class="line">Number of devices:  2</span><br><span class="line">Devices:</span><br><span class="line">   ID        SIZE  PATH</span><br><span class="line">    1    10.00GiB  /dev/sdb</span><br><span class="line">    2    10.00GiB  /dev/sdc</span><br></pre></td></tr></table></figure>
+
+<p>显示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># btrfs filesystem show</span></span><br><span class="line">Label: <span class="string">'mydata'</span>  uuid: 7c9e06ee-52ee-4350-b066-d23e980f6b88</span><br><span class="line">        Total devices 2 FS bytes used 112.00KiB</span><br><span class="line">        devid    1 size 10.00GiB used 2.01GiB path /dev/sdb</span><br><span class="line">        devid    2 size 10.00GiB used 2.01GiB path /dev/sdc</span><br></pre></td></tr></table></figure>
+
+
+
+<p>之后就可以挂载使用了</p>
+<p><code>mount -t btrfs /dev/sdc MOUNT_POINT</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># mkdir -pv /mnt/mydata</span></span><br><span class="line">mkdir: created directory ‘/mnt/mydata’</span><br><span class="line">[root@Centos7 ~]<span class="comment"># mount -t btrfs /dev/sd</span></span><br><span class="line">sda   sda1  sda2  sda3  sdb   sdc</span><br></pre></td></tr></table></figure>
+
+<p>只要使用sdb和sdc效果一样</p>
+<p><code>/dev/sdb on /mydata type btrfs (rw,relatime,seclabel,space_cache,subvolid=5,subvol=/)</code></p>
+<p>卸载umount即可</p>
+<p>透明压缩机制：</p>
+<p><code>mount -o compress={lzo|zlib} DEVICE MOUNT_POINT</code></p>
+<p><code>btrfs resize</code></p>
+<p>增加：</p>
+<p><code>btrfs device add /dev/sd? mount_point</code></p>
+<p>balance均衡操作：</p>
+<p><code>btrfs balance {status|start|pause|cancel|resume}</code></p>
+<p>联机拆除设备，不影响数据，会自动移动文件</p>
+<p><code>btrfs device delete /dev/sd? mount_point</code></p>
+<p>改变raid级别</p>
+<p><code>btrfs balance start -dconvert=raid5 /mydata</code>    数据块的</p>
+<p><code>btrfs balance start -mconvert=raid5 /mydata</code> 元数据的</p>
+<p>子卷：</p>
+<p><code>btrfs subvolume</code></p>
+<p>创建：create</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Centos7 ~]<span class="comment"># btrfs subvolume create /mydata/logs</span></span><br><span class="line">Create subvolume <span class="string">'/mydata/logs'</span></span><br></pre></td></tr></table></figure>
+
+<p>列出；</p>
+<p>list</p>
+<p><code>btrfs subvolume list /mydata</code></p>
+<p>只挂载子卷：</p>
+<p>先卸载父卷</p>
+<p><code>mount -o subvol=logs /dev/sdb /mydata/</code></p>
+<p>使用子卷ID挂载：</p>
+<p><code>mount -o subvolid=1 /dev/sdb /mydata</code></p>
+<p>子卷删除：</p>
+<p><code>btrfs subvolume delete /mydata/logs</code> </p>
+<p>创建快照：</p>
+<p>子卷的快照必须与子卷在一个父卷中：</p>
+<p><code>btrfs subvolume snapshot /mydata/logs /mydata/log_snapshot</code></p>
+<p>删除:</p>
+<p><code>btrfs subvolume delete /mydata/logs_snapshot/</code></p>
+<p>对一个文件创建快照：</p>
+<p>cp –reflink file file_snapshot</p>
+<p>另一个文件最好在当前卷下某个路径下</p>
+<p>无损转换文件系统：</p>
+<p>ext4转换为btrfs</p>
+<p><code>fsck -f device</code></p>
+<p><code>btrfs-convert device</code></p>
+<p>回滚为ext4</p>
+<p><code>btrfs-convert -r device</code></p>
+<p><code>blkid</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/5-btrfs%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/" data-id="ckc4wgfon001osc7l8bvdd1lc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bash/" rel="tag">Bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAID/" rel="tag">RAID</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ext4/" rel="tag">ext4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" rel="tag">文件系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A3%81%E7%9B%98/" rel="tag">磁盘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Bash/" style="font-size: 10px;">Bash</a> <a href="/tags/RAID/" style="font-size: 10px;">RAID</a> <a href="/tags/ext4/" style="font-size: 10px;">ext4</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 15px;">文件系统</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 10px;">版本控制</a> <a href="/tags/%E7%A3%81%E7%9B%98/" style="font-size: 15px;">磁盘</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/26/BASH-CHEATSHEET-%E4%B8%AD%E6%96%87%E9%80%9F%E6%9F%A5%E8%A1%A8/">BASH CHEATSHEET (中文速查表)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/wifi-crack/">wifi-crack</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/27-Selinux/">27.Selinux</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/26-Systemd/">26.Systemd</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/25-%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/">25.函数编程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 lcxiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>22.Linux内核模块功能定制 | Lcxiao&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Linux内核模块功能定制编译内核：程序包的编译安装：.&#x2F;configure ,make ,make install配置参数，make是项目构建工具，调用各种编译工具完成构建，二进制文件，库文件，配置文件，帮助文件，make install 完成复制 编译前提：开发环境开发工具（gcc）、开发库（API）库和头文件&#x2F;usr&#x2F;include&#x2F; 开源：源代码–可执行格式发行版：以通用为目标；主包:支包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="22.Linux内核模块功能定制">
+<meta property="og:url" content="http://yoursite.com/2020/06/22/22-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%AE%9A%E5%88%B6/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:description" content="Linux内核模块功能定制编译内核：程序包的编译安装：.&#x2F;configure ,make ,make install配置参数，make是项目构建工具，调用各种编译工具完成构建，二进制文件，库文件，配置文件，帮助文件，make install 完成复制 编译前提：开发环境开发工具（gcc）、开发库（API）库和头文件&#x2F;usr&#x2F;include&#x2F; 开源：源代码–可执行格式发行版：以通用为目标；主包:支包">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-22T06:57:32.000Z">
+<meta property="article:modified_time" content="2020-06-22T14:57:55.731Z">
+<meta property="article:author" content="lcxiao">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Lcxiao&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Lcxiao&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-22-Linux内核模块功能定制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/22/22-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%AE%9A%E5%88%B6/" class="article-date">
+  <time datetime="2020-06-22T06:57:32.000Z" itemprop="datePublished">2020-06-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      22.Linux内核模块功能定制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux内核模块功能定制"><a href="#Linux内核模块功能定制" class="headerlink" title="Linux内核模块功能定制"></a>Linux内核模块功能定制</h1><h2 id="编译内核："><a href="#编译内核：" class="headerlink" title="编译内核："></a>编译内核：</h2><p>程序包的编译安装：<br>./configure ,make ,make install<br>配置参数，make是项目构建工具，调用各种编译工具完成构建，<br>二进制文件，库文件，配置文件，帮助文件，make install 完成复制</p>
+<p>编译前提：开发环境<br>开发工具（gcc）、开发库（API）库和头文件/usr/include/</p>
+<p>开源：源代码–可执行格式<br>发行版：以通用为目标；主包:支包 选择性安装功能<br>实在需要发行版没有编译进的功能的话，只有自己编译了</p>
+<h2 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h2><ul>
+<li>开发环境；</li>
+<li>目标主机硬件设备的相关信息；</li>
+<li>获取目标主机系统功能的相关信息，要启用的文件系统；</li>
+<li>获取内核代码：<a href="http://www.kernel.org" target="_blank" rel="noopener">www.kernel.org</a></li>
+</ul>
+<p>CentOS6,7：<br>    Development Tools<br>    Server Platform Development</p>
+<p>确保安装的包组里面有ncurses包</p>
+<p>获取目标主机上硬件的信息<br>CPU:<br>    cat /proc/cpuinfo<br>    lscpu<br>    x86info -a(包x86info)<br>PCI:<br>    lspci<br>    -v<br>    -vv</p>
+<p>USB:<br>    lsusb<br>    -v<br>    -vv</p>
+<p>lsblk</p>
+<p>全部硬件设备信息：<br>    hal-device<br>    lshw</p>
+<h2 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h2><pre><code>解压内核文件到/usr/src
+tar xvf kernel.tar.gz -C /usr/src
+ln -sv linux-x.x.x linux
+cd linux
+make menuconfig         #编译内核选项
+make -j CPU核心数
+make modules_install    #安装内核模块
+make install            #安装内核</code></pre><p>make –help</p>
+<h2 id="screen"><a href="#screen" class="headerlink" title="screen:"></a>screen:</h2><pre><code>打开新的screen窗口：screen
+命名新窗口：screen -S TITLE_NAME
+拆除screen： ctrl+a，d
+列出screen：screen -ls
+连接至screen：screen -r SCREEN_ID
+关闭screen：在screen内部exit</code></pre><p>screen不会因为ssh的连接断开而中断任务</p>
+<h3 id="模板文件"><a href="#模板文件" class="headerlink" title="模板文件"></a>模板文件</h3><p>复制/boot目录下的配置文件作为模板，之后修改这个文件</p>
+<p>内核配置模板文件：<br>有些发行版在/boot目录下有配置文件模板<br>有的在/proc/config.gz</p>
+<h2 id="（1）配置内核选项"><a href="#（1）配置内核选项" class="headerlink" title="（1）配置内核选项"></a>（1）配置内核选项</h2><h3 id="详细说明："><a href="#详细说明：" class="headerlink" title="详细说明："></a>详细说明：</h3><p>配置选项：</p>
+<ul>
+<li>make config ：基于命令行以遍历的方式去配置内核中可配置的每个选项；</li>
+<li>make menuconfig ：基于ncurses 方式的配置窗口</li>
+<li>make gconfig ：基于gtk开发环境的窗口界面界面；桌面平台开发包组</li>
+<li>make xconfig : 基于QT开发环境的窗口界面</li>
+</ul>
+<p>支持“全新配置”模式进行配置</p>
+<ul>
+<li>make defconfig ：基于内核为目标平台提供的“默认”为模板进行配置；</li>
+<li>make allnoconfig：所有选项为no；基于此选项来定制</li>
+</ul>
+<h3 id="编译："><a href="#编译：" class="headerlink" title="编译："></a>编译：</h3><ul>
+<li>make -j # 多线程编译（提高编译速度）</li>
+<li>编译内核中的部分功能<ul>
+<li>只编译某子目录中的代码–切换到源码树（cd /usr/src/linux）(make path/to/dir)</li>
+<li>只编译一个特定的模块–切换到源码树（编译某个模块的源码,例如xxx.c）(make xxx.ko)（编译完成之后记得要自行复制到相对应的目录中去）(驱动就是/lib/modules/xxxx/driver/)</li>
+<li>交叉编译：目标平台与编译操作不同平台<ul>
+<li>make ARCH=arch_name</li>
+<li>帮助信息：make ARCH=arm help 获取目标平台帮助信息</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何在执行编译操作的内核源码树上做重新编译："><a href="#如何在执行编译操作的内核源码树上做重新编译：" class="headerlink" title="如何在执行编译操作的内核源码树上做重新编译："></a>如何在执行编译操作的内核源码树上做重新编译：</h3><ul>
+<li>make clean    ：清理编译生成的绝大多数文件，但会保留config文件，以及编译外部模块所需要的文件；</li>
+<li>make mrproper ：清理编译生成的所有文件，包括配置生成的config文件以及某些备份文件</li>
+<li>make distclean    ：相当于mrproper ，额外清理各种patches以及编辑器备份文件；</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/22/22-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%AE%9A%E5%88%B6/" data-id="ckc4wgfo60019sc7lf1k64xp8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/06/22/23-anaconda%E9%85%8D%E7%BD%AE%E5%AE%9A%E5%88%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%89%E8%A3%85Linux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          23.anaconda配置定制自动化安装Linux
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/19/21-Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%8A%9F%E8%83%BD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux内核模块及功能</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bash/" rel="tag">Bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAID/" rel="tag">RAID</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ext4/" rel="tag">ext4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" rel="tag">文件系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A3%81%E7%9B%98/" rel="tag">磁盘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Bash/" style="font-size: 10px;">Bash</a> <a href="/tags/RAID/" style="font-size: 10px;">RAID</a> <a href="/tags/ext4/" style="font-size: 10px;">ext4</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 15px;">文件系统</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 10px;">版本控制</a> <a href="/tags/%E7%A3%81%E7%9B%98/" style="font-size: 15px;">磁盘</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/26/BASH-CHEATSHEET-%E4%B8%AD%E6%96%87%E9%80%9F%E6%9F%A5%E8%A1%A8/">BASH CHEATSHEET (中文速查表)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/wifi-crack/">wifi-crack</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/27-Selinux/">27.Selinux</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/26-Systemd/">26.Systemd</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/25-%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/">25.函数编程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 lcxiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

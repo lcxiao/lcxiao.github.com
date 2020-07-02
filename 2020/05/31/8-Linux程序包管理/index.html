@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>8.Linux程序包管理 | Lcxiao&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Linux程序包管理概述软件层    shell（人机交互接口） &#x2F;&#x2F;        \\ lib call(库调用) &#x2F;&#x2F;                    \\ system call(系统调用)] &#x2F;&#x2F;                        \\ 底层硬件 API：Application Program Interface API函数库是连接用户软件和系统内核桥梁，或者是“协议”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8.Linux程序包管理">
+<meta property="og:url" content="http://yoursite.com/2020/05/31/8-Linux%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Lcxiao&#39;s blog">
+<meta property="og:description" content="Linux程序包管理概述软件层    shell（人机交互接口） &#x2F;&#x2F;        \\ lib call(库调用) &#x2F;&#x2F;                    \\ system call(系统调用)] &#x2F;&#x2F;                        \\ 底层硬件 API：Application Program Interface API函数库是连接用户软件和系统内核桥梁，或者是“协议”">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-31T20:27:01.000Z">
+<meta property="article:modified_time" content="2020-06-01T04:30:01.518Z">
+<meta property="article:author" content="lcxiao">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Lcxiao&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Lcxiao&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-8-Linux程序包管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/31/8-Linux%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%AE%A1%E7%90%86/" class="article-date">
+  <time datetime="2020-05-31T20:27:01.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      8.Linux程序包管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux程序包管理"><a href="#Linux程序包管理" class="headerlink" title="Linux程序包管理"></a>Linux程序包管理</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>软件层    shell（人机交互接口）</p>
+<p>//        \\</p>
+<p>lib call(库调用)</p>
+<p>//                    \\</p>
+<p>system call(系统调用)]</p>
+<p>//                        \\</p>
+<p>底层硬件</p>
+<p><strong>API：Application Program Interface</strong></p>
+<p>API函数库是连接用户软件和系统内核桥梁，或者是“协议”，操作系统厂商写好函数库说明书，应用软件开发者不必关心其内部是如何实现的，用的时候对照着API手册查询就够了；应用软件也可以越过系统函数库通过system call（系统调用）直接调用os内核函数，如图中红色虚线所示，当然这种方式并不被推荐。</p>
+<p>如果各系统平台都能提供相同的系统函数库，那么开发者在这个系统函数库基础之上编写软件代码，那么就很容易将软件移植到各个系统平台。然而，这只是个美好的愿望，IEEE就是为了达成这样的愿望才牵头制定POSIX标准。POSIX标准主要就是针对UNIX API而制订，不管函数如何包装、功能如何实现，但API按照标准约定来（比如函数变量等符号名称、数据结构、参数类型与个数、基本工具命令名称等），Linux完全兼容POSIX标准（部分函数符合POSIX，部分函数是Linux专有，即是POSIX的超集），微软声称Windows部分兼容POSIX标准。</p>
+<p><strong>ABI：Application Binary Interface</strong></p>
+<p>Unix-Like：ELF</p>
+<p>Windows：exe，msi</p>
+<h3 id="从软件角度理解系统"><a href="#从软件角度理解系统" class="headerlink" title="从软件角度理解系统"></a><strong>从软件角度理解系统</strong></h3><p>计算机世界里存在各种各样的操作系统，目前通用操作系统有主流的三大类：</p>
+<ul>
+<li>UNIX，通用操作系统鼻祖，发展出特别多衍生系统；</li>
+<li>Windows，微软家根基，桌面市场霸主；</li>
+<li>GNU/Linux，UNIX近亲，有各种发行版如Ubuntu、CentOS等。</li>
+</ul>
+<blockquote>
+<p>“All problems in computer science can be solved by another level of indirection（计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决）”。</p>
+</blockquote>
+<p>在硬件基础之上逐步堆叠了系统内核、系统函数库等中间层，在应用程序内部还可以继续细分多个层次，这样把最终用户与硬件隔离开来，增强了抽象能力、屏蔽底层细节，也让开发者分工，专注于各自层次的开发，同时降低了软件迁移的难度。</p>
+<p>Cygwin就是在Windows中增加了一个中间层——兼容POSIX的模拟层，并在此基础上构建了大量Linux-like的软件工具。再来解释本文开头的回答，如下图，POSXI兼容环境包括以下两部分：</p>
+<ul>
+<li>cygwin1.dll，作为实现POSIX系统调用的模拟层，可原生运行在Windows中；</li>
+<li>在cygwin1.dll之上构建的大量函数库、应用程序，如libc、zlib、bash、gcc、vim、awk、sed、git等等，与UNIX/Linux几乎等同*。</li>
+</ul>
+<p><em>*注：Cygwin的libc是Newlib，Linux的libc是GNU libc，UNIX有的是BSD libc。</em></p>
+<h3 id="库级别的虚拟化"><a href="#库级别的虚拟化" class="headerlink" title="库级别的虚拟化"></a>库级别的虚拟化</h3><p>Linux：WinE</p>
+<p>Windows：Cygwin</p>
+<p><em>MinGW：MinGW，又称mingw32，是将GCC编译器和GNU Binutils移植到Win32平台下的产物，包括一系列头文件、库和可执行文件。 另有可用于产生32位及64位Windows可执行文件的MinGW-w64项目，是从原本MinGW产生的分支。如今已经独立发展。</em></p>
+<p><strong>系统级开发</strong>：(注重性能)</p>
+<p>C/C++ :httpd,vsftpd,nginx</p>
+<p>新的热门语言：Go</p>
+<p><strong>应用级开发</strong>:</p>
+<p>Java/Python/Perl/Ruby/Php</p>
+<p>java：hadoop，hbase    （jvm）</p>
+<p>python：openstack    （pvm）</p>
+<p>perl：（perl解释器）</p>
+<p>ruby：（ruby解释器）</p>
+<p>php：（php解释器）</p>
+<p>高级语言，开发周期端，性能不如C，库多，代码量少</p>
+<p>标准C库</p>
+<h3 id="程序格式："><a href="#程序格式：" class="headerlink" title="程序格式："></a>程序格式：</h3><p><strong>源代码</strong>：文本格式的程序代码；</p>
+<p>​        编译开发环境：编译器、头文件、开发库</p>
+<p><strong>二进制格式</strong>：文本格式的程序代码–&gt;二进制格式–&gt;（二进制程序、库文件、配置文件、帮助文件）</p>
+<p><strong>java/python程序格式：</strong></p>
+<p>源代码：编译成能够在其虚拟机（jvm/pvm）运行的格式；</p>
+<p>​        开发环境：编译器，开发库、导入的库（跟头文件实现功能相同）</p>
+<p>二进制</p>
+<p><strong>项目构建工具：</strong></p>
+<p>C/C++：make</p>
+<p>Java：maven</p>
+<h2 id="程序包管理器"><a href="#程序包管理器" class="headerlink" title="程序包管理器"></a>程序包管理器</h2><p>源代码 –&gt; 目标二进制代码 –&gt; 组织成为一个或者有限几个<code>包</code>文件;</p>
+<p>安装、升级、卸载、查询、校验</p>
+<p><strong>程序包管理器：</strong></p>
+<p>​        Debian：dpt，dpkg：“.deb”，</p>
+<p>​        Redhat：redhat package manager，rpm：“rpm”；开始使用perl开发，后来C重写。</p>
+<p>​        rpm事实上的工业标准；</p>
+<p>​        SuSE：rpm，与红帽的组织格式不兼容，使用的rpm包管理器，“.rpm”</p>
+<p>​        Gentoo：ports</p>
+<p>​        Archlinux：pacman；</p>
+<p>源代码：name-VERSION.tar.gz</p>
+<p>Version：Major.minor.release</p>
+<p>版本 –&gt;主版本号 –&gt; 次版本号 –&gt;</p>
+<p>rpm包命名格式：</p>
+<p>name-Version-release.arch.rpm</p>
+<p>Version：major.minor.release</p>
+<p>release.arch：rpm包的发行号</p>
+<p>​        release.os.:2.el7.i386.rpm</p>
+<p>​        archetecture:I386,X64(amd64),ppc,noarch（java，python之类的不依赖凭平台的）</p>
+<p>redis-3.0.2-1.centos7.x64.rpm</p>
+<p>changelog:版本更新历史；</p>
+<p>i386（旧32位cpu），i686（较新32位cpu），x64/amd64（64位cpu）</p>
+<p><strong>拆包</strong>：主包和支包</p>
+<p>主包：name-version-release.arch.rpm</p>
+<p>支包：name-function-version-release.arch.rpm</p>
+<p>​        function：devel（开发版本），utils（工具程序），libs（库文件）</p>
+<p><strong>组成格式</strong></p>
+<p>Linux设计思想，小工具组合完成复杂任务；</p>
+<p>包和包之间存在依赖关系：</p>
+<p>X，Y，Z</p>
+<p>X –&gt; Y，Z</p>
+<p>​    Y –&gt;A，B，C</p>
+<p>​    C –&gt; Y</p>
+<p>前端工具（自动解决复杂依赖关系）：</p>
+<p>YUM：rpm包的前端工具；</p>
+<p>APT：deb包的前端工具；（apt-get）（apt-cache）</p>
+<p>zypper：suse的rpm包管理工具；（比yum稍微好用）</p>
+<p>dnf：fedora22+系统上rpm包管理器的前端工具；</p>
+<p>前端工具（apt，yum）配合后端（rpm，deb）管理工具，能提升使用效率；</p>
+<h4 id="程序包管理器："><a href="#程序包管理器：" class="headerlink" title="程序包管理器："></a><strong>程序包管理器：</strong></h4><p>功能：将编译好的应用程序的各组成文件打包成一个或者几个程序包文件，从而更方便的实现程序包的安装、升级、卸载和查询等管理操作；</p>
+<p>1.程序包的组成清单（每个程序包都单独实现）；</p>
+<p>​    文件清单</p>
+<p>​    安装或卸载时运行的脚本；</p>
+<p>2.数据库（公共）</p>
+<p>​    程序包名称和版本；</p>
+<p>​    依赖关系</p>
+<p>​    功能说明；</p>
+<p>​    安装生成的各文件的文件路径及校验码信息；</p>
+<p>​    。。。</p>
+<p>​    /var/lib/rpm</p>
+<h4 id="获取程序包的途径："><a href="#获取程序包的途径：" class="headerlink" title="获取程序包的途径："></a>获取程序包的途径：</h4><p>1.系统发行版的光盘或者官方的文件服务器（或者镜像站点）：</p>
+<p>2.项目的官方站点</p>
+<p>3.第三方组织：</p>
+<p>​    （a）EPEL</p>
+<p>​    （b）搜索引擎</p>
+<p>​        <a href="https://pkgs.org/" target="_blank" rel="noopener">https://pkgs.org/</a></p>
+<p>​        <a href="https://rpmfind.net/" target="_blank" rel="noopener">https://rpmfind.net/</a></p>
+<p>​        <a href="http://rpm.pbone.net/" target="_blank" rel="noopener">http://rpm.pbone.net/</a></p>
+<p>​    </p>
+<p>4.自己动手，丰衣足食</p>
+<p>建议：检查其合法性</p>
+<p>​    来源合法性；信任的组织发布的</p>
+<p>​    程序包的完整性：检验MD5，SHA1</p>
+<h4 id="CentOS系统上的rpm命令管理程序包："><a href="#CentOS系统上的rpm命令管理程序包：" class="headerlink" title="CentOS系统上的rpm命令管理程序包："></a>CentOS系统上的rpm命令管理程序包：</h4><p>安装、升级、卸载、查询和校验、数据库维护</p>
+<h4 id="rpm命令："><a href="#rpm命令：" class="headerlink" title="rpm命令："></a>rpm命令：</h4><p>​    rpm [option] [Package_FILE]</p>
+<p>​    安装： -i，–install</p>
+<p>​    升级：-U，–update，-F，–freshen</p>
+<p>​    卸载：-e，–erase</p>
+<p>​    查询：-q，–query</p>
+<p>​    校验：-V，–verify</p>
+<p>​    数据库维护：–build，</p>
+<p>​    </p>
+<h4 id="安装：rpm-ivh（常用）"><a href="#安装：rpm-ivh（常用）" class="headerlink" title="安装：rpm -ivh（常用）"></a>安装：rpm -ivh（常用）</h4><p>rpm {-i|–install} [install-options] PACKAGE_FILE</p>
+<p>install-options：</p>
+<p>​    -v，verbose 详细信息</p>
+<p>​    -vv，更详细的信息</p>
+<p>​    -h hash marks输出进度条；每个#表示2%的进度；</p>
+<p>​    –test ：测试安装：不安装文件，仅检查并报告依赖关系、冲突错误。</p>
+<p>​    –nodeps：忽略依赖关系，安装完成之后不一定会可以使用。有些场景可使用。</p>
+<p>​     rpm -ivh –replacepkgs：重新安装；</p>
+<p>​    –justdb：不安装包，只更新数据库；</p>
+<p>注意：rpm可以自带脚本：</p>
+<p>4类：</p>
+<p>​    preinstall：安装过程开始之前运行的脚本，%pre ，–nopre（跳过执行脚本）</p>
+<p>​    postinstall：安装过程完成之后运行的脚本，%post ， –nopost</p>
+<p>​    preuninstall：卸载过程真正开始执行之前运行的脚本；%preun， –nopreun</p>
+<p>​    postuninstall：卸载过程完成之后运行的脚本，%postun， –nopostun</p>
+<p>​    –noscripts（跳过执行所有脚本）</p>
+<p>​    –nosignature    跳过检查包签名信息，即不检查来源合法性</p>
+<p>​    –nodigest：不检查包完整性；</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>rpm {-U|–upgrade} [install-options] PACKAGE_FILE …</p>
+<p>rpm {-F|–freshen} [install-options] PACKAGE_FILE …</p>
+<p>​    -U：升级或安装</p>
+<p>​    -F：升级</p>
+<p>​    rpm -Uvh PACKAGE_FILE…</p>
+<p>​    rpm -Fvh PACKAGE_FILE…</p>
+<p>​            –oldpackage：降级；</p>
+<p>​            –force：强制升级；</p>
+<p>注意：（1）不要对内核做升级操作；Linux支持多内核版本共存，因此，直接安装新版本内核即可；</p>
+<p>​            （2）如果某原程序包的配置文件安装后曾被修改过，升级时，新版本的程序提供的同一个配置                                           文件不会覆盖原有版本的配置文件，而是把新版本的配置文件重命名（filename.rpmnew）后提供。</p>
+<h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>rpm {-e|–erase} [–allmatches] [–justdb] [–nodeps] [–noscripts]<br>           [–notriggers] [–test] PACKAGE_NAME …</p>
+<p>​    –allmatches：卸载所有匹配指定名称的程序包的各版本；</p>
+<p>​    –nodeps：忽略依赖关系；</p>
+<p>​    –test：测试卸载，dry run模式（干跑）</p>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>rpm {-q|–query} [select-options] [query-options]</p>
+<p>select-options：</p>
+<p>​    package_name：查询指定的包是安装，及其版本；</p>
+<p>​    -a，–all：查询所有已安装的包</p>
+<p>​    -f FILE：查询指定的文件由哪个程序包安装生成；</p>
+<p>​    -g 查询指定包组包含哪些包；</p>
+<p>​    -p，–package PACKAGE_FILE：用于实现对未安装的包执行查询操作；</p>
+<p>​    –whatprovides CAPABILITY：查询指定的CAPABILITY由哪个程序包提供；</p>
+<p>​    –whatrequires CAPABILITY：查询指定的CAPABILITY被哪个包依赖；</p>
+<p>query-options：</p>
+<p>​    –changelog ：查看更新历史</p>
+<p>​    -c，–configfiles：列出程序包提供的配置文件</p>
+<p>​    -l ，–list：列出程序包安装生成的所有文件列表</p>
+<p>​    -i，–info：程序包相关的信息，版本号、大小、所属的包组、等；</p>
+<p>​    -d，–docfiles：列出程序包提供的帮助文件列表</p>
+<p>​    –provides：列出程序包提供的所有CAPABILITY；</p>
+<p>​    –whatrequires：查询指定程序包被谁所依赖；</p>
+<p>​    -R，–requires：查询指定程序包的依赖关系；</p>
+<p>​    –scripts：查询程序包自带的脚本片段；</p>
+<p>​    -ql PAKAGE，-qf FILE，-qc PACKAGE，-ql PACKAGE，-qd PACKAGE；</p>
+<p>​    -qpi PACKAGE_FILE，-qpl PACKAGE_FILE，-qpc PACKAGE_FILE</p>
+<h3 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h3><p>rpm {-V|–verify} [select-options] [verify-options]</p>
+<pre><code> [--nodeps] [--nofiles] [--noscripts]
+ [--nodigest] [--nosignature]
+ [--nolinkto] [--nofiledigest] [--nosize] [--nouser]
+ [--nogroup] [--nomtime] [--nomode] [--nordev]
+ [--nocaps] [--noconfig] [--noghost]
+c %config configuration file.
+d %doc documentation file.
+g %ghost file (i.e. the file contents are not included in the package payload).
+l %license license file.
+r %readme readme file.
+S file Size differs
+M Mode differs (includes permissions and file type)
+5 digest (formerly MD5 sum) differs
+D Device major/minor number mismatch
+L readLink(2) path mismatch
+U User ownership differs
+G Group ownership differs
+T mTime differs
+P caPabilities differ</code></pre><h3 id="验证包来源合法性和完整性"><a href="#验证包来源合法性和完整性" class="headerlink" title="验证包来源合法性和完整性"></a>验证包来源合法性和完整性</h3><p><strong>来源合法性验证：</strong></p>
+<p>​        数字签名：非对称加密</p>
+<p>​    （计算特征码）–&gt;私钥加密特征码 –&gt;公钥解密验证（安全获得公钥）CA</p>
+<p><strong>完整性验证：</strong></p>
+<p>​        获取并导入信任的包的制作者的密钥；</p>
+<p>​        对于centos发行版来说，导入光盘中的KEY文件</p>
+<p>​        导入公钥： rpm –important RPM-GPG-KEY-CENTOS7</p>
+<p><strong>验证：</strong></p>
+<p>​        1.安装此组织签名的程序时，会自动执行验证；</p>
+<p>​        2.手动验证：rpm -k PACKAGE_FILE</p>
+<h3 id="数据库重建"><a href="#数据库重建" class="headerlink" title="数据库重建"></a>数据库重建</h3><p>rpm管理数据库路径：/var/lib/rpm</p>
+<p>​        查询操作：通过此处的数据库进行；</p>
+<p>获取帮助：</p>
+<p>centos6：man rpm</p>
+<p>centos7：man rpmdb</p>
+<p>rpm {–initdb|–rebuilddb}</p>
+<p>rpm {–initdb|–rebuilddb} [-v] [–dbpath DIRECTORY] [–root DIRECTORY]</p>
+<p>​    –initdb：初始化数据库，当前无任何数据库可初始化创建一个新的，当前有时不执行任何操作；</p>
+<p>​    –rebuilddb：重新构建，通过读取当前系统上的所有已安装过的数据包进行重建；</p>
+<h2 id="Debian-全球镜像站"><a href="#Debian-全球镜像站" class="headerlink" title="Debian 全球镜像站"></a>Debian 全球镜像站</h2><p>主要 Debian 镜像站</p>
+<table>
+<thead>
+<tr>
+<th>中国大陆</th>
+<th><a href="http://ftp2.cn.debian.org/debian/" target="_blank" rel="noopener">ftp2.cn.debian.org/debian/</a></th>
+<th>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中国大陆</td>
+<td><a href="http://ftp.cn.debian.org/debian/" target="_blank" rel="noopener">ftp.cn.debian.org/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+</tbody></table>
+<p>次要 Debian 镜像站</p>
+<table>
+<thead>
+<tr>
+<th><strong>中国大陆</strong></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ftp2.cn.debian.org</td>
+<td><a href="http://ftp2.cn.debian.org/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>ftp.cn.debian.org</td>
+<td><a href="http://ftp.cn.debian.org/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirror.lzu.edu.cn</td>
+<td><a href="http://mirror.lzu.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>ALL amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.163.com</td>
+<td><a href="http://mirrors.163.com/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 i386</td>
+</tr>
+<tr>
+<td>mirrors.bfsu.edu.cn</td>
+<td><a href="http://mirrors.bfsu.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>ALL amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.huaweicloud.com</td>
+<td><a href="http://mirrors.huaweicloud.com/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>ALL amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.tuna.tsinghua.edu.cn</td>
+<td><a href="http://mirrors.tuna.tsinghua.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+<tr>
+<td>mirrors.ustc.edu.cn</td>
+<td><a href="http://mirrors.ustc.edu.cn/debian/" target="_blank" rel="noopener">/debian/</a></td>
+<td>amd64 arm64 armel armhf i386 mips mips64el mipsel ppc64el s390x</td>
+</tr>
+</tbody></table>
+<h2 id="List-of-CentOS-Mirrors"><a href="#List-of-CentOS-Mirrors" class="headerlink" title="List of CentOS Mirrors"></a>List of CentOS Mirrors</h2><table>
+<thead>
+<tr>
+<th>Asia</th>
+<th align="left">Bangladesh</th>
+<th><a href="http://www.colocity.com.bd/" target="_blank" rel="noopener">CoLoCity</a></th>
+<th align="left"><a href="http://mirror.myfahim.com/centos/" target="_blank" rel="noopener">http://mirror.myfahim.com/centos/</a></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Asia</td>
+<td align="left">Bangladesh</td>
+<td><a href="http://www.dhakacom.com/" target="_blank" rel="noopener">dhakaCom Limited</a></td>
+<td align="left"><a href="http://mirror.dhakacom.com/centos/" target="_blank" rel="noopener">http://mirror.dhakacom.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">Bangladesh</td>
+<td><a href="https://www.xeonbd.com/" target="_blank" rel="noopener">XeonBD</a></td>
+<td align="left"><a href="http://mirror.xeonbd.com/centos/" target="_blank" rel="noopener">http://mirror.xeonbd.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">Cambodia</td>
+<td><a href="https://cambo.host/" target="_blank" rel="noopener">Cambo.Host Ltd</a></td>
+<td align="left"><a href="http://mirror.cambo.host/centos/" target="_blank" rel="noopener">http://mirror.cambo.host/centos/</a></td>
+<td></td>
+<td><a href="rsync://mirror.cambo.host/centos/">rsync://mirror.cambo.host/centos/</a></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.aliyun.com/" target="_blank" rel="noopener">Alibaba Cloud Computing</a></td>
+<td align="left"><a href="http://mirrors.aliyun.com/centos/" target="_blank" rel="noopener">http://mirrors.aliyun.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://global.bfsu.edu.cn/" target="_blank" rel="noopener">Beijing Foreign Studies University</a></td>
+<td align="left"><a href="http://mirrors.bfsu.edu.cn/centos/" target="_blank" rel="noopener">http://mirrors.bfsu.edu.cn/centos/</a></td>
+<td><a href="https://mirrors.bfsu.edu.cn/centos/" target="_blank" rel="noopener">https://mirrors.bfsu.edu.cn/centos/</a></td>
+<td><a href="rsync://mirrors.bfsu.edu.cn/centos/">rsync://mirrors.bfsu.edu.cn/centos/</a></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.bit.edu.cn/" target="_blank" rel="noopener">Beijing Institute of Technology</a></td>
+<td align="left"><a href="http://mirror.bit.edu.cn/centos/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://lanunion.cqu.edu.cn/" target="_blank" rel="noopener">ChongQing University</a></td>
+<td align="left"><a href="http://mirrors.cqu.edu.cn/CentOS/" target="_blank" rel="noopener">http://mirrors.cqu.edu.cn/CentOS/</a></td>
+<td><a href="https://mirrors.cqu.edu.cn/CentOS/" target="_blank" rel="noopener">https://mirrors.cqu.edu.cn/CentOS/</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.cn99.com/" target="_blank" rel="noopener">CN99 Corp.</a></td>
+<td align="left"><a href="http://mirrors.cn99.com/centos/" target="_blank" rel="noopener">http://mirrors.cn99.com/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Asia</td>
+<td align="left">China</td>
+<td><a href="http://www.neusoft.edu.cn/" target="_blank" rel="noopener">Dalian Neusoft University of Information</a></td>
+<td align="left"><a href="http://mirrors.neusoft.edu.cn/centos/" target="_blank" rel="noopener">http://mirrors.neusoft.edu.cn/centos/</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/31/8-Linux%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%AE%A1%E7%90%86/" data-id="ckc4wgfoq001tsc7l70h7fmhr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/05/31/9-%E4%BB%BB%E5%8A%A1%E8%AE%A1%E5%88%92crontab%E5%8F%8A%E4%BC%81%E4%B8%9A%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          9.任务计划crontab及企业常用操作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/31/7-%E5%8E%8B%E7%BC%A9%E5%B7%A5%E5%85%B7%E4%B8%8Eshell%E7%BC%96%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">7.压缩工具与shell编程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bash/" rel="tag">Bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAID/" rel="tag">RAID</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ext4/" rel="tag">ext4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" rel="tag">文件系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A3%81%E7%9B%98/" rel="tag">磁盘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Bash/" style="font-size: 10px;">Bash</a> <a href="/tags/RAID/" style="font-size: 10px;">RAID</a> <a href="/tags/ext4/" style="font-size: 10px;">ext4</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 15px;">文件系统</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 10px;">版本控制</a> <a href="/tags/%E7%A3%81%E7%9B%98/" style="font-size: 15px;">磁盘</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/26/BASH-CHEATSHEET-%E4%B8%AD%E6%96%87%E9%80%9F%E6%9F%A5%E8%A1%A8/">BASH CHEATSHEET (中文速查表)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/wifi-crack/">wifi-crack</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/27-Selinux/">27.Selinux</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/26-Systemd/">26.Systemd</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/25-%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B/">25.函数编程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 lcxiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
